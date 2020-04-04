@@ -5,9 +5,9 @@
  */
 package concurrencia;
 
-import hilos.Usuario;
-import hilos.Usuario;
-import java.util.*; 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -22,47 +22,68 @@ public class Parque {
     private final Lock control = new ReentrantLock();
     private final Condition lleno = control.newCondition();
     private final Condition vacio = control.newCondition();
-    private ArrayList <Usuario> colaEntrada;
-    private ArrayList <Usuario> colaVestuario;
-    private ArrayList <Usuario> colaPiscinaOlas;
-    private ArrayList <Usuario> colaPiscinaNiños;
-    private ArrayList <Usuario> colaTumbonas;
-    private ArrayList <Usuario> colaPiscinaGrande;
-    private ArrayList <Usuario> colaTobogan1;
-    private ArrayList <Usuario> colaTobogan2;
-    private ArrayList <Usuario> colaTobogan3;
     
-        
+    private Semaphore semEntrada = new Semaphore(5000, true);
+
+    private BlockingQueue colaEntrada = new LinkedBlockingQueue();
+    private BlockingQueue colaVestuarios = new LinkedBlockingQueue(20);
+    private BlockingQueue colaPiscinaNiños = new LinkedBlockingQueue(20);
+    private BlockingQueue colaPiscinaOlas = new LinkedBlockingQueue(20);
+    private BlockingQueue colaPiscinaGrande = new LinkedBlockingQueue(20);
+    private BlockingQueue colaTumbonas = new LinkedBlockingQueue(20);
+    private BlockingQueue colaToboganA = new LinkedBlockingQueue(20);
+    private BlockingQueue colaToboganB = new LinkedBlockingQueue(20);
+    private BlockingQueue colaToboganC = new LinkedBlockingQueue(20);
+    private BlockingQueue colaToboganD = new LinkedBlockingQueue(20);
+      
     public Parque( int max ) { 
         this.maximo = max;
         parque = new Object[ max ];
     } 
 
-    
     // Método para atender usuarios que llegan al parque.
-    public void atenderUsuario( Object obj ) throws InterruptedException { 
-        control.lock();
-        while( numElem == maximo ) {
-            /* Si al intentar acceder al parque, el aforo está completo, los usuarios esperan hasta recibir la señal de que hay espacio libre.
-             * Primero imprimimos el mensaje y despues bloqueamos, si fuera al reves se imprimiria el mensaje cuando fue desbloqueado.
-             */
-            System.out.println("Espere su turno en la cola, parque lleno.");
-            lleno.await(); 
+    public void entrarParque(String id) {
+        try {
+            colaEntrada.put(id);
+            semEntrada.acquire();
+            colaEntrada.take();
+
+        } catch (InterruptedException ex) {
+            ex.toString();
         }
-        
-        try { 
-            parque[in] = obj;
-            numElemAux = numElem;
-            numElem++;
-            in = ( in + 1 ) % maximo;
-            if( numElemAux == 0 ) {
-                /* Emitimos la señal para indicar que el parque ya no esta vacio.
-                 * Asi desbloqueamos al hilo consumidor.
-                 */
-                vacio.signal(); 
-            }
-        } finally {
-            control.unlock(); 
-        } 
     }
+
+    // Método para atender usuarios que abandonan el parque.
+    public void salirParque() {
+        semEntrada.release();
+    }
+    
+      // Método para atender usuarios que van a los vestuarios
+        public void irVestuarios(String id) {
+        try {
+            colaVestuarios.put(id);
+            semPescadero.acquire();
+        } catch (InterruptedException ex) {
+            ex.toString();
+        }
+    }
+
+    public void atenderPescaderia() {
+        try {
+            pescaderoAtiende = colaPescadero.take().toString();
+
+        } catch (InterruptedException ex) {
+            ex.toString();
+        }
+
+    }
+
+    public void atendidoPescaderia() {
+        pescaderoAtiende = "";
+        semPescadero.release();
+    }
+    
+    
+    
+    
 }

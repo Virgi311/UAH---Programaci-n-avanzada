@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Desktop/Virginia%20Backups/COMPUTADORES/CURSO%202019-2020/BASES%20DE%20DATOS/LABORATORIO/Netbeans%20projects/ParqueAcuatico/src/parqueacuatico/Interfaz.java</file>
-            <file>file:/C:/Users/User/Desktop/Virginia%20Backups/COMPUTADORES/CURSO%202019-2020/BASES%20DE%20DATOS/LABORATORIO/Netbeans%20projects/ParqueAcuatico/src/parqueacuatico/Monitor.java</file>
-            <file>file:/C:/Users/User/Desktop/Virginia%20Backups/COMPUTADORES/CURSO%202019-2020/BASES%20DE%20DATOS/LABORATORIO/Netbeans%20projects/ParqueAcuatico/src/parqueacuatico/Parque.java</file>
-            <file>file:/C:/Users/User/Desktop/Virginia%20Backups/COMPUTADORES/CURSO%202019-2020/BASES%20DE%20DATOS/LABORATORIO/Netbeans%20projects/ParqueAcuatico/src/parqueacuatico/Usuario.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/UAH-Programacion-avanzada/ParqueAcuatico/src/concurrencia/Parque.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/UAH-Programacion-avanzada/ParqueAcuatico/src/hilos/Monitor.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/UAH-Programacion-avanzada/ParqueAcuatico/src/programaPrincipal/Main.java</file>
+            <file>file:/C:/Users/User/Documents/GitHub/UAH-Programacion-avanzada/ParqueAcuatico/src/cliente/InterfazCliente.java</file>
         </group>
     </open-files>
 </project-private>

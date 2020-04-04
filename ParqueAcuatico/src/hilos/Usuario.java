@@ -7,6 +7,7 @@ package hilos;
 
 import concurrencia.Parque;
 import static java.lang.Thread.sleep;
+import java.util.Random;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Usuario extends Thread {
     private Parque parque;
     private Monitor monitor;
     
-    public Usuario (int id, Parque parque) {
+    public Usuario (int id, int edad, Parque parque) {
         this.id = id;
         this.parque = parque;
         monitor = null;
@@ -26,15 +27,62 @@ public class Usuario extends Thread {
     
     //@Override
     //public void run() { 
+    //    parque.entrarParque(id);  
+    //    
     //    for ( int i = 1; i <= 5000; i++ ) {
     //        try
     //        {
-    //            sleep((int)(3000*Math.random()));
+    //            sleep( 300 + (int)( 401 * Math.random() ) );
     //        } catch (InterruptedException e){ }
-    //        parque.entrar(this); //Entra en la exposición, si hay hueco; y sino espera en la cola
-    //        parque.vestuario(this); //Está un tiempo dentro de la exposición
-    //        parque.atraccion(this); //Está un tiempo dentro de la exposición
-    //        parque.salir(this); //Sale de la exposición
+    //        parque.entrar(this); //Entra en la parque acuático, si hay hueco; y sino espera en la cola
+    //        parque.vestuario(this); //Está un tiempo dentro del vestuario
+    //        parque.atraccion(this); //Está un tiempo dentro de una de las actividades del parque acuático
+    //        parque.vestuario(this); //Está un tiempo dentro del vestuario
+    //        parque.salir(this); //Sale del parque
     //    }
     //}
+    
+        @Override
+    public void run() {
+        paso.mirar();
+        supermercado.entrarSuper(id);
+        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra al supermercado");
+        paso.mirar();
+        Random r = new Random();
+        int aleatorio = r.nextInt(4) + 1;  // Entre 1 y 3
+
+        switch (aleatorio) {
+            case 1:
+                buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " va a los estantes");
+                supermercado.irEstante();
+                dormir();
+                paso.mirar();
+                supermercado.salirEstante();
+                break;
+            case 2:
+                buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra en la cola de la pescaderia");
+                supermercado.irPescaderia(id);
+                paso.mirar();
+                break;
+            case 3:
+                buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra en la cola de la carniceria");
+                supermercado.irCarniceria(id);
+                paso.mirar();
+                break;
+        }
+        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra en la cola de la caja");
+        supermercado.irCaja(id);
+        paso.mirar();
+        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " sale del super");
+        supermercado.salirSuper();
+        
+    }
+
+    public void dormir() {
+        try {
+            sleep(1000 + (int) (Math.random() * 10000));
+        } catch (InterruptedException ex) {
+            ex.toString();
+        }
+    }
 }
