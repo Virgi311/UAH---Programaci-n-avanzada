@@ -24,57 +24,60 @@ public class Usuario extends Thread {
         monitor = null;
         this.edad = edad;
     }
-    
-    //@Override
-    //public void run() { 
-    //    parque.entrarParque(id);  
-    //    
-    //    for ( int i = 1; i <= 5000; i++ ) {
-    //        try
-    //        {
-    //            sleep( 300 + (int)( 401 * Math.random() ) );
-    //        } catch (InterruptedException e){ }
-    //        parque.entrar(this); //Entra en la parque acuático, si hay hueco; y sino espera en la cola
-    //        parque.vestuario(this); //Está un tiempo dentro del vestuario
-    //        parque.atraccion(this); //Está un tiempo dentro de una de las actividades del parque acuático
-    //        parque.vestuario(this); //Está un tiempo dentro del vestuario
-    //        parque.salir(this); //Sale del parque
-    //    }
-    //}
-    
+        
         @Override
     public void run() {
         paso.mirar();
-        supermercado.entrarSuper(id);
-        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra al supermercado");
+        parque.entrarParque(id); 
+        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra al parque");
+        parque.entrarVestuario(this); //Está un tiempo dentro del vestuario
+        parque.salirVestuario(this); //Sale del vestuario
         paso.mirar();
         Random r = new Random();
-        int aleatorio = r.nextInt(4) + 1;  // Entre 1 y 3
+        int aleatorio = r.nextInt(16) + 5;  // Entre 1 y 3
 
         switch (aleatorio) {
             case 1:
-                buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " va a los estantes");
-                supermercado.irEstante();
+                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a la piscina de niños");
+                parque.entrarPiscinaNiños();
                 dormir();
                 paso.mirar();
-                supermercado.salirEstante();
+                parque.salirPiscinaNiños();
                 break;
             case 2:
-                buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra en la cola de la pescaderia");
-                supermercado.irPescaderia(id);
+                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a la piscina de olas");
+                parque.entrarPiscinaOlas();
+                dormir();
                 paso.mirar();
+                parque.salirPiscinaOlas();
                 break;
             case 3:
-                buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra en la cola de la carniceria");
-                supermercado.irCarniceria(id);
+                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a la piscina grande");
+                parque.entrarPiscinaGrande();
+                dormir();
                 paso.mirar();
+                parque.salirPiscinaGrande();
+                break;
+             case 4:
+                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a las tumbonas");
+                parque.entrarTumbonas();
+                dormir();
+                paso.mirar();
+                parque.salirTumbonas();
+                break;
+            case 5:
+                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a los toboganes");
+                parque.entrarToboganes();
+                dormir();
+                paso.mirar();
+                parque.salirToboganes();
                 break;
         }
-        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra en la cola de la caja");
-        supermercado.irCaja(id);
+        buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a los vestuarios para prepararse a abandonar el parque");
+        parque.entrarVestuario(id);
         paso.mirar();
-        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " sale del super");
-        supermercado.salirSuper();
+        buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " sale del parque");
+        parque.salirParque();
         
     }
 

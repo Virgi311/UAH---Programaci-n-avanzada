@@ -23,7 +23,7 @@ public class Parque {
     private final Condition lleno = control.newCondition();
     private final Condition vacio = control.newCondition();
     
-    private Semaphore semEntrada = new Semaphore(5000, true);
+    private Semaphore semEntrada = new Semaphore(100, true);
 
     private BlockingQueue colaEntrada = new LinkedBlockingQueue();
     private BlockingQueue colaVestuarios = new LinkedBlockingQueue(20);
@@ -34,7 +34,7 @@ public class Parque {
     private BlockingQueue colaToboganA = new LinkedBlockingQueue(20);
     private BlockingQueue colaToboganB = new LinkedBlockingQueue(20);
     private BlockingQueue colaToboganC = new LinkedBlockingQueue(20);
-    private BlockingQueue colaToboganD = new LinkedBlockingQueue(20);
+
       
     public Parque( int max ) { 
         this.maximo = max;
