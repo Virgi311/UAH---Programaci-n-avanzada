@@ -5,33 +5,63 @@
  */
 package hilos;
 
+import concurrencia.Buffer;
+import concurrencia.Parque;
+import concurrencia.Paso;
+import static java.lang.Thread.sleep;
+        
+
 /**
  *
  * @authors Virginia Vallejo y Javier Gonzalez
  */
-public class Monitor exteands thread {
+
+public class Monitor extends Thread {
     
-    private boolean libre;
+    private int id;
+    private Parque parque;
+    private Paso paso;
+    private Buffer buf;
+
     
     public Monitor() {
-        libre=true;
-    }
-
-    public synchronyzed void entrarVestuario(int i) throws InterruptedException {
-        while (!libre) {
-            try {
-                wait();
-            } catch(InterruptedException e) {}
-        }
-        libre=false;
+        this.id = id;
+        this.parque = parque;
+        this.paso = paso;
+        this.buf = buf;
     }
     
-    public synchronyzed void salirVestuario(int i) throws InterruptedException  {
-        libre=true;
-        notifyAll();
+    @Override
+    public void run(){
+        while (true) {
+            paso.mirar();
+            if(id.equals("monitor1")){
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 1 atiende a: " + parque.getCajeraUnoAtiende());
+            } if(id.equals("monitor2")){
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 2 atiende a: " + parque.getCajeraUnoAtiende());
+            } if(id.equals("monitor3")){
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 3 atiende a: " + parque.getCajeraUnoAtiende());
+            }if(id.equals("monitor4")){
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 4 atiende a: " + parque.getCajeraUnoAtiende());
+            }if(id.equals("monitor5")){
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 5 atiende a: " + parque.getCajeraUnoAtiende());
+            }if(id.equals("monitor6")){
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 6 atiende a: " + parque.getCajeraUnoAtiende());
+            }if(id.equals("monitor7")){
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 7 atiende a: " + parque.getCajeraUnoAtiende());
+            } else{
+                buf.añadirMensaje(parque.dameHoraActual() + ": Monitor 8 atiende a: " + parque.getCajeraDosAtiende());
+            }
+            dormir();
+            paso.mirar();
+        }
     }
-
-    public void start() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-}
+    
+    public void dormir() {
+        try {
+            sleep(3000 + (int) (Math.random() * 2000));
+        } catch (InterruptedException ex) {
+            ex.toString();
+        }
+    }   
+ }

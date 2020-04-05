@@ -37,7 +37,8 @@ public class Main extends javax.swing.JFrame {
         Monitor monitor5 = new Monitor ();
         Monitor monitor6 = new Monitor ();
         Monitor monitor7 = new Monitor ();
-        
+        Monitor monitor8 = new Monitor ();
+                
         for (int i=1; i<=5000; i++) {
             Usuario usuario = new Usuario("Usuario " +i, parque);
         }
@@ -49,6 +50,7 @@ public class Main extends javax.swing.JFrame {
         monitor5.start();
         monitor6.start();
         monitor7.start();
+        monitor8.start();
         
         usuario.start();
                 

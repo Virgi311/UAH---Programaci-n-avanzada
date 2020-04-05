@@ -8,6 +8,8 @@ package hilos;
 import concurrencia.Parque;
 import static java.lang.Thread.sleep;
 import java.util.Random;
+import concurrencia.Buffer;
+import concurrencia.Paso;
 
 /**
  *
@@ -16,25 +18,27 @@ import java.util.Random;
 public class Usuario extends Thread {
     private int id, edad;
     private Parque parque;
-    private Monitor monitor;
+    private Paso paso;
+    private Buffer buf;
     
     public Usuario (int id, int edad, Parque parque) {
         this.id = id;
         this.parque = parque;
-        monitor = null;
         this.edad = edad;
+        this.paso = paso;
+        this.buf = buf;
     }
         
         @Override
     public void run() {
         paso.mirar();
         parque.entrarParque(id); 
-        buf.añadirMensaje(supermercado.dameHoraActual() + ": " + id + " entra al parque");
-        parque.entrarVestuario(this); //Está un tiempo dentro del vestuario
-        parque.salirVestuario(this); //Sale del vestuario
+        buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " entra al parque");
+        parque.entrarVestuario(id); //Está un tiempo dentro del vestuario
+        parque.salirVestuario(); //Sale del vestuario
         paso.mirar();
         Random r = new Random();
-        int aleatorio = r.nextInt(16) + 5;  // Entre 1 y 3
+        int aleatorio = r.nextInt(16) + 5;  // Entre 5 y 15
 
         switch (aleatorio) {
             case 1:
