@@ -5,6 +5,7 @@
  */
 package programaPrincipal;
 
+import concurrencia.Buffer;
 import concurrencia.Parque;
 import concurrencia.Paso;
 import hilos.Usuario;
@@ -18,17 +19,17 @@ import hilos.Monitor;
  */
 public class Main extends javax.swing.JFrame {
     
-    private int botonPausa = 0;
-    private Paso paso = new Paso();
-    
+    int botonPausa = 0;
+    Paso paso = new Paso();
+    Parque parque = new Parque(100);
 
     /**
      * Creates new form NewJFrame
      */
     public Main() {
         initComponents();
-         
-        Parque parque = new Parque(100);
+                
+        Buffer buf = new Buffer();
         
         Monitor monitor1 = new Monitor ();
         Monitor monitor2 = new Monitor ();
@@ -40,7 +41,7 @@ public class Main extends javax.swing.JFrame {
         Monitor monitor8 = new Monitor ();
                 
         for (int i=1; i<=5000; i++) {
-            Usuario usuario = new Usuario("Usuario " +i, parque);
+            Usuario usuario = new Usuario("usuario"+i, edad, parque);
         }
         
         monitor1.start();
