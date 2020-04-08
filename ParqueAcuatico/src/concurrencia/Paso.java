@@ -7,6 +7,8 @@ package concurrencia;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,40 +16,37 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Paso {
     
-    private boolean pausar = false;
+    private boolean bloqueoActivo;
     private boolean finalizar = false;
-    private boolean monitor = false;
-    
-    private ReentrantLock lock = new ReentrantLock();
-    private ReentrantLock lock2 = new ReentrantLock();
-    
+
+    public Paso() {
+        bloqueoActivo = true;
+    }
+
     public synchronized void mirar() {
-        while (pausar) {
-            try {
+        try {
+            if (bloqueoActivo) {
                 wait();
-            } catch (InterruptedException ex) {
-                ex.toString();
             }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Paso.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void pausar() {
-        pausar = true;
+    public synchronized void detener() {
+        bloqueoActivo = true;
     }
 
-    public synchronized void reanudar() {
-        pausar = false;
+    public synchronized void reanudarUno() {
+        bloqueoActivo = false;
+        notify();
+    }
+
+    public synchronized void reanudarTodos() {
+        bloqueoActivo = false;
         notifyAll();
     }
     
-    public boolean isPausar() {
-        return pausar;
-    }
-
-    public void setPausar(boolean pausar) {
-        this.pausar = pausar;
-    }
-
     public boolean isFinalizar() {
         return finalizar;
     }
@@ -55,20 +54,9 @@ public class Paso {
     public void setFinalizar(boolean finalizar) {
         this.finalizar = finalizar;
     }
-  
-    public ReentrantLock getLock() {
-        return lock;
-    }
 
-    public void setLock(ReentrantLock lock) {
-        this.lock = lock;
-    }
-   
-    public ReentrantLock getLock2() {
-        return lock2;
-    }
 
-    public void setLock2(ReentrantLock lock2) {
-        this.lock2 = lock2;
+    public boolean isBloqueoActivo() {
+        return bloqueoActivo;
     }
 }

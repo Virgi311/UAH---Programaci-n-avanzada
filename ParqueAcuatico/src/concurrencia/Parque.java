@@ -14,209 +14,121 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import hilos.Usuario;
 
 /**
  *
  * @authors Virginia Vallejo y Javier Gonzalez
  */
 public class Parque {
-    private final Object[] parque;
-    private int in = 0, out = 0, numElem = 0, maximo = 0, numElemAux = 0;
-    private final Lock control = new ReentrantLock();
-    private final Condition lleno = control.newCondition();
-    private final Condition vacio = control.newCondition();
+    //Elementos interfaz
+    private final JTextField monitorVestuario;
+    private final JTextArea areaVestuario;
+    private final JTextArea colaVestuario;
+    private final JTextArea colaEntrada;
+        
+    private final JTextArea colaPiscinaNiños;
+    private final JTextField monitorPiscinaNiños;
+    private final JTextArea areaPiscinaNiños;
+    private final JTextArea colaEsperaAdultos;
     
-    private Semaphore semEntrarParque = new Semaphore(100, true);
-    private Semaphore semVestuario = new Semaphore(100, true);
-    private Semaphore semPiscinaNiños = new Semaphore(100, true);
-    private Semaphore semPiscinaGrande = new Semaphore(100, true);
-    private Semaphore semPiscinaOlas = new Semaphore(100, true);
-    private Semaphore semTumbonas = new Semaphore(100, true);
-    private Semaphore semToboganA = new Semaphore(100, true);
-    private Semaphore semToboganB = new Semaphore(100, true);
-    private Semaphore semToboganC = new Semaphore(100, true);
+    //Concurrencia
+    private final Semaphore semEntrarparque = new Semaphore(100, true);
+    private final BlockingQueue colaEntrarParque = new LinkedBlockingQueue();
+    
+    private Vestuario vestuario;
+    private PiscinaNiños piscinaNiños;
 
-    private BlockingQueue colaEntrarParque = new LinkedBlockingQueue();
-    private BlockingQueue colaVestuarios = new LinkedBlockingQueue(20);
-    private BlockingQueue colaPiscinaNiños = new LinkedBlockingQueue(20);
-    private BlockingQueue colaPiscinaOlas = new LinkedBlockingQueue(20);
-    private BlockingQueue colaPiscinaGrande = new LinkedBlockingQueue(20);
-    private BlockingQueue colaTumbonas = new LinkedBlockingQueue(20);
-    private BlockingQueue colaToboganA = new LinkedBlockingQueue(20);
-    private BlockingQueue colaToboganB = new LinkedBlockingQueue(20);
-    private BlockingQueue colaToboganC = new LinkedBlockingQueue(20);
-
-    private String usoVestuarios;
-    private String usoPiscinaNiños;
-    private String usoPiscinaGrande;
-    private String usoPiscinaOlas;
-    private String usoTumbonas;
-    private String usoToboganA;
-    private String usoToboganB;
-    private String usoToboganC;
-           
-    public Parque( int max ) { 
-        this.maximo = max;
-        parque = new Object[ max ];
-    } 
-
-    // Método para atender usuarios que llegan al parque.
-    public void entrarParque(String id) {
+    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos) {
+        this.monitorVestuario = monitorVestuario;
+        this.areaVestuario = areaVestuario;
+        this.colaVestuario = colaVestuario;
+        this.colaEntrada = colaEntrada;
+        this.colaPiscinaNiños = colaPiscinaNiños;
+        this.monitorPiscinaNiños = monitorPiscinaNiños;
+        this.areaPiscinaNiños = areaPiscinaNiños;
+        this.colaEsperaAdultos = colaEsperaAdultos;
+    }
+          
+    public void entrarParque(Usuario u) {
         try {
-            colaEntrarParque.put(id);
-            semEntrarParque.acquire();
+            colaEntrarParque.put(u);
+            imprimir(colaEntrada, colaEntrarParque.toString());
+            semEntrarparque.acquire();
             colaEntrarParque.take();
-
+            imprimir(colaEntrada, colaEntrarParque.toString());
         } catch (InterruptedException ex) {
-            ex.toString();
+            
         }
     }
 
-    // Método para atender usuarios que abandonan el parque.
     public void salirParque() {
-        semEntrarParque.release();
+        semEntrarparque.release();
+
+    }
+
+
+    private synchronized void imprimir(JTextArea campo, String contenido) {
+        campo.setText(contenido);
+    }
+
+    public Vestuario getVestuario() {
+        return vestuario;
+    }
+
+    public void setVestuario(Vestuario vestuario) {
+        this.vestuario = vestuario;
+    }
+
+    public PiscinaNiños getPiscinaNiños() {
+        return piscinaNiños;
+    }
+
+    public void setPiscinaNiños(PiscinaNiños piscinaNiños) {
+        this.piscinaNiños = piscinaNiños;
+    }
+
+    
+    public JTextField getMonitorVestuario() {
+        return monitorVestuario;
+    }
+
+    public JTextArea getAreaVestuario() {
+        return areaVestuario;
+    }
+
+    public JTextArea getColaVestuario() {
+        return colaVestuario;
+    }
+
+    public JTextArea getColaEntrada() {
+        return colaEntrada;
+    }
+
+    public JTextArea getColaPiscinaNiños() {
+        return colaPiscinaNiños;
+    }
+
+    public JTextField getMonitorPiscinaNiños() {
+        return monitorPiscinaNiños;
+    }
+
+    public JTextArea getAreaPiscinaNiños() {
+        return areaPiscinaNiños;
+    }
+
+    public JTextArea getColaEsperaAdultos() {
+        return colaEsperaAdultos;
+    }
+
+    public Semaphore getSemEntrarparque() {
+        return semEntrarparque;
+    }
+
+    public BlockingQueue getColaEntrarParque() {
+        return colaEntrarParque;
     }
     
-    // Método para atender usuarios que van a los vestuarios
-    public void entrarVestuario(String id) {
-        try {
-            colaVestuarios.put(id);
-            semVestuario.acquire();
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void usarVestuario() {
-        try {
-            usoVestuarios = colaVestuarios.take().toString();
-
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void salirVestuario() {
-        semVestuario.release();
-    }
-    // Método para atender usuarios que van a la piscina de niños
-    public void entrarPiscinaNiños(String id) {
-        try {
-            colaPiscinaNiños.put(id);
-            semPiscinaNiños.acquire();
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void usarPiscinaNiños() {
-        try {
-            usoPiscinaNiños = colaPiscinaNiños.take().toString();
-
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void salirPiscinaNiños() {
-        semPiscinaNiños.release();
-    }  
-    
-    // Método para atender usuarios que van a la piscina de olas
-    public void entrarPiscinaOlas(String id){ 
-        try {
-            colaPiscinaOlas.put(id);
-            semPiscinaOlas.acquire();
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void usarPiscinaOlas() {
-        try {
-            usoPiscinaOlas = colaPiscinaOlas.take().toString();
-
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void salirPiscinaOlas() {
-        semPiscinaOlas.release();
-    } 
-
-    // Método para atender usuarios que van a la piscina grande
-    public void entrarPiscinaGrande (String id){ 
-        try {
-            colaPiscinaGrande.put(id);
-            semPiscinaGrande.acquire();
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void usarPiscinaGrande (){ 
-        try {
-            usoPiscinaGrande = colaPiscinaGrande.take().toString();
-
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void salirPiscinaGrande() {
-        semPiscinaGrande.release();
-    } 
-    
-    // Método para atender usuarios que van a las tumbonas
-    public void entrarTumbonas (String id){ 
-        try {
-            colaTumbonas.put(id);
-            semTumbonas.acquire();
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void usarTumbonas (){ 
-        try {
-            usoTumbonas = colaTumbonas.take().toString();
-
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void salirTumbonas() {
-        semTumbonas.release();
-    }
-    
-    // Método para atender usuarios que van a los toboganes
-    public void entraToboganes (String id){ 
-        try {
-            colaToboganes.put(id);
-            semToboganes.acquire();
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void usarToboganA (){ 
-        try {
-            usoToboganA = colaToboganA.take().toString();
-
-        } catch (InterruptedException ex) {
-            ex.toString();
-        }
-    }
-
-    public void salirToboganA() {
-        semToboganA.release();
-    }
-    
-    public String dameHoraActual() {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
 }

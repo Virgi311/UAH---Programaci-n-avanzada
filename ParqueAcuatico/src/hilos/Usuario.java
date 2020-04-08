@@ -5,91 +5,121 @@
  */
 package hilos;
 
-import concurrencia.Parque;
 import static java.lang.Thread.sleep;
 import java.util.Random;
-import concurrencia.Buffer;
-import concurrencia.Paso;
+import concurrencia.*;
 
 /**
  *
  * @authors Virginia Vallejo y Javier Gonzalez
  */
+
 public class Usuario extends Thread {
-    private int id, edad;
-    private Parque parque;
-    private Paso paso;
-    private Buffer buf;
+
+    private final Parque parque;
+    private final Paso paso;
+    private int identificador;
+    private int edad;
+    private String nombre;
+    private boolean esAcompañante;
+    private Usuario acompañante;
     
-    public Usuario (int id, int edad, Parque parque) {
-        this.id = id;
+    public Usuario(Parque parque, Paso paso, int identificador, int edad) {
         this.parque = parque;
-        this.edad = edad;
         this.paso = paso;
-        this.buf = buf;
+        this.identificador = identificador;
+        this.edad = edad;
+
+        esAcompañante = false;
+        nombre = "ID" + identificador + "-" + edad;
     }
-        
-        @Override
+
+    @Override
     public void run() {
-        paso.mirar();
-        parque.entrarParque(id); 
-        buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " entra al parque");
-        parque.entrarVestuario(id); //Está un tiempo dentro del vestuario
-        parque.salirVestuario(); //Sale del vestuario
-        paso.mirar();
-        Random r = new Random();
-        int aleatorio = r.nextInt(16) + 5;  // Entre 5 y 15
+        if (!esAcompañante && edad > 10) { //un niño sin acompañante o un adulto
 
-        switch (aleatorio) {
-            case 1:
-                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a la piscina de niños");
-                parque.entrarPiscinaNiños();
-                dormir();
-                paso.mirar();
-                parque.salirPiscinaNiños();
-                break;
-            case 2:
-                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a la piscina de olas");
-                parque.entrarPiscinaOlas();
-                dormir();
-                paso.mirar();
-                parque.salirPiscinaOlas();
-                break;
-            case 3:
-                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a la piscina grande");
-                parque.entrarPiscinaGrande();
-                dormir();
-                paso.mirar();
-                parque.salirPiscinaGrande();
-                break;
-             case 4:
-                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a las tumbonas");
-                parque.entrarTumbonas();
-                dormir();
-                paso.mirar();
-                parque.salirTumbonas();
-                break;
-            case 5:
-                buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a los toboganes");
-                parque.entrarToboganes();
-                dormir();
-                paso.mirar();
-                parque.salirToboganes();
-                break;
+            parque.entrarParque(this);
+            parque.getVestuario().zonaVestuarios(this);
+            hacerSleep();
+            parque.getVestuario().salirVestuarios(this);
+
+            parque.salirParque();
+
+        } else if (edad <= 10) { // niño que necesita acompañante
+            parque.entrarParque(this);
+            paso.reanudarUno();
+            parque.getVestuario().zonaVestuarios(this);
+            paso.detener();
+            hacerSleep();
+            paso.reanudarUno();
+            parque.getVestuario().salirVestuarios(this);
+            parque.salirParque();
+
+        } else { //Actúa como acompañante
+            paso.mirar();
+            parque.entrarParque(this);
+            parque.getVestuario().zonaVestuarios(this);
+            paso.mirar();
+            parque.getVestuario().salirVestuarios(this);
+            parque.salirParque();
         }
-        buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " va a los vestuarios para prepararse a abandonar el parque");
-        parque.entrarVestuario(id);
-        paso.mirar();
-        buf.añadirMensaje(parque.dameHoraActual() + ": " + id + " sale del parque");
-        parque.salirParque();
+        
         
     }
 
-    public void dormir() {
+    public void hacerSleep() {
         try {
-            sleep(1000 + (int) (Math.random() * 10000));
+            sleep(3000);
         } catch (InterruptedException ex) {
-            ex.toString();
+
         }
     }
+
+    public int getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public Usuario getAcompañante() {
+        return acompañante;
+    }
+
+    public void setAcompañante(Usuario acompañante) {
+        this.acompañante = acompañante;
+        esAcompañante = acompañante.getEdad() >= 18;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public boolean getEsAcompañante() {
+        return esAcompañante;
+    }
+
+    public void setEsAcompañante(boolean esAcompañante) {
+        this.esAcompañante = esAcompañante;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
+  
 }
