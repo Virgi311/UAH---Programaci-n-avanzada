@@ -83,7 +83,7 @@ public class PiscinaOlas {
         semPiscinaOlas.release();
     }
 
-    public Usuario controlarPiscina() {
+    public Usuario controlarPiscinaOlas() {
         Usuario u = null;
         try {
             u = (Usuario) colaEntrarPiscinaOlas.take();
@@ -97,7 +97,7 @@ public class PiscinaOlas {
         return u;
     }
 
-    public void controlarPiscina(Usuario u) {
+    public void controlarPiscinaOlas(Usuario u) {
         if (u.getEdad() <= 5) {
             accesoPermitido = false;
             semOlas.release();

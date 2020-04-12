@@ -27,9 +27,9 @@ public class MonitorPiscinaOlas extends Thread {
     public void run() {
         while (true) {
 
-            Usuario u = parque.getPiscinaOlas().controlarPiscina();
+            Usuario u = parque.getPiscinaOlas().controlarPiscinaOlas();
             dormir();
-            parque.getPiscinaOlas().controlarPiscina(u);
+            parque.getPiscinaOlas().controlarPiscinaOlas(u);
 
         }
 
