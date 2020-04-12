@@ -10,6 +10,7 @@ import hilos.MonitorVestuario;
 import hilos.CreaUsuarios;
 import concurrencia.Paso;
 import hilos.MonitorPiscinaNiños;
+import hilos.MonitorPiscinaOlas;
 
 
 /**
@@ -29,13 +30,17 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         
-        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos);
+        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas);
 
+        
         MonitorVestuario m = new MonitorVestuario(parque);
         m.start();
         
         MonitorPiscinaNiños m1 = new MonitorPiscinaNiños(parque);
         m1.start();
+        
+        MonitorPiscinaOlas m2 = new MonitorPiscinaOlas(parque);
+        m2.start();
 
         CreaUsuarios nuevo = new CreaUsuarios(parque);
         nuevo.start();
@@ -90,7 +95,7 @@ public class Main extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane11 = new javax.swing.JScrollPane();
-        colaPisicinaOlas = new javax.swing.JTextArea();
+        colaPiscinaOlas = new javax.swing.JTextArea();
         jScrollPane13 = new javax.swing.JScrollPane();
         areaPiscinaOlas = new javax.swing.JTextArea();
         monitorPiscinaOlas = new javax.swing.JTextField();
@@ -384,9 +389,9 @@ public class Main extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Stencil", 1, 14)); // NOI18N
         jLabel12.setText("PISCINA DE OLAS");
 
-        colaPisicinaOlas.setColumns(20);
-        colaPisicinaOlas.setRows(5);
-        jScrollPane11.setViewportView(colaPisicinaOlas);
+        colaPiscinaOlas.setColumns(20);
+        colaPiscinaOlas.setRows(5);
+        jScrollPane11.setViewportView(colaPiscinaOlas);
 
         areaPiscinaOlas.setColumns(20);
         areaPiscinaOlas.setRows(5);
@@ -877,7 +882,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextArea colaEsperaAdultos;
     private javax.swing.JTextArea colaPiscinaGrande;
     private javax.swing.JTextArea colaPiscinaNiños;
-    private javax.swing.JTextArea colaPisicinaOlas;
+    private javax.swing.JTextArea colaPiscinaOlas;
     private javax.swing.JTextArea colaTumbonas;
     private javax.swing.JTextArea colaVestuario;
     private javax.swing.JLabel jLabel1;

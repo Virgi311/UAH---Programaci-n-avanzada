@@ -34,14 +34,20 @@ public class Parque {
     private final JTextArea areaPiscinaNiños;
     private final JTextArea colaEsperaAdultos;
     
+    private final JTextArea colaPiscinaOlas;
+    private final JTextField monitorPiscinaOlas;
+    private final JTextArea areaPiscinaOlas;
+
+    
     //Concurrencia
     private final Semaphore semEntrarparque = new Semaphore(100, true);
     private final BlockingQueue colaEntrarParque = new LinkedBlockingQueue();
     
     private Vestuario vestuario;
     private PiscinaNiños piscinaNiños;
+    private PiscinaOlas piscinaOlas;
 
-    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos) {
+    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas) {
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
         this.colaVestuario = colaVestuario;
@@ -50,8 +56,12 @@ public class Parque {
         this.monitorPiscinaNiños = monitorPiscinaNiños;
         this.areaPiscinaNiños = areaPiscinaNiños;
         this.colaEsperaAdultos = colaEsperaAdultos;
+        this.colaPiscinaOlas = colaPiscinaOlas;
+        this.monitorPiscinaOlas = monitorPiscinaOlas;
+        this.areaPiscinaOlas = areaPiscinaOlas;
     }
-          
+    
+
     public void entrarParque(Usuario u) {
         try {
             colaEntrarParque.put(u);
@@ -130,5 +140,26 @@ public class Parque {
     public BlockingQueue getColaEntrarParque() {
         return colaEntrarParque;
     }
+
+    public PiscinaOlas getPiscinaOlas() {
+        return piscinaOlas;
+    }
+
+    public void setPiscinaOlas(PiscinaOlas piscinaOlas) {
+        this.piscinaOlas = piscinaOlas;
+    }
+
+    public JTextArea getColaPiscinaOlas() {
+        return colaPiscinaOlas;
+    }
+
+    public JTextField getMonitorPiscinaOlas() {
+        return monitorPiscinaOlas;
+    }
+
+    public JTextArea getAreaPiscinaOlas() {
+        return areaPiscinaOlas;
+    }
+    
     
 }

@@ -29,8 +29,7 @@ public class Paso {
                 wait();
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(Paso.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            }
     }
 
     public synchronized void detener() {

@@ -35,7 +35,7 @@ public class Vestuario {
     private final BlockingQueue colaEntrarVestuario = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
     
-     public void zonaVestuarios(Usuario u) {
+     public void entrarVestuarios(Usuario u) {
         try {
             colaEntrarVestuario.put(u);
             imprimir(colaVestuario, colaEntrarVestuario.toString());

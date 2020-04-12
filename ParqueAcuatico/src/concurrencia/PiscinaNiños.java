@@ -12,6 +12,10 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,101 +35,129 @@ public class PiscinaNiños {
         this.colaEsperaAdultos = colaEsperaAdultos;
     }
     
-
-    
-private final Semaphore semPiscinaNiños3 = new Semaphore(20, true);
-    private final Semaphore semPiscinaNiños2 = new Semaphore(10, true);
-    private final Semaphore semPiscinaNiños1 = new Semaphore(0, true);
+    private final Semaphore semPiscinaNiños = new Semaphore(20, true);
+    private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);
     
     private final BlockingQueue colaEntrarPiscinaNiños = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaNiños = new CopyOnWriteArrayList<>();
+
+    private final CyclicBarrier barreraPiscinaNiños = new CyclicBarrier(2);
+    private boolean accesoPermitido = false;
     
-     public void zonaVestuarios(Usuario u) {
+    
+     public void entrarPiscinaNiños(Usuario u) {
         try {
             colaEntrarPiscinaNiños.put(u);
             imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
-            semPiscinaNiños1.acquire();
-
-            piscinaNiños.add(u);
-            imprimir(areaPiscinaNiños, piscinaNiños.toString());
-            if (u.getEsAcompañante() || u.getEdad() < 18) {
-
-                semPiscinaNiños2.acquire();
-
-            } else {
-
-                semPiscinaNiños3.acquire();
-
-            }
-
-        } catch (InterruptedException ex) {
+            semPiscinaNiños0.acquire();
             
-        }
-    }
+            if (u.getEdad() <= 5) { // Menores de 5 años pueden entrar acompañados    
+                try {
+                    semPiscinaNiños.acquire();
+                    barreraPiscinaNiños.await();
+                    
+                    piscinaNiños.add(u);
+                    
+                    imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                } catch (BrokenBarrierException ex) {
 
+                }    
+            }
+            if (u.getEdad() > 10 && !u.getEsAcompañante()) {
+                try {
+                    semPiscinaNiños.acquire();
+                    piscinaNiños.add(u);
+                    imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                } catch (InterruptedException ex) {
+
+                }
+            } else {
+                return false;
+            }
+            
+        } catch (InterruptedException ex) {
+
+        } return true;
+
+    }
+     
     public void salirPiscinaNiños(Usuario u) {
         piscinaNiños.remove(u);
         imprimir(areaPiscinaNiños, piscinaNiños.toString());
-        if (u.getEsAcompañante() || u.getEdad() < 18) {
-
-            semPiscinaNiños2.release();
-
-        } else {
-
-            semPiscinaNiños3.release();
-
-        }
-
+        semPiscinaNiños.release();
     }
 
-    public Usuario controlaPiscinaNiños() {
+    public Usuario controlarPiscinaNiños() {
+        Usuario u = null;
         try {
-            Usuario u = (Usuario) colaEntrarPiscinaNiños.take();
-
-            monitorPiscinaNiños.setText(u.toString());
+            u = (Usuario) colaEntrarPiscinaNiños.take();
             imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
-
-            return u;
+            monitorPiscinaNiños.setText(u.toString());
 
         } catch (InterruptedException ex) {
-            
-            return null;
+
         }
+
+        return u;
     }
 
-    public void controlaPiscinaNiños(Usuario u) {
-        try {
-            if (u.getEdad() > 17 && !u.getEsAcompañante()) { //Adulto
-                semPiscinaNiños3.acquire();
-                semPiscinaNiños3.release();
-                semPiscinaNiños1.release();
-            } else if (u.getEdad() <= 10) { //niño que necesita acompañante
-                semPiscinaNiños2.acquire(2);
-                semPiscinaNiños2.release(2);
+    public void controlarPiscinaNiños(Usuario u) {
+        if (u.getEdad() <= 5) { // Menores de 5 años pueden entrar acompañados
+            try {
+            semPiscinaNiños.acquire(2);
+            semPiscinaNiños.release(2);
 
-                //Para dejar pasar al niño
-               semPiscinaNiños1.release();
+            accesoPermitido = true;
+            semPiscinaNiños0.release();
 
-            } else if (u.getEsAcompañante()) { //acompañante
-                
-                // deja pasar al acompañante directamente
-                semPiscinaNiños1.release();
-            } else { //niño sin acompañante
-                semPiscinaNiños2.acquire();
-                semPiscinaNiños2.release();
-                semPiscinaNiños1.release();
+            colaEntrarPiscinaNiños.take();
+            imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+            semPiscinaNiños0.release();                
+      
+            } catch (InterruptedException ex) {
+
             }
-
-            monitorPiscinaNiños.setText("");
-
-        } catch (InterruptedException e) {
             
+        } else if (u.getEdad() <= 10) { // Entre 6 y 10 años pueden entrar solos
+            try {
+                semPiscinaNiños.acquire();
+                semPiscinaNiños.release();
+                accesoPermitido = true;
+                semPiscinaNiños0.release();
+        
+            } catch (InterruptedException ex) {
+
+            }
+            
+        } else { // De 11 años en adelante no pueden pasar
+            try {
+                accesoPermitido = false;
+                semPiscinaNiños0.release();
+                try {
+                   colaEntrarPiscinaNiños.take();
+                   imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+                   semPiscinaNiños0.release();
+            } catch (InterruptedException ex) {
+                
+            }
         }
+
+        monitorPiscinaNiños.setText("");
     }
     
     private synchronized void imprimir(JTextArea campo, String contenido) {
         campo.setText(contenido);
     }
     
-}
+    public boolean isAccesoPermitido() {
+        return accesoPermitido;
+    }
 
+    public void setAccesoPermitido(boolean accesoPermitido) {
+        this.accesoPermitido = accesoPermitido;
+    }
+
+    public CyclicBarrier getBarrera() {
+        return barreraPiscinaNiños;
+    }
+}

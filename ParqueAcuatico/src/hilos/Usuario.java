@@ -5,8 +5,6 @@
  */
 package hilos;
 
-import static java.lang.Thread.sleep;
-import java.util.Random;
 import concurrencia.*;
 
 /**
@@ -37,30 +35,38 @@ public class Usuario extends Thread {
     @Override
     public void run() {
         if (!esAcompañante && edad > 10) { //un niño sin acompañante o un adulto
-
             parque.entrarParque(this);
-            parque.getVestuario().zonaVestuarios(this);
+            parque.getVestuario().entrarVestuarios(this);
             hacerSleep();
             parque.getVestuario().salirVestuarios(this);
-
+            parque.getPiscinaNiños().entrarPiscinaNiños(this);
+            hacerSleep();
+            parque.getPiscinaNiños().salirPiscinaNiños(this);
             parque.salirParque();
 
         } else if (edad <= 10) { // niño que necesita acompañante
+            
             parque.entrarParque(this);
             paso.reanudarUno();
-            parque.getVestuario().zonaVestuarios(this);
+            parque.getVestuario().entrarVestuarios(this);
             paso.detener();
             hacerSleep();
             paso.reanudarUno();
             parque.getVestuario().salirVestuarios(this);
+            parque.getPiscinaNiños().entrarPiscinaNiños(this);
+            hacerSleep();
+            parque.getPiscinaNiños().salirPiscinaNiños(this);
             parque.salirParque();
 
         } else { //Actúa como acompañante
             paso.mirar();
             parque.entrarParque(this);
-            parque.getVestuario().zonaVestuarios(this);
+            parque.getVestuario().entrarVestuarios(this);
             paso.mirar();
             parque.getVestuario().salirVestuarios(this);
+            parque.getPiscinaNiños().entrarPiscinaNiños(this);
+            hacerSleep();
+            parque.getPiscinaNiños().salirPiscinaNiños(this);            
             parque.salirParque();
         }
         

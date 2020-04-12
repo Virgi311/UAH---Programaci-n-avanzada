@@ -4,32 +4,35 @@
  * and open the template in the editor.
  */
 package hilos;
- 
+
+/**
+ *
+ * @author User
+ */
+
 import concurrencia.Parque;
 import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Virginia Vallejo y Javier Gonzalez
- */
-public class MonitorPiscinaNiños extends Thread {
-    
+public class MonitorPiscinaOlas extends Thread {
+
     private final Parque parque;
 
-    public MonitorPiscinaNiños(Parque parque) {
+    public MonitorPiscinaOlas(Parque parque) {
         this.parque = parque;
     }
-    
+
     @Override
     public void run() {
         while (true) {
-            Usuario u = parque.getPiscinaNiños().controlarPiscinaNiños();
+
+            Usuario u = parque.getPiscinaOlas().controlarPiscina();
             dormir();
-            parque.getPiscinaNiños().controlarPiscinaNiños(u);
-            
+            parque.getPiscinaOlas().controlarPiscina(u);
+
         }
+
     }
 
     private void dormir() {
@@ -39,4 +42,5 @@ public class MonitorPiscinaNiños extends Thread {
             Logger.getLogger(MonitorVestuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }
