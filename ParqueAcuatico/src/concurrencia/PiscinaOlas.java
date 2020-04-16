@@ -36,7 +36,7 @@ public class PiscinaOlas {
     }
 
     private final Semaphore semPiscinaOlas = new Semaphore(20, true);
-    private final Semaphore semOlas = new Semaphore(0, true);
+    private final Semaphore semPiscinaOlas0 = new Semaphore(0, true);
 
     private final BlockingQueue colaEntrarPiscinaOlas = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaOlas = new CopyOnWriteArrayList<>();
@@ -44,11 +44,11 @@ public class PiscinaOlas {
     private final CyclicBarrier barrera = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
 
-    public boolean entrarPiscina(Usuario u) {
+    public boolean entrarPiscinaOlas(Usuario u) {
         try {
             colaEntrarPiscinaOlas.put(u);
             imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-            semOlas.acquire();
+            semPiscinaOlas0.acquire();
             if (!accesoPermitido) {
                 return false;
             }
@@ -77,7 +77,7 @@ public class PiscinaOlas {
 
     }
 
-    public void salirPiscina(Usuario u) {
+    public void salirPiscinaOlas(Usuario u) {
         piscinaOlas.remove(u);
         imprimir(areaPiscinaOlas, piscinaOlas.toString());
         semPiscinaOlas.release();
@@ -100,11 +100,11 @@ public class PiscinaOlas {
     public void controlarPiscinaOlas(Usuario u) {
         if (u.getEdad() <= 5) {
             accesoPermitido = false;
-            semOlas.release();
+            semPiscinaOlas0.release();
             try {
                 colaEntrarPiscinaOlas.take();
                 imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-                semOlas.release();
+                semPiscinaOlas0.release();
             } catch (InterruptedException ex) {
 
             }
@@ -114,11 +114,11 @@ public class PiscinaOlas {
                 semPiscinaOlas.release(2);
 
                 accesoPermitido = true;
-                semOlas.release();
+                semPiscinaOlas0.release();
 
                 colaEntrarPiscinaOlas.take();
                 imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-                semOlas.release();
+                semPiscinaOlas0.release();
             } catch (InterruptedException ex) {
 
             }
@@ -127,7 +127,7 @@ public class PiscinaOlas {
                 semPiscinaOlas.acquire();
                 semPiscinaOlas.release();
                 accesoPermitido = true;
-                semOlas.release();
+                semPiscinaOlas0.release();
             } catch (InterruptedException ex) {
                 Logger.getLogger(PiscinaOlas.class.getName()).log(Level.SEVERE, null, ex);
             }

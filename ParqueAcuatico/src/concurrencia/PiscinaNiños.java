@@ -35,7 +35,7 @@ public class PiscinaNiños {
         this.colaEsperaAdultos = colaEsperaAdultos;
     }
     
-    private final Semaphore semPiscinaNiños = new Semaphore(20, true);
+    private final Semaphore semPiscinaNiños = new Semaphore(15, true);
     private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);
     
     private final BlockingQueue colaEntrarPiscinaNiños = new LinkedBlockingQueue();
@@ -45,7 +45,7 @@ public class PiscinaNiños {
     private boolean accesoPermitido = false;
     
     
-     public void entrarPiscinaNiños(Usuario u) {
+     public boolean entrarPiscinaNiños(Usuario u) {
         try {
             colaEntrarPiscinaNiños.put(u);
             imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
@@ -101,7 +101,7 @@ public class PiscinaNiños {
         return u;
     }
 
-    public void controlarPiscinaNiños(Usuario u) {
+public void controlarPiscinaNiños(Usuario u) {
         if (u.getEdad() <= 5) { // Menores de 5 años pueden entrar acompañados
             try {
             semPiscinaNiños.acquire(2);
@@ -137,9 +137,10 @@ public class PiscinaNiños {
                    colaEntrarPiscinaNiños.take();
                    imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
                    semPiscinaNiños0.release();
-            } catch (InterruptedException ex) {
+                } catch (InterruptedException ex) {
                 
-            }
+                }
+            }catch(Exception ex){}
         }
 
         monitorPiscinaNiños.setText("");

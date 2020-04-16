@@ -38,6 +38,9 @@ public class Parque {
     private final JTextField monitorPiscinaOlas;
     private final JTextArea areaPiscinaOlas;
 
+    private final JTextField monitorPiscinaGrande;
+    private final JTextArea areaPiscinaGrande;
+    private final JTextArea colaPiscinaGrande;
     
     //Concurrencia
     private final Semaphore semEntrarparque = new Semaphore(100, true);
@@ -46,8 +49,9 @@ public class Parque {
     private Vestuario vestuario;
     private PiscinaNiños piscinaNiños;
     private PiscinaOlas piscinaOlas;
+    private PiscinaGrande piscinaGrande;
 
-    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas) {
+    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande) {
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
         this.colaVestuario = colaVestuario;
@@ -59,6 +63,13 @@ public class Parque {
         this.colaPiscinaOlas = colaPiscinaOlas;
         this.monitorPiscinaOlas = monitorPiscinaOlas;
         this.areaPiscinaOlas = areaPiscinaOlas;
+        this.monitorPiscinaGrande = monitorPiscinaGrande;
+        this.areaPiscinaGrande = areaPiscinaGrande;
+        this.colaPiscinaGrande = colaPiscinaGrande;
+        this.vestuario = new Vestuario(colaVestuario, monitorVestuario, areaVestuario);
+        this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos);
+        this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas);
+        this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
     }
     
 
@@ -159,6 +170,14 @@ public class Parque {
 
     public JTextArea getAreaPiscinaOlas() {
         return areaPiscinaOlas;
+    }
+
+    public PiscinaGrande getPiscinaGrande() {
+        return piscinaGrande;
+    }
+
+    public void setPiscinaGrande(PiscinaGrande piscinaGrande) {
+        this.piscinaGrande = piscinaGrande;
     }
     
     

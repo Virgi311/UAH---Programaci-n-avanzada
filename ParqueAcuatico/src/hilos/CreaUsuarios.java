@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import concurrencia.*;
+import java.util.concurrent.CyclicBarrier;
         
 
 /**
@@ -16,7 +17,7 @@ import concurrencia.*;
  * @author Virginia Vallejo y Javier Gonzalez
  */
 public class CreaUsuarios extends Thread {
-    private final int num_usuarios = 20;
+    private final int aforo = 20;
     private final int mayoria_edad = 18;
     private final Parque parque;
     
@@ -27,15 +28,15 @@ public class CreaUsuarios extends Thread {
     @Override
     public void run() {
 
-        for (int id = 1; id <= num_usuarios; id++) {
-            Paso paso = new Paso();
+        for (int id = 1; id <= aforo; id++) {
+            CyclicBarrier barrera = new CyclicBarrier(2);
             int edadUsuario = getEdadAleatoria(1);
-            Usuario usuarioPrincipal = new Usuario(parque, paso, id, edadUsuario);
+            Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario);
 
             if (edadUsuario < 11) {
                 id++;
  
-                Usuario usuarioAcompañante = new Usuario(parque, paso, id, getEdadAleatoria(mayoria_edad));
+                Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad));
                 usuarioPrincipal.setAcompañante(usuarioAcompañante);
                 usuarioPrincipal.setNombre(usuarioPrincipal.getNombre() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setNombre(usuarioAcompañante.getNombre() + "-" + usuarioPrincipal.getIdentificador());
@@ -57,7 +58,7 @@ public class CreaUsuarios extends Thread {
         try {
             Thread.sleep(min + (int) ((max - min) * Math.random()));
         } catch (InterruptedException ex) {
-            Logger.getLogger(CreaUsuarios.class.getName()).log(Level.SEVERE, "PROBLEMAS AL DORMIR", ex);
+            Logger.getLogger(CreaUsuarios.class.getName()).log(Level.SEVERE, "Problemas mientras duerme", ex);
         }
     }
     

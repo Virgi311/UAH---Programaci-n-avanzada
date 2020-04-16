@@ -36,12 +36,12 @@ public class Paso {
         bloqueoActivo = true;
     }
 
-    public synchronized void reanudarUno() {
+    public synchronized void notifyUno() {
         bloqueoActivo = false;
         notify();
     }
 
-    public synchronized void reanudarTodos() {
+    public synchronized void notifyTodos() {
         bloqueoActivo = false;
         notifyAll();
     }
