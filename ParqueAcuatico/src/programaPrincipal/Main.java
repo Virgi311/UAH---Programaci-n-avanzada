@@ -30,7 +30,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         
-        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
+        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
 
         
         MonitorVestuario m = new MonitorVestuario(parque);
@@ -90,7 +90,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane9 = new javax.swing.JScrollPane();
         areaPiscinaNiños = new javax.swing.JTextArea();
         jScrollPane10 = new javax.swing.JScrollPane();
-        colaEsperaAdultos = new javax.swing.JTextArea();
+        areaEsperaAdultos = new javax.swing.JTextArea();
         monitorPiscinaNiños = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -210,11 +210,9 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Finalizar)
-                            .addComponent(Pausar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Finalizar)
+                        .addComponent(Pausar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -324,9 +322,9 @@ public class Main extends javax.swing.JFrame {
         areaPiscinaNiños.setRows(5);
         jScrollPane9.setViewportView(areaPiscinaNiños);
 
-        colaEsperaAdultos.setColumns(20);
-        colaEsperaAdultos.setRows(5);
-        jScrollPane10.setViewportView(colaEsperaAdultos);
+        areaEsperaAdultos.setColumns(20);
+        areaEsperaAdultos.setRows(5);
+        jScrollPane10.setViewportView(areaEsperaAdultos);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -872,6 +870,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Finalizar;
     private javax.swing.JButton Pausar;
+    private javax.swing.JTextArea areaEsperaAdultos;
     private javax.swing.JTextArea areaPiscinaGrande;
     private javax.swing.JTextArea areaPiscinaNiños;
     private javax.swing.JTextArea areaPiscinaOlas;
@@ -881,7 +880,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextArea areaTumbonas;
     private javax.swing.JTextArea areaVestuario;
     private javax.swing.JTextArea colaEntrada;
-    private javax.swing.JTextArea colaEsperaAdultos;
     private javax.swing.JTextArea colaPiscinaGrande;
     private javax.swing.JTextArea colaPiscinaNiños;
     private javax.swing.JTextArea colaPiscinaOlas;

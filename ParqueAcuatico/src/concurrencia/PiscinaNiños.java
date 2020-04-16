@@ -26,13 +26,13 @@ public class PiscinaNiños {
     private final JTextArea colaPiscinaNiños;
     private final JTextField monitorPiscinaNiños;
     private final JTextArea areaPiscinaNiños;
-    private final JTextArea colaEsperaAdultos;
+    private final JTextArea areaEsperaAdultos;
 
-    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos) {
+    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos) {
         this.colaPiscinaNiños = colaPiscinaNiños;
         this.monitorPiscinaNiños = monitorPiscinaNiños;
         this.areaPiscinaNiños = areaPiscinaNiños;
-        this.colaEsperaAdultos = colaEsperaAdultos;
+        this.areaEsperaAdultos = areaEsperaAdultos;
     }
     
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
@@ -40,7 +40,8 @@ public class PiscinaNiños {
     
     private final BlockingQueue colaEntrarPiscinaNiños = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaNiños = new CopyOnWriteArrayList<>();
-
+    private final CopyOnWriteArrayList<Usuario> esperaAdultos = new CopyOnWriteArrayList<>();
+    
     private final CyclicBarrier barreraPiscinaNiños = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
     
@@ -59,6 +60,7 @@ public class PiscinaNiños {
                     piscinaNiños.add(u);
                     
                     imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                    imprimir(areaEsperaAdultos, piscinaNiños.toString());
                 } catch (BrokenBarrierException ex) {
 
                 }    
