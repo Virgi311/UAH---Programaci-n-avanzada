@@ -30,7 +30,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         
-        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
+        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas);
 
         
         MonitorVestuario m = new MonitorVestuario(parque);

@@ -42,6 +42,10 @@ public class Parque {
     private final JTextArea areaPiscinaGrande;
     private final JTextArea colaPiscinaGrande;
     
+    private final JTextArea colaTumbonas;
+    private final JTextArea areaTumbonas;
+    private final JTextField monitorTumbonas;
+    
     //Concurrencia
     private final Semaphore semEntrarparque = new Semaphore(100, true);
     private final BlockingQueue colaEntrarParque = new LinkedBlockingQueue();
@@ -50,8 +54,9 @@ public class Parque {
     private PiscinaNiños piscinaNiños;
     private PiscinaOlas piscinaOlas;
     private PiscinaGrande piscinaGrande;
+    private Tumbonas tumbonas;
 
-    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande) {
+    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas) {
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
         this.colaVestuario = colaVestuario;
@@ -66,12 +71,14 @@ public class Parque {
         this.monitorPiscinaGrande = monitorPiscinaGrande;
         this.areaPiscinaGrande = areaPiscinaGrande;
         this.colaPiscinaGrande = colaPiscinaGrande;
-        this.vestuario = new Vestuario(colaVestuario, monitorVestuario, areaVestuario);
+        this.colaTumbonas = colaTumbonas;
+        this.areaTumbonas = areaTumbonas;
+        this.monitorTumbonas = monitorTumbonas;
         this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos);
         this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas);
         this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
+        this.tumbonas = new Tumbonas(colaTumbonas, areaTumbonas, monitorTumbonas);
     }
-    
 
     public void entrarParque(Usuario u) {
         try {
@@ -178,6 +185,14 @@ public class Parque {
 
     public void setPiscinaGrande(PiscinaGrande piscinaGrande) {
         this.piscinaGrande = piscinaGrande;
+    }
+
+    public Tumbonas getTumbonas() {
+        return tumbonas;
+    }
+
+    public void setTumbonas(Tumbonas tumbonas) {
+        this.tumbonas = tumbonas;
     }
     
     

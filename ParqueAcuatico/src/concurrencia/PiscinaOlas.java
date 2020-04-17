@@ -41,7 +41,7 @@ public class PiscinaOlas {
     private final BlockingQueue colaEntrarPiscinaOlas = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaOlas = new CopyOnWriteArrayList<>();
 
-    private final CyclicBarrier barrera = new CyclicBarrier(2);
+    private final CyclicBarrier barreraPiscinaOlas = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
 
     public boolean entrarPiscinaOlas(Usuario u) {
@@ -55,7 +55,7 @@ public class PiscinaOlas {
             if (u.getEdad() > 10 && !u.getEsAcompañante()) {
                 try {
                     semPiscinaOlas.acquire();
-                    barrera.await();
+                    barreraPiscinaOlas.await();
                     
                     piscinaOlas.add(u);
                     
@@ -112,10 +112,8 @@ public class PiscinaOlas {
             try {
                 semPiscinaOlas.acquire(2);
                 semPiscinaOlas.release(2);
-
                 accesoPermitido = true;
                 semPiscinaOlas0.release();
-
                 colaEntrarPiscinaOlas.take();
                 imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
                 semPiscinaOlas0.release();
@@ -128,8 +126,11 @@ public class PiscinaOlas {
                 semPiscinaOlas.release();
                 accesoPermitido = true;
                 semPiscinaOlas0.release();
+                colaEntrarPiscinaOlas.take();
+                imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
+                semPiscinaOlas0.release();
             } catch (InterruptedException ex) {
-                Logger.getLogger(PiscinaOlas.class.getName()).log(Level.SEVERE, null, ex);
+               
             }
 
         }
@@ -150,7 +151,7 @@ public class PiscinaOlas {
     }
 
     public CyclicBarrier getBarrera() {
-        return barrera;
+        return barreraPiscinaOlas;
     }
 
 }

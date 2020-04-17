@@ -52,6 +52,10 @@ public class PiscinaNiños {
             imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             semPiscinaNiños0.acquire();
             
+            if ((!accesoPermitido)&& !u.getEsAcompañante()) {
+                return false;
+            }
+            
             if (u.getEdad() <= 5) { // Menores de 5 años pueden entrar acompañados    
                 try {
                     semPiscinaNiños.acquire();
@@ -60,21 +64,20 @@ public class PiscinaNiños {
                     piscinaNiños.add(u);
                     
                     imprimir(areaPiscinaNiños, piscinaNiños.toString());
-                    imprimir(areaEsperaAdultos, piscinaNiños.toString());
+                    imprimir(areaEsperaAdultos, esperaAdultos.toString());
                 } catch (BrokenBarrierException ex) {
 
                 }    
             }
-            if (u.getEdad() > 10 && !u.getEsAcompañante()) {
+            else { 
                 try {
                     semPiscinaNiños.acquire();
                     piscinaNiños.add(u);
+                    esperaAdultos.add(u);
                     imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                    imprimir(areaEsperaAdultos, esperaAdultos.toString());
                 } catch (InterruptedException ex) {
-
                 }
-            } else {
-                return false;
             }
             
         } catch (InterruptedException ex) {
@@ -85,7 +88,9 @@ public class PiscinaNiños {
      
     public void salirPiscinaNiños(Usuario u) {
         piscinaNiños.remove(u);
+        esperaAdultos.remove(u);
         imprimir(areaPiscinaNiños, piscinaNiños.toString());
+        imprimir(areaEsperaAdultos, esperaAdultos.toString());
         semPiscinaNiños.release();
     }
 
@@ -126,12 +131,14 @@ public void controlarPiscinaNiños(Usuario u) {
                 semPiscinaNiños.release();
                 accesoPermitido = true;
                 semPiscinaNiños0.release();
-        
+                colaEntrarPiscinaNiños.take();
+                imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+                semPiscinaNiños0.release();                  
             } catch (InterruptedException ex) {
 
             }
             
-        } else { // De 11 años en adelante no pueden pasar
+        } else { // De 11 años en adelante no pueden pasar. No tienen acompañante.
             try {
                 accesoPermitido = false;
                 semPiscinaNiños0.release();
