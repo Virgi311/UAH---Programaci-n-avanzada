@@ -24,9 +24,9 @@ public class MonitorVestuario extends Thread {
     @Override
     public void run() {
         while (true) {
-            Usuario u = parque.getVestuario().controlaVestuario();
+            Usuario u = parque.getVestuario().controlarVestuario();
             dormir();
-            parque.getVestuario().controlaVestuario(u);
+            parque.getVestuario().controlarVestuario(u);
             
         }
     }

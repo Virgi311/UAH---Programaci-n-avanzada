@@ -6,12 +6,13 @@
 package programaPrincipal;
 
 import concurrencia.Parque;
-import hilos.MonitorVestuario;
 import hilos.CreaUsuarios;
 import concurrencia.Paso;
+import hilos.MonitorVestuario;
 import hilos.MonitorPiscinaNiños;
 import hilos.MonitorPiscinaOlas;
 import hilos.MonitorPiscinaGrande;
+import hilos.MonitorTumbonas;
 
 /**
  *
@@ -44,6 +45,9 @@ public class Main extends javax.swing.JFrame {
 
         MonitorPiscinaGrande m3 = new MonitorPiscinaGrande(parque);
         m3.start();
+        
+        MonitorTumbonas m4 = new MonitorTumbonas(parque);
+        m4.start();
         
         CreaUsuarios nuevo = new CreaUsuarios(parque);
         nuevo.start();

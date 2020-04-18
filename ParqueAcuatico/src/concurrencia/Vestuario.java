@@ -73,7 +73,7 @@ public class Vestuario {
 
     }
 
-    public Usuario controlaVestuario() {
+    public Usuario controlarVestuario() {
         try {
             Usuario u = (Usuario) colaEntrarVestuario.take();
 
@@ -88,7 +88,7 @@ public class Vestuario {
         }
     }
 
-    public void controlaVestuario(Usuario u) {
+    public void controlarVestuario(Usuario u) {
         try {
             if (u.getEdad() > 17 && !u.getEsAcompañante()) { //Adulto
                 semVestuarioAdulto.acquire();

@@ -78,6 +78,7 @@ public class Parque {
         this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas);
         this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
         this.tumbonas = new Tumbonas(colaTumbonas, areaTumbonas, monitorTumbonas);
+        this.vestuario = new Vestuario (colaVestuario, monitorVestuario, areaVestuario);
     }
 
     public void entrarParque(Usuario u) {
@@ -193,6 +194,30 @@ public class Parque {
 
     public void setTumbonas(Tumbonas tumbonas) {
         this.tumbonas = tumbonas;
+    }
+
+    public JTextField getMonitorPiscinaGrande() {
+        return monitorPiscinaGrande;
+    }
+
+    public JTextArea getAreaPiscinaGrande() {
+        return areaPiscinaGrande;
+    }
+
+    public JTextArea getColaPiscinaGrande() {
+        return colaPiscinaGrande;
+    }
+
+    public JTextArea getColaTumbonas() {
+        return colaTumbonas;
+    }
+
+    public JTextArea getAreaTumbonas() {
+        return areaTumbonas;
+    }
+
+    public JTextField getMonitorTumbonas() {
+        return monitorTumbonas;
     }
     
     

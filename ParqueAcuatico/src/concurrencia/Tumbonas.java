@@ -39,15 +39,23 @@ public class Tumbonas {
     private final CopyOnWriteArrayList<Usuario> tumbonas = new CopyOnWriteArrayList<>();
     private final BlockingQueue colaMonitorTumbonas = new LinkedBlockingQueue();
     
+   
+    
     public boolean entrarTumbonas(Usuario u){
+        //Si es un niño con acompañante no entra, y si es el acompañante tampoco
+        if(u.getEdad() <= 10 || u.getEsAcompañante()){
+            
+            return false;
+            
+        }
         colaEntrarTumbonas.add(u);
         imprimir(colaTumbonas, colaEntrarTumbonas.toString());
         try {
             semTumbonas.acquire();
             colaEntrarTumbonas.remove(u);
-            
+            imprimir(colaTumbonas, colaEntrarTumbonas.toString());
             colaMonitorTumbonas.put(u);
-            semTumbonas0.acquire();
+            semTumbonas.acquire();
             if(!accesoPermitido){
                 return false;
             }
@@ -69,59 +77,28 @@ public class Tumbonas {
         semTumbonas.release();
     }
     
-    public Usuario controlarTumbonas() {
-        Usuario u = null;
+    public Usuario controlarTumbonas(){
         try {
-            u = (Usuario) colaEntrarTumbonas.take();
-            imprimir(colaTumbonas, colaEntrarTumbonas.toString());
+            Usuario u = (Usuario) colaMonitorTumbonas.take();
             monitorTumbonas.setText(u.toString());
-
+            
+            return u;
         } catch (InterruptedException ex) {
-
+            return null;
         }
-
-        return u;
+        
+     
     }
-
-    public void controlarPiscinaOlas(Usuario u) {
-        if (u.getEdad() <= 5) {
+    
+    public void controlarTumbonas(Usuario u){
+        if(u.getEdad() >= 15){
+            accesoPermitido = true;
+        } else {
             accesoPermitido = false;
-            semTumbonas0.release();
-            try {
-                colaEntrarTumbonas.take();
-                imprimir(colaTumbonas, colaEntrarTumbonas.toString());
-                semTumbonas0.release();
-            } catch (InterruptedException ex) {
-
-            }
-        } else if (u.getEdad() <= 10) {
-            try {
-                semTumbonas.acquire(2);
-                semTumbonas.release(2);
-                accesoPermitido = true;
-                semTumbonas0.release();
-                colaEntrarTumbonas.take();
-                imprimir(colaTumbonas, colaEntrarTumbonas.toString());
-                semTumbonas0.release();
-            } catch (InterruptedException ex) {
-
-            }
-        } else { // Que no tiene acompañante
-            try {
-                semTumbonas.acquire();
-                semTumbonas.release();
-                accesoPermitido = true;
-                semTumbonas0.release();
-                colaEntrarTumbonas.take();
-                imprimir(colaTumbonas, colaEntrarTumbonas.toString());
-                semTumbonas0.release();
-            } catch (InterruptedException ex) {
-               
-            }
-
         }
-
+        semTumbonas.release();
         monitorTumbonas.setText("");
+        
     }
     
     private synchronized void imprimir(JTextArea campo, String contenido) {
@@ -137,4 +114,3 @@ public class Tumbonas {
     }
  
 }
-

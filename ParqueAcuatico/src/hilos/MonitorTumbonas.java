@@ -26,16 +26,16 @@ public class MonitorTumbonas extends Thread {
         while (true) {
 
             Usuario u = parque.getTumbonas().controlarTumbonas();
-            dormir();
-            parque.getPiscinaGrande().controlarPiscinaGrande(u);
+            dormir(500,900);
+            parque.getTumbonas().controlarTumbonas(u);
         }
     }
-    
-    private void dormir() {
+
+    private void dormir(int min, int max) {
         try {
-            sleep(1000);
+            Thread.sleep(min + (int) ((max - min) * Math.random()));
         } catch (InterruptedException ex) {
-            Logger.getLogger(MonitorVestuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreaUsuarios.class.getName()).log(Level.SEVERE, "Problemas mientas duerme", ex);
         }
     }
     

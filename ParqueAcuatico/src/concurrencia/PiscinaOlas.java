@@ -126,9 +126,6 @@ public class PiscinaOlas {
                 semPiscinaOlas.release();
                 accesoPermitido = true;
                 semPiscinaOlas0.release();
-                colaEntrarPiscinaOlas.take();
-                imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-                semPiscinaOlas0.release();
             } catch (InterruptedException ex) {
                
             }

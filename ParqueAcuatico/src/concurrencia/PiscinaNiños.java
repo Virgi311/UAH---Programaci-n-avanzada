@@ -46,113 +46,86 @@ public class PiscinaNiños {
     private boolean accesoPermitido = false;
     
     
-     public boolean entrarPiscinaNiños(Usuario u) {
+    public boolean entrarPiscinaNiños(Usuario u) {
         try {
             colaEntrarPiscinaNiños.put(u);
             imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             semPiscinaNiños0.acquire();
-            
-            if ((!accesoPermitido)&& !u.getEsAcompañante()) {
+            if (!accesoPermitido) {
                 return false;
             }
-            
-            if (u.getEdad() <= 5) { // Menores de 5 años pueden entrar acompañados    
-                try {
-                    semPiscinaNiños.acquire();
-                    barreraPiscinaNiños.await();
-                    
-                    piscinaNiños.add(u);
-                    
-                    imprimir(areaPiscinaNiños, piscinaNiños.toString());
-                    imprimir(areaEsperaAdultos, esperaAdultos.toString());
-                } catch (BrokenBarrierException ex) {
+            if (u.getEdad() <= 5 || (u.getEsAcompañante() && u.getAcompañante().getEdad() <= 5)) { //Se trata de un niño de 5 o menos o de un acompañante de un niño de 5 o menos
+                semPiscinaNiños.acquire();
+                piscinaNiños.add(u);
+                imprimir(areaPiscinaNiños, piscinaNiños.toString());
+            } else if (u.getEdad() <= 10) { //se trata de un niño mayor de 5 años
+                semPiscinaNiños.acquire();
+                piscinaNiños.add(u);
+                imprimir(areaPiscinaNiños, piscinaNiños.toString());
+            } else { // se trata de un acompañante de un niño mayor de 5 años
+                esperaAdultos.add(u);
+                imprimir(areaEsperaAdultos, esperaAdultos.toString());
+            }
 
-                }    
-            }
-            else { 
-                try {
-                    semPiscinaNiños.acquire();
-                    piscinaNiños.add(u);
-                    esperaAdultos.add(u);
-                    imprimir(areaPiscinaNiños, piscinaNiños.toString());
-                    imprimir(areaEsperaAdultos, esperaAdultos.toString());
-                } catch (InterruptedException ex) {
-                }
-            }
-            
         } catch (InterruptedException ex) {
 
-        } return true;
+        }
+
+        return true;
 
     }
      
     public void salirPiscinaNiños(Usuario u) {
-        piscinaNiños.remove(u);
-        esperaAdultos.remove(u);
-        imprimir(areaPiscinaNiños, piscinaNiños.toString());
-        imprimir(areaEsperaAdultos, esperaAdultos.toString());
-        semPiscinaNiños.release();
+        if (u.getEsAcompañante() && u.getAcompañante().getEdad() > 5) {
+            esperaAdultos.remove(u);
+            imprimir(areaEsperaAdultos, esperaAdultos.toString());
+        } else {
+            piscinaNiños.remove(u);
+            imprimir(areaPiscinaNiños, piscinaNiños.toString());
+            semPiscinaNiños.release();
+        }
     }
-
+    
+    
     public Usuario controlarPiscinaNiños() {
-        Usuario u = null;
         try {
-            u = (Usuario) colaEntrarPiscinaNiños.take();
+            Usuario u = (Usuario) colaEntrarPiscinaNiños.take();
             imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             monitorPiscinaNiños.setText(u.toString());
 
+            return u;
         } catch (InterruptedException ex) {
-
+            return null;
         }
 
-        return u;
     }
 
+    
 public void controlarPiscinaNiños(Usuario u) {
-        if (u.getEdad() <= 5) { // Menores de 5 años pueden entrar acompañados
-            try {
-            semPiscinaNiños.acquire(2);
-            semPiscinaNiños.release(2);
-
-            accesoPermitido = true;
-            semPiscinaNiños0.release();
-
-            colaEntrarPiscinaNiños.take();
-            imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
-            semPiscinaNiños0.release();                
-      
-            } catch (InterruptedException ex) {
-
-            }
-            
-        } else if (u.getEdad() <= 10) { // Entre 6 y 10 años pueden entrar solos
-            try {
-                semPiscinaNiños.acquire();
-                semPiscinaNiños.release();
-                accesoPermitido = true;
-                semPiscinaNiños0.release();
-                colaEntrarPiscinaNiños.take();
-                imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
-                semPiscinaNiños0.release();                  
-            } catch (InterruptedException ex) {
-
-            }
-            
-        } else { // De 11 años en adelante no pueden pasar. No tienen acompañante.
-            try {
+        try {
+            if (u.getEdad() > 10 && !u.getEsAcompañante()) {
                 accesoPermitido = false;
                 semPiscinaNiños0.release();
-                try {
-                   colaEntrarPiscinaNiños.take();
-                   imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
-                   semPiscinaNiños0.release();
-                } catch (InterruptedException ex) {
-                
-                }
-            }catch(Exception ex){}
-        }
+            } else if (u.getEsAcompañante()) {
+                accesoPermitido = true;
+                semPiscinaNiños0.release();
+            } else if (u.getEdad() > 5) {
+                accesoPermitido = true;       
+                semPiscinaNiños.acquire();
+                semPiscinaNiños.release();
+                semPiscinaNiños0.release();
+            } else{
+                accesoPermitido = true;
+                semPiscinaNiños.acquire(2);
+                semPiscinaNiños.release(2);
+                semPiscinaNiños0.release();
+            }
 
-        monitorPiscinaNiños.setText("");
+            monitorPiscinaNiños.setText("");
+
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PiscinaNiños.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private synchronized void imprimir(JTextArea campo, String contenido) {
