@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hilos;
  
 import concurrencia.Parque;
@@ -12,7 +7,9 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Virginia Vallejo y Javier Gonzalez
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
 public class MonitorPiscinaNiños extends Thread {
     
@@ -24,11 +21,10 @@ public class MonitorPiscinaNiños extends Thread {
     
     @Override
     public void run() {
-        while (true) {
+        while( true ) {
             Usuario u = parque.getPiscinaNiños().controlarPiscinaNiños();
             dormir();
             parque.getPiscinaNiños().controlarPiscinaNiños(u);
-            
         }
     }
 

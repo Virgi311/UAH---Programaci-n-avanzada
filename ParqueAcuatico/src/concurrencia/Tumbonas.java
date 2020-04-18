@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencia;
 
 import java.util.concurrent.BlockingQueue;
@@ -14,23 +9,18 @@ import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
 
 /**
  *
- * @author User
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
 public class Tumbonas {
     private final JTextArea colaTumbonas;
     private final JTextArea areaTumbonas;
     private final JTextField monitorTumbonas;
 
-    public Tumbonas(JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas) {
-        this.colaTumbonas = colaTumbonas;
-        this.areaTumbonas = areaTumbonas;
-        this.monitorTumbonas = monitorTumbonas;
-    }
     private boolean accesoPermitido = false;
     
     private final Semaphore semTumbonas = new Semaphore(20);
@@ -39,15 +29,17 @@ public class Tumbonas {
     private final CopyOnWriteArrayList<Usuario> tumbonas = new CopyOnWriteArrayList<>();
     private final BlockingQueue colaMonitorTumbonas = new LinkedBlockingQueue();
     
-   
-    
+    public Tumbonas(JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas) {
+        this.colaTumbonas = colaTumbonas;
+        this.areaTumbonas = areaTumbonas;
+        this.monitorTumbonas = monitorTumbonas;
+    }
+       
     public boolean entrarTumbonas(Usuario u){
-        //Si es un niño con acompañante no entra, y si es el acompañante tampoco
-        if(u.getEdad() <= 10 || u.getEsAcompañante()){
-            
+        if( u.getEdad() <= 10 || u.getEsAcompañante() ) {
             return false;
-            
         }
+        
         colaEntrarTumbonas.add(u);
         imprimir(colaTumbonas, colaEntrarTumbonas.toString());
         try {
@@ -56,18 +48,16 @@ public class Tumbonas {
             imprimir(colaTumbonas, colaEntrarTumbonas.toString());
             colaMonitorTumbonas.put(u);
             semTumbonas.acquire();
-            if(!accesoPermitido){
+            if( !accesoPermitido ) {
                 return false;
             }
+            
             tumbonas.add(u);
             imprimir(areaTumbonas, tumbonas.toString());
-            
-            
-        } catch (InterruptedException ex) {
+        } catch(InterruptedException ex) {
             Logger.getLogger(Tumbonas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+    
         return true;
     }
     
@@ -85,20 +75,18 @@ public class Tumbonas {
             return u;
         } catch (InterruptedException ex) {
             return null;
-        }
-        
-     
+        } 
     }
     
     public void controlarTumbonas(Usuario u){
-        if(u.getEdad() >= 15){
+        if( u.getEdad() >= 15 ) {
             accesoPermitido = true;
         } else {
             accesoPermitido = false;
         }
+        
         semTumbonas.release();
         monitorTumbonas.setText("");
-        
     }
     
     private synchronized void imprimir(JTextArea campo, String contenido) {
@@ -112,5 +100,4 @@ public class Tumbonas {
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
     }
- 
 }

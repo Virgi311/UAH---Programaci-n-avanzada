@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hilos;
 
 import concurrencia.*;
@@ -13,126 +8,154 @@ import java.util.logging.Logger;
 
 /**
  *
- * @authors Virginia Vallejo y Javier Gonzalez
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
-
 public class Usuario extends Thread {
 
     private final Parque parque;
     private final CyclicBarrier barrera;
+    private Usuario acompañante;
+    private final Paso paso;
+    
     private int identificador;
     private int edad;
     private String nombre;
     private boolean esAcompañante;
-    private Usuario acompañante;
+    private final int numAtracciones;
     
-    public Usuario(Parque parque, CyclicBarrier barrera, int identificador, int edad) {
+    public Usuario(Parque parque, CyclicBarrier barrera, int identificador, int edad, int numAtracciones, Paso paso) {
         this.parque = parque;
         this.barrera = barrera;
         this.identificador = identificador;
         this.edad = edad;
+        this.numAtracciones = numAtracciones;
 
-        esAcompañante = false;
-        nombre = "ID" + identificador + "-" + edad;
+        this.esAcompañante = false;
+        this.nombre = "ID" + identificador + "-" + edad;
+        this.paso = paso;
     }
 
     @Override
     public void run() {
-        if (!esAcompañante && edad > 10) { //un niño sin acompañante o un adulto
-            try {
-            parque.entrarParque(this);
-            parque.getVestuario().entrarVestuarios(this);
-            hacerSleep();
-            parque.getVestuario().salirVestuarios(this);
-            parque.getPiscinaNiños().entrarPiscinaNiños(this);
-            sleep( 1000 + (int)( 2000 * Math.random() ) );
-            parque.getPiscinaNiños().salirPiscinaNiños(this);
-            parque.getPiscinaOlas().entrarPiscinaOlas(this);
-            sleep( 2000 + (int)( 5000 * Math.random() ) );
-            parque.getPiscinaOlas().salirPiscinaOlas(this);
-            parque.getPiscinaGrande().entrarPiscinaGrande(this);
-            sleep( 3000 + (int)( 2000 * Math.random() ) );
-            parque.getPiscinaGrande().salirPiscinaGrande(this);
-            parque.getTumbonas().entrarTumbonas(this);
-            sleep( 3000 + (int)( 2000 * Math.random() ) );
-            parque.getTumbonas().salirTumbonas(this);
-            parque.getVestuario().entrarVestuarios(this);
-            hacerSleep();
-            parque.getVestuario().salirVestuarios(this);
-            parque.salirParque();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else if (edad <= 10) { // niño que necesita acompañante
-            try {
-                parque.entrarParque(this);
-                barrera.await();
-                parque.getVestuario().entrarVestuarios(this);
-                hacerSleep();
-                barrera.await();       
-                parque.getVestuario().salirVestuarios(this);
-                parque.getPiscinaNiños().entrarPiscinaNiños(this);
-                sleep( 1000 + (int)( 2000 * Math.random() ) );
-                parque.getPiscinaNiños().salirPiscinaNiños(this);
-                parque.getPiscinaOlas().entrarPiscinaOlas(this);
-                sleep( 2000 + (int)( 5000 * Math.random() ) );
-                parque.getPiscinaOlas().salirPiscinaOlas(this);
-                parque.getPiscinaGrande().entrarPiscinaGrande(this);
-                sleep( 3000 + (int)( 2000 * Math.random() ) );
-                parque.getPiscinaGrande().salirPiscinaGrande(this);
-                parque.getTumbonas().entrarTumbonas(this);
-                sleep( 3000 + (int)( 2000 * Math.random() ) );
-                parque.getTumbonas().salirTumbonas(this);
-                parque.getVestuario().entrarVestuarios(this);
-                hacerSleep();
-                parque.getVestuario().salirVestuarios(this);
-                parque.salirParque();
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (BrokenBarrierException ex) {
-                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        paso.mirar();
+        parque.entrarParque(this);
             
-        } else { //Actúa como acompañante
-            try {
-                barrera.await();
-                parque.entrarParque(this);
-                parque.getVestuario().entrarVestuarios(this);
-                barrera.await();
-                parque.getVestuario().salirVestuarios(this);
-                parque.getPiscinaNiños().entrarPiscinaNiños(this);
-                sleep( 1000 + (int)( 2000 * Math.random() ) );
-                parque.getPiscinaNiños().salirPiscinaNiños(this); 
-                parque.getPiscinaOlas().entrarPiscinaOlas(this);
-                sleep( 2000 + (int)( 5000 * Math.random() ) );
-                parque.getPiscinaOlas().salirPiscinaOlas(this);
-                parque.getPiscinaGrande().entrarPiscinaGrande(this);
-                sleep( 3000 + (int)( 2000 * Math.random() ) );
-                parque.getPiscinaGrande().salirPiscinaGrande(this);
-                parque.getTumbonas().entrarTumbonas(this);
-                sleep( 3000 + (int)( 2000 * Math.random() ) );
-                parque.getTumbonas().salirTumbonas(this);
-                parque.getVestuario().entrarVestuarios(this);
-                hacerSleep();
-                parque.getVestuario().salirVestuarios(this);
-                parque.salirParque();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (BrokenBarrierException ex) {
-                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        paso.mirar();
+        parque.getVestuario().entrarVestuarios(this);
+        hacerSleep();
+            
+        paso.mirar();
+        parque.getVestuario().salirVestuarios(this);
+        
+        if( !esAcompañante && edad > 10 ) {
+            while( numAtracciones > 0 ) {
+                atraccionAleatoria("peque");
+            }
+        } else if( edad <= 10 ) {
+            while( numAtracciones > 0 ) {
+                atraccionAleatoria("mayor");
+            }
+        } else {
+            while( numAtracciones > 0 ) {
+                atraccionAleatoria("acompañante");
             }
         }
         
-        
+        paso.mirar();
+        parque.getVestuario().entrarVestuarios(this);
+        hacerSleep();
+            
+        paso.mirar();
+        parque.getVestuario().salirVestuarios(this);
+
+        paso.mirar();
+        parque.salirParque();
     }
 
     public void hacerSleep() {
         try {
             sleep(3000);
         } catch (InterruptedException ex) {
-
+            System.out.println("ERROR: " + ex);
+        }
+    }
+    
+    public void atraccionAleatoria(String tipo) {
+        int num = (int)(5 * Math.random());
+        
+        switch( num ) {
+            case 0:
+                try {
+                    paso.mirar();
+                    parque.getPiscinaNiños().entrarPiscinaNiños(this);
+                    
+                    sleep( 1000 + (int)( 2000 * Math.random() ) );
+                    
+                    paso.mirar();
+                    parque.getPiscinaNiños().salirPiscinaNiños(this);
+                } catch(InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+                
+                break;
+            
+            case 1:
+                try {
+                    paso.mirar();
+                    parque.getPiscinaOlas().entrarPiscinaOlas(this);
+                    
+                    sleep( 2000 + (int)( 5000 * Math.random() ) );
+                    
+                    paso.mirar();
+                    parque.getPiscinaOlas().salirPiscinaOlas(this);
+                } catch(InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+                
+                break;
+                
+            case 2:
+                try {
+                    paso.mirar();
+                    parque.getPiscinaGrande().entrarPiscinaGrande(this);
+                    
+                    sleep( 3000 + (int)( 2000 * Math.random() ) );
+                    
+                    paso.mirar();
+                    parque.getPiscinaGrande().salirPiscinaGrande(this);
+                } catch(InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+                
+                break;
+                
+            case 3:
+                try {
+                    paso.mirar();
+                    parque.getTumbonas().entrarTumbonas(this);
+                    
+                    sleep( 3000 + (int)( 2000 * Math.random() ) );
+                    
+                    paso.mirar();
+                    parque.getTumbonas().salirTumbonas(this);
+                } catch(InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+                
+                break;
+                
+            case 4:
+                try {
+                    paso.mirar();
+                    sleep( 3000 + (int)( 2000 * Math.random() ) );
+                    paso.mirar();
+                } catch(InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+                
+                break;
         }
     }
     
@@ -168,6 +191,7 @@ public class Usuario extends Thread {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
     public boolean getEsAcompañante() {
         return esAcompañante;
     }
@@ -176,11 +200,12 @@ public class Usuario extends Thread {
         this.esAcompañante = esAcompañante;
     }
     
+    public int getNumAtracciones() {
+        return numAtracciones;
+    }
     
     @Override
     public String toString() {
         return nombre;
     }
-
-  
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencia;
 
 import java.util.concurrent.BlockingQueue;
@@ -15,18 +10,14 @@ import hilos.Usuario;
 
 /**
  *
- * @author User
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
 public class Vestuario {
     private final JTextArea colaVestuario;
     private final JTextField monitorVestuario;
     private final JTextArea areaVestuario;
-
-    public Vestuario(JTextArea colaVestuario, JTextField monitorVestuario, JTextArea areaVestuario) {
-        this.colaVestuario = colaVestuario;
-        this.monitorVestuario = monitorVestuario;
-        this.areaVestuario = areaVestuario;
-    }
      
     private final Semaphore semVestuarioAdulto = new Semaphore(20, true);
     private final Semaphore semVestuarioNiño = new Semaphore(10, true);
@@ -34,8 +25,14 @@ public class Vestuario {
     
     private final BlockingQueue colaEntrarVestuario = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
+
+    public Vestuario(JTextArea colaVestuario, JTextField monitorVestuario, JTextArea areaVestuario) {
+        this.colaVestuario = colaVestuario;
+        this.monitorVestuario = monitorVestuario;
+        this.areaVestuario = areaVestuario;
+    }
     
-     public void entrarVestuarios(Usuario u) {
+    public void entrarVestuarios(Usuario u) {
         try {
             colaEntrarVestuario.put(u);
             imprimir(colaVestuario, colaEntrarVestuario.toString());
@@ -43,34 +40,24 @@ public class Vestuario {
 
             vestuario.add(u);
             imprimir(areaVestuario, vestuario.toString());
-            if (u.getEsAcompañante() || u.getEdad() < 18) {
-
+            if( u.getEsAcompañante() || u.getEdad() < 18 ) {
                 semVestuarioNiño.acquire();
-
             } else {
-
                 semVestuarioAdulto.acquire();
-
             }
-
-        } catch (InterruptedException ex) {
-            
+        } catch(InterruptedException ex) {
+            System.out.println("ERROR: " + ex);
         }
     }
 
     public void salirVestuarios(Usuario u) {
         vestuario.remove(u);
         imprimir(areaVestuario, vestuario.toString());
-        if (u.getEsAcompañante() || u.getEdad() < 18) {
-
+        if( u.getEsAcompañante() || u.getEdad() < 18 ) {
             semVestuarioNiño.release();
-
         } else {
-
             semVestuarioAdulto.release();
-
         }
-
     }
 
     public Usuario controlarVestuario() {
@@ -81,45 +68,37 @@ public class Vestuario {
             imprimir(colaVestuario, colaEntrarVestuario.toString());
 
             return u;
-
         } catch (InterruptedException ex) {
-            
             return null;
         }
     }
 
     public void controlarVestuario(Usuario u) {
         try {
-            if (u.getEdad() > 17 && !u.getEsAcompañante()) { //Adulto
+            if( u.getEdad() > 17 && !u.getEsAcompañante() ) {
                 semVestuarioAdulto.acquire();
                 semVestuarioAdulto.release();
                 semVestuario.release();
-            } else if (u.getEdad() <= 10) { //niño que necesita acompañante
+            } else if( u.getEdad() <= 10 ) {
                 semVestuarioNiño.acquire(2);
                 semVestuarioNiño.release(2);
 
-                //Para dejar pasar al niño
                 semVestuario.release();
-
-            } else if (u.getEsAcompañante()) { //acompañante
-                
-                // deja pasar al acompañante directamente
+            } else if( u.getEsAcompañante() ) {
                 semVestuario.release();
-            } else { //niño sin acompañante
+            } else { 
                 semVestuarioNiño.acquire();
                 semVestuarioNiño.release();
                 semVestuario.release();
             }
 
             monitorVestuario.setText("");
-
         } catch (InterruptedException e) {
-            
+            System.out.println("ERROR: " + e);
         }
     }
     
     private synchronized void imprimir(JTextArea campo, String contenido) {
         campo.setText(contenido);
-    }
-    
+    }   
 }

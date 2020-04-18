@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hilos;
 
 import java.util.Random;
@@ -14,41 +9,43 @@ import java.util.concurrent.CyclicBarrier;
 
 /**
  *
- * @author Virginia Vallejo y Javier Gonzalez
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
 public class CreaUsuarios extends Thread {
     private final int aforo = 20;
     private final int mayoria_edad = 18;
     private final Parque parque;
+    private final Paso paso;
     
-    public CreaUsuarios(Parque parque) {
+    public CreaUsuarios(Parque parque, Paso paso) {
         this.parque = parque;
+        this.paso = paso;
     }
 
     @Override
     public void run() {
-
-        for (int id = 1; id <= aforo; id++) {
+        for( int id = 1; id <= aforo; id++ ) {
             CyclicBarrier barrera = new CyclicBarrier(2);
             int edadUsuario = getEdadAleatoria(1);
-            Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario);
+            Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, 10 + (int)(6 * Math.random()), paso);
 
-            if (edadUsuario < 11) {
+            if( edadUsuario < 11 ){
                 id++;
  
-                Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad));
+                Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad), usuarioPrincipal.getNumAtracciones(), paso);
                 
                 usuarioPrincipal.setNombre(usuarioPrincipal.getNombre() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);
                 usuarioAcompañante.setNombre(usuarioAcompañante.getNombre() + "-" + usuarioPrincipal.getIdentificador());
                 usuarioAcompañante.setEsAcompañante(true);
                 usuarioAcompañante.start();
-               
             }
+            
             usuarioPrincipal.start();
             dormir(400, 700);
         }
-
     }
 
     private int getEdadAleatoria(int min) {
@@ -63,5 +60,4 @@ public class CreaUsuarios extends Thread {
             Logger.getLogger(CreaUsuarios.class.getName()).log(Level.SEVERE, "Problemas mientras duerme", ex);
         }
     }
-    
 }

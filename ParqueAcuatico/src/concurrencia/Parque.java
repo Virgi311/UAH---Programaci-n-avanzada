@@ -1,26 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencia;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
 
 /**
  *
- * @authors Virginia Vallejo y Javier Gonzalez
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
 public class Parque {
     //Elementos interfaz
@@ -74,6 +65,7 @@ public class Parque {
         this.colaTumbonas = colaTumbonas;
         this.areaTumbonas = areaTumbonas;
         this.monitorTumbonas = monitorTumbonas;
+        
         this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos);
         this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas);
         this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
@@ -89,14 +81,13 @@ public class Parque {
             semEntrarparque.acquire();
             colaEntrarParque.take();
             imprimir(colaEntrada, colaEntrarParque.toString());
-        } catch (InterruptedException ex) {
-            
+        } catch(InterruptedException ex) {
+            System.out.println("ERROR: " + ex);
         }
     }
 
     public void salirParque() {
         semEntrarparque.release();
-
     }
 
 
@@ -119,7 +110,6 @@ public class Parque {
     public void setPiscinaNiños(PiscinaNiños piscinaNiños) {
         this.piscinaNiños = piscinaNiños;
     }
-
     
     public JTextField getMonitorVestuario() {
         return monitorVestuario;
@@ -219,7 +209,5 @@ public class Parque {
 
     public JTextField getMonitorTumbonas() {
         return monitorTumbonas;
-    }
-    
-    
+    }   
 }

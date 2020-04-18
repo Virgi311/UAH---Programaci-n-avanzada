@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencia;
 
 import java.util.concurrent.BlockingQueue;
@@ -12,14 +7,15 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author User
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
 public class PiscinaNiños {
     
@@ -27,13 +23,6 @@ public class PiscinaNiños {
     private final JTextField monitorPiscinaNiños;
     private final JTextArea areaPiscinaNiños;
     private final JTextArea areaEsperaAdultos;
-
-    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos) {
-        this.colaPiscinaNiños = colaPiscinaNiños;
-        this.monitorPiscinaNiños = monitorPiscinaNiños;
-        this.areaPiscinaNiños = areaPiscinaNiños;
-        this.areaEsperaAdultos = areaEsperaAdultos;
-    }
     
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
     private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);
@@ -45,38 +34,45 @@ public class PiscinaNiños {
     private final CyclicBarrier barreraPiscinaNiños = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
     
+    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos) {
+        this.colaPiscinaNiños = colaPiscinaNiños;
+        this.monitorPiscinaNiños = monitorPiscinaNiños;
+        this.areaPiscinaNiños = areaPiscinaNiños;
+        this.areaEsperaAdultos = areaEsperaAdultos;
+    }
     
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
             colaEntrarPiscinaNiños.put(u);
             imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             semPiscinaNiños0.acquire();
-            if (!accesoPermitido) {
+            
+            if( !accesoPermitido ) {
                 return false;
             }
-            if (u.getEdad() <= 5 || (u.getEsAcompañante() && u.getAcompañante().getEdad() <= 5)) { //Se trata de un niño de 5 o menos o de un acompañante de un niño de 5 o menos
+            
+            if( u.getEdad() <= 5 || (u.getEsAcompañante() && u.getAcompañante().getEdad() <= 5) ) { 
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
                 imprimir(areaPiscinaNiños, piscinaNiños.toString());
-            } else if (u.getEdad() <= 10) { //se trata de un niño mayor de 5 años
+            } else if( u.getEdad() <= 10 ) {
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
                 imprimir(areaPiscinaNiños, piscinaNiños.toString());
-            } else { // se trata de un acompañante de un niño mayor de 5 años
+            } else { 
                 esperaAdultos.add(u);
                 imprimir(areaEsperaAdultos, esperaAdultos.toString());
             }
 
-        } catch (InterruptedException ex) {
-
+        } catch(InterruptedException ex) {
+            System.out.println("ERROR: " + ex);
         }
 
         return true;
-
     }
      
     public void salirPiscinaNiños(Usuario u) {
-        if (u.getEsAcompañante() && u.getAcompañante().getEdad() > 5) {
+        if( u.getEsAcompañante() && u.getAcompañante().getEdad() > 5 ) {
             esperaAdultos.remove(u);
             imprimir(areaEsperaAdultos, esperaAdultos.toString());
         } else {
@@ -97,19 +93,18 @@ public class PiscinaNiños {
         } catch (InterruptedException ex) {
             return null;
         }
-
     }
 
     
-public void controlarPiscinaNiños(Usuario u) {
+    public void controlarPiscinaNiños(Usuario u) {
         try {
-            if (u.getEdad() > 10 && !u.getEsAcompañante()) {
+            if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 accesoPermitido = false;
                 semPiscinaNiños0.release();
-            } else if (u.getEsAcompañante()) {
+            } else if( u.getEsAcompañante() ) {
                 accesoPermitido = true;
                 semPiscinaNiños0.release();
-            } else if (u.getEdad() > 5) {
+            } else if( u.getEdad() > 5 ) {
                 accesoPermitido = true;       
                 semPiscinaNiños.acquire();
                 semPiscinaNiños.release();
@@ -122,8 +117,7 @@ public void controlarPiscinaNiños(Usuario u) {
             }
 
             monitorPiscinaNiños.setText("");
-
-        } catch (InterruptedException ex) {
+        } catch(InterruptedException ex) {
             Logger.getLogger(PiscinaNiños.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -1,49 +1,66 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencia;
 
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author User
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
  */
 public class Paso {
     
-    private boolean bloqueoActivo;
-    private boolean finalizar = false;
+    private boolean bloqueoActivo, finalizar;
+    private final Lock cerrojo;
+    private final Condition parar;
 
     public Paso() {
-        bloqueoActivo = true;
+        bloqueoActivo = false;
+        finalizar = false;
+        cerrojo = new ReentrantLock();
+        parar = cerrojo.newCondition();
     }
 
     public synchronized void mirar() {
         try {
-            if (bloqueoActivo) {
-                wait();
+            cerrojo.lock();
+            if( bloqueoActivo ) {
+                try {
+                    parar.await();
+                } catch(InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
             }
-        } catch (InterruptedException ex) {
-            }
+        } finally {
+            cerrojo.unlock();
+        }
     }
 
-    public synchronized void detener() {
-        bloqueoActivo = true;
+    public void detener() {
+        try {
+            cerrojo.lock();
+            bloqueoActivo = true;
+            parar.signalAll();
+        } finally {
+            cerrojo.unlock();
+        }
     }
 
-    public synchronized void notifyUno() {
+    /*public synchronized void notifyUno() {
         bloqueoActivo = false;
         notify();
-    }
+    }*/
 
-    public synchronized void notifyTodos() {
-        bloqueoActivo = false;
-        notifyAll();
+    public void notifyTodos() {
+        try {
+            cerrojo.lock();
+            bloqueoActivo = false;
+            parar.signalAll();
+        } finally {
+            cerrojo.unlock();
+        }
     }
     
     public boolean isFinalizar() {
@@ -53,7 +70,6 @@ public class Paso {
     public void setFinalizar(boolean finalizar) {
         this.finalizar = finalizar;
     }
-
 
     public boolean isBloqueoActivo() {
         return bloqueoActivo;

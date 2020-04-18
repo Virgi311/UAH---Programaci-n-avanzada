@@ -1,14 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencia;
-
-/**
- *
- * @author User
- */
 
 import hilos.Usuario;
 import java.util.concurrent.BlockingQueue;
@@ -22,18 +12,17 @@ import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-
+/**
+ *
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
+ */
 public class PiscinaGrande {
 
     private final JTextField monitorPiscinaGrande;
     private final JTextArea areaPiscinaGrande;
     private final JTextArea colaPiscinaGrande;
-
-    public PiscinaGrande(JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande) {
-        this.monitorPiscinaGrande = monitorPiscinaGrande;
-        this.areaPiscinaGrande = areaPiscinaGrande;
-        this.colaPiscinaGrande = colaPiscinaGrande;
-    }
 
     private final Semaphore semPiscinaGrande = new Semaphore(50, true);
     private final Semaphore semPiscinaGrande0 = new Semaphore(0, true);
@@ -43,13 +32,20 @@ public class PiscinaGrande {
 
     private final CyclicBarrier barreraPiscinaGrande = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
+    
+    public PiscinaGrande(JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande) {
+        this.monitorPiscinaGrande = monitorPiscinaGrande;
+        this.areaPiscinaGrande = areaPiscinaGrande;
+        this.colaPiscinaGrande = colaPiscinaGrande;
+    }
 
-    public boolean entrarPiscinaGrande(Usuario u) {
+    public void entrarPiscinaGrande(Usuario u) {
         try {
             colaEntrarPiscinaGrande.put(u);
             imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
             semPiscinaGrande0.acquire();
-            if (u.getEdad() > 10 && !u.getEsAcompañante()) {
+            
+            if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 try {
                     semPiscinaGrande.acquire();
                     barreraPiscinaGrande.await();
@@ -57,8 +53,8 @@ public class PiscinaGrande {
                     piscinaGrande.add(u);
                     
                     imprimir(areaPiscinaGrande, piscinaGrande.toString());
-                } catch (BrokenBarrierException ex) {
-
+                } catch(BrokenBarrierException ex) {
+                    System.out.println("ERROR: " + ex);
                 }
             } else {
                 semPiscinaGrande.acquire();
@@ -66,12 +62,9 @@ public class PiscinaGrande {
                 imprimir(areaPiscinaGrande, piscinaGrande.toString());
             }
 
-        } catch (InterruptedException ex) {
-
+        } catch(InterruptedException ex) {
+            System.out.println("ERROR: " + ex);
         }
-
-        return true;
-
     }
 
     public void salirPiscinaGrande(Usuario u) {
@@ -87,15 +80,15 @@ public class PiscinaGrande {
             imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
             monitorPiscinaGrande.setText(u.toString());
 
-        } catch (InterruptedException ex) {
-
+        } catch(InterruptedException ex) {
+            System.out.println("ERROR: " + ex);
         }
 
         return u;
     }
 
     public void controlarPiscinaGrande(Usuario u) {
-        if (u.getEdad() <= 10) {
+        if( u.getEdad() <= 10 ) {
             try {
                 semPiscinaGrande.acquire(2);
                 semPiscinaGrande.release(2);
@@ -107,18 +100,17 @@ public class PiscinaGrande {
                 imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
                 semPiscinaGrande0.release();
             } catch (InterruptedException ex) {
-
+                System.out.println("ERROR: " + ex);
             }
-        } else { // Que no tiene acompañante
+        } else {
             try {
                 semPiscinaGrande.acquire();
                 semPiscinaGrande.release();
                 accesoPermitido = true;
                 semPiscinaGrande0.release();
-            } catch (InterruptedException ex) {
+            } catch(InterruptedException ex) {
                 Logger.getLogger(PiscinaOlas.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
 
         monitorPiscinaGrande.setText("");
@@ -139,5 +131,4 @@ public class PiscinaGrande {
     public CyclicBarrier getBarrera() {
         return barreraPiscinaGrande;
     }
-
 }

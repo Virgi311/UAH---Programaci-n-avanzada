@@ -1,14 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencia;
-
-/**
- *
- * @author User
- */
 
 import hilos.Usuario;
 import java.util.concurrent.BlockingQueue;
@@ -17,23 +7,20 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-
+/**
+ *
+ * @authores 
+ * Virginia Vallejo Sánchez 51983578J
+ * Javier González López 09067677L
+ */
 public class PiscinaOlas {
 
     private final JTextField monitorPiscinaOlas;
     private final JTextArea areaPiscinaOlas;
     private final JTextArea colaPiscinaOlas;
-
-    public PiscinaOlas(JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextArea colaPiscinaOlas) {
-        this.monitorPiscinaOlas = monitorPiscinaOlas;
-        this.areaPiscinaOlas = areaPiscinaOlas;
-        this.colaPiscinaOlas = colaPiscinaOlas;
-    }
 
     private final Semaphore semPiscinaOlas = new Semaphore(20, true);
     private final Semaphore semPiscinaOlas0 = new Semaphore(0, true);
@@ -44,15 +31,21 @@ public class PiscinaOlas {
     private final CyclicBarrier barreraPiscinaOlas = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
 
+    public PiscinaOlas(JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextArea colaPiscinaOlas) {
+        this.monitorPiscinaOlas = monitorPiscinaOlas;
+        this.areaPiscinaOlas = areaPiscinaOlas;
+        this.colaPiscinaOlas = colaPiscinaOlas;
+    }
+
     public boolean entrarPiscinaOlas(Usuario u) {
         try {
             colaEntrarPiscinaOlas.put(u);
             imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
             semPiscinaOlas0.acquire();
-            if (!accesoPermitido) {
+            if( !accesoPermitido ) {
                 return false;
             }
-            if (u.getEdad() > 10 && !u.getEsAcompañante()) {
+            if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 try {
                     semPiscinaOlas.acquire();
                     barreraPiscinaOlas.await();
@@ -60,8 +53,8 @@ public class PiscinaOlas {
                     piscinaOlas.add(u);
                     
                     imprimir(areaPiscinaOlas, piscinaOlas.toString());
-                } catch (BrokenBarrierException ex) {
-
+                } catch(BrokenBarrierException ex) {
+                    System.out.println("ERROR: " + ex);
                 }
             } else {
                 semPiscinaOlas.acquire();
@@ -69,12 +62,11 @@ public class PiscinaOlas {
                 imprimir(areaPiscinaOlas, piscinaOlas.toString());
             }
 
-        } catch (InterruptedException ex) {
-
+        } catch(InterruptedException ex) {
+            System.out.println("ERROR: " + ex);
         }
 
         return true;
-
     }
 
     public void salirPiscinaOlas(Usuario u) {
@@ -89,26 +81,25 @@ public class PiscinaOlas {
             u = (Usuario) colaEntrarPiscinaOlas.take();
             imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
             monitorPiscinaOlas.setText(u.toString());
-
         } catch (InterruptedException ex) {
-
+            System.out.println("ERROR: " + ex);
         }
 
         return u;
     }
 
     public void controlarPiscinaOlas(Usuario u) {
-        if (u.getEdad() <= 5) {
+        if( u.getEdad() <= 5 ) {
             accesoPermitido = false;
             semPiscinaOlas0.release();
             try {
                 colaEntrarPiscinaOlas.take();
                 imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
                 semPiscinaOlas0.release();
-            } catch (InterruptedException ex) {
-
+            } catch(InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
             }
-        } else if (u.getEdad() <= 10) {
+        } else if( u.getEdad() <= 10 ) {
             try {
                 semPiscinaOlas.acquire(2);
                 semPiscinaOlas.release(2);
@@ -117,19 +108,18 @@ public class PiscinaOlas {
                 colaEntrarPiscinaOlas.take();
                 imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
                 semPiscinaOlas0.release();
-            } catch (InterruptedException ex) {
-
+            } catch(InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
             }
-        } else { // Que no tiene acompañante
+        } else {
             try {
                 semPiscinaOlas.acquire();
                 semPiscinaOlas.release();
                 accesoPermitido = true;
                 semPiscinaOlas0.release();
-            } catch (InterruptedException ex) {
-               
+            } catch(InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
             }
-
         }
 
         monitorPiscinaOlas.setText("");
@@ -150,5 +140,4 @@ public class PiscinaOlas {
     public CyclicBarrier getBarrera() {
         return barreraPiscinaOlas;
     }
-
 }
