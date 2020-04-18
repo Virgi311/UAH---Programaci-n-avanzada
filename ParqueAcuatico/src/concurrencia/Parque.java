@@ -81,6 +81,7 @@ public class Parque {
         this.vestuario = new Vestuario (colaVestuario, monitorVestuario, areaVestuario);
     }
 
+
     public void entrarParque(Usuario u) {
         try {
             colaEntrarParque.put(u);

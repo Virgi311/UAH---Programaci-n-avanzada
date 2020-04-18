@@ -37,11 +37,13 @@ public class CreaUsuarios extends Thread {
                 id++;
  
                 Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad));
-                usuarioPrincipal.setAcompañante(usuarioAcompañante);
+                
                 usuarioPrincipal.setNombre(usuarioPrincipal.getNombre() + "-" + usuarioAcompañante.getIdentificador());
+                usuarioAcompañante.setAcompañante(usuarioPrincipal);
                 usuarioAcompañante.setNombre(usuarioAcompañante.getNombre() + "-" + usuarioPrincipal.getIdentificador());
                 usuarioAcompañante.setEsAcompañante(true);
                 usuarioAcompañante.start();
+               
             }
             usuarioPrincipal.start();
             dormir(400, 700);
