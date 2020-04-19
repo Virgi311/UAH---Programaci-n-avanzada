@@ -14,7 +14,7 @@ import java.util.concurrent.CyclicBarrier;
  * Javier González López 09067677L
  */
 public class CreaUsuarios extends Thread {
-    private final int aforo = 20;
+    private final int aforo = 100;
     private final int mayoria_edad = 18;
     private final Parque parque;
     private final Paso paso;
@@ -47,6 +47,7 @@ public class CreaUsuarios extends Thread {
             dormir(400, 700);
         }
     }
+    
 
     private int getEdadAleatoria(int min) {
         Random aleatoriedad = new Random(System.currentTimeMillis());

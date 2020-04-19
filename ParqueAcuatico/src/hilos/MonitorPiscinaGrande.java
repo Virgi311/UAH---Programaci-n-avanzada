@@ -31,7 +31,7 @@ public class MonitorPiscinaGrande extends Thread {
         try {
             sleep(1000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(MonitorVestuario.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 }

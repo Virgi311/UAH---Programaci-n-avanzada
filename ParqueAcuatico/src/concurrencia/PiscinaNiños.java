@@ -23,6 +23,13 @@ public class PiscinaNiños {
     private final JTextField monitorPiscinaNiños;
     private final JTextArea areaPiscinaNiños;
     private final JTextArea areaEsperaAdultos;
+        
+    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos) {
+        this.colaPiscinaNiños = colaPiscinaNiños;
+        this.monitorPiscinaNiños = monitorPiscinaNiños;
+        this.areaPiscinaNiños = areaPiscinaNiños;
+        this.areaEsperaAdultos = areaEsperaAdultos;
+    }
     
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
     private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);
@@ -31,15 +38,7 @@ public class PiscinaNiños {
     private final CopyOnWriteArrayList<Usuario> piscinaNiños = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<Usuario> esperaAdultos = new CopyOnWriteArrayList<>();
     
-    private final CyclicBarrier barreraPiscinaNiños = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
-    
-    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos) {
-        this.colaPiscinaNiños = colaPiscinaNiños;
-        this.monitorPiscinaNiños = monitorPiscinaNiños;
-        this.areaPiscinaNiños = areaPiscinaNiños;
-        this.areaEsperaAdultos = areaEsperaAdultos;
-    }
     
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
@@ -52,14 +51,15 @@ public class PiscinaNiños {
             }
             
             if( u.getEdad() <= 5 || (u.getEsAcompañante() && u.getAcompañante().getEdad() <= 5) ) { 
+                //Se trata de un niño de 5 o menos o de un acompañante de un niño de 5 o menos
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
                 imprimir(areaPiscinaNiños, piscinaNiños.toString());
-            } else if( u.getEdad() <= 10 ) {
+            } else if( u.getEdad() <= 10 ) { //se trata de un niño mayor de 5 años
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
                 imprimir(areaPiscinaNiños, piscinaNiños.toString());
-            } else { 
+            } else {  // se trata de un acompañante de un niño mayor de 5 años
                 esperaAdultos.add(u);
                 imprimir(areaEsperaAdultos, esperaAdultos.toString());
             }
@@ -118,14 +118,14 @@ public class PiscinaNiños {
 
             monitorPiscinaNiños.setText("");
         } catch(InterruptedException ex) {
-            Logger.getLogger(PiscinaNiños.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
     
     private synchronized void imprimir(JTextArea campo, String contenido) {
         campo.setText(contenido);
     }
-    
+
     public boolean isAccesoPermitido() {
         return accesoPermitido;
     }
@@ -133,8 +133,6 @@ public class PiscinaNiños {
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
     }
+    
 
-    public CyclicBarrier getBarrera() {
-        return barreraPiscinaNiños;
-    }
 }

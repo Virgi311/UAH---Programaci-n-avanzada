@@ -32,7 +32,7 @@ public class MonitorPiscinaNiños extends Thread {
         try {
             sleep( 1000 + (int)( 1500 * Math.random() ) );
         } catch (InterruptedException ex) {
-            Logger.getLogger(MonitorVestuario.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 }
