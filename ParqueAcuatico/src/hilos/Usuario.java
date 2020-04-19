@@ -21,7 +21,7 @@ public class Usuario extends Thread {
     
     private int identificador;
     private int edad;
-    private String nombre;
+    private String codigo;
     private boolean esAcompañante;
     private final int numAtracciones;
     
@@ -33,7 +33,7 @@ public class Usuario extends Thread {
         this.numAtracciones = numAtracciones;
 
         this.esAcompañante = false;
-        this.nombre = "ID" + identificador + "-" + edad;
+        this.codigo = "ID" + identificador + "-" + edad;
         this.paso = paso;
     }
 
@@ -184,12 +184,12 @@ public class Usuario extends Thread {
         esAcompañante = acompañante.getEdad() >= 18;
     }
     
-    public String getNombre() {
-        return nombre;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setCodigo(String nombre) {
+        this.codigo = nombre;
     }
     
     public boolean getEsAcompañante() {
@@ -206,6 +206,6 @@ public class Usuario extends Thread {
     
     @Override
     public String toString() {
-        return nombre;
+        return codigo;
     }
 }

@@ -14,7 +14,7 @@ import java.util.concurrent.CyclicBarrier;
  * Javier González López 09067677L
  */
 public class CreaUsuarios extends Thread {
-    private final int aforo = 100;
+    private final int capacidad = 5000;
     private final int mayoria_edad = 18;
     private final Parque parque;
     private final Paso paso;
@@ -26,7 +26,7 @@ public class CreaUsuarios extends Thread {
 
     @Override
     public void run() {
-        for( int id = 1; id <= aforo; id++ ) {
+        for( int id = 1; id <= capacidad; id++ ) {
             CyclicBarrier barrera = new CyclicBarrier(2);
             int edadUsuario = getEdadAleatoria(1);
             Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, 10 + (int)(6 * Math.random()), paso);
@@ -36,9 +36,9 @@ public class CreaUsuarios extends Thread {
  
                 Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad), usuarioPrincipal.getNumAtracciones(), paso);
                 
-                usuarioPrincipal.setNombre(usuarioPrincipal.getNombre() + "-" + usuarioAcompañante.getIdentificador());
+                usuarioPrincipal.setCodigo(usuarioPrincipal.getCodigo() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);
-                usuarioAcompañante.setNombre(usuarioAcompañante.getNombre() + "-" + usuarioPrincipal.getIdentificador());
+                usuarioAcompañante.setCodigo(usuarioAcompañante.getCodigo() + "-" + usuarioPrincipal.getIdentificador());
                 usuarioAcompañante.setEsAcompañante(true);
                 usuarioAcompañante.start();
             }
@@ -58,7 +58,7 @@ public class CreaUsuarios extends Thread {
         try {
             Thread.sleep(min + (int) ((max - min) * Math.random()));
         } catch (InterruptedException ex) {
-            Logger.getLogger(CreaUsuarios.class.getName()).log(Level.SEVERE, "Problemas mientras duerme", ex);
+            
         }
     }
 }
