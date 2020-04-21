@@ -2,6 +2,7 @@ package clienteServidor;
 
 import concurrencia.Paso;
 import java.io.IOException;
+import static java.lang.System.exit;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
  */
 public class Servidor extends Thread {
     
-    private final int CONEXIONES_MAXIMAS = 10;
     private ServerSocket servidor;
     private InetAddress ip;
     private ArrayList<Conexion> conexiones;
@@ -42,19 +42,15 @@ public class Servidor extends Thread {
         }
         
         while( run ) {
-            if( conexiones.size() < CONEXIONES_MAXIMAS ) {
-                try {
-                    Socket socket = servidor.accept();
-                    if( socket != null ) {
-                        Conexion conexion = new Conexion( conexiones.size(), socket, this );
-                        conexiones.add( conexion );
-                        conexion.start();
-                    }
-                } catch( IOException ex ) {
-                    System.out.println( "ERROR: " + ex );
+            try {
+                Socket socket = servidor.accept();
+                if( socket != null ) {
+                    Conexion conexion = new Conexion( conexiones.size() + 1, socket, this );
+                    conexiones.add( conexion );
+                    conexion.start();
                 }
-            } else {
-                System.out.println("Numero maximo de conexiones superado.");
+            } catch( IOException ex ) {
+                System.out.println( "ERROR: " + ex );
             }
         }
     }
@@ -70,32 +66,21 @@ public class Servidor extends Thread {
     
     public void reanudar() {
         System.out.println("Ejecutando metodo Reanudar()");
-        paso.notifyTodos();
+        paso.reanudar();
     }
     
-    /*public void abrirEntrada() {
-        System.out.println("Ejecutando metodo Abrir Entrada()");
-        paso.openEntry();
-    }
-    
-    public void cerrarEntrada() {
-        System.out.println("Ejecutando metodo Cerrar Entrada()");
-        paso.closeEntry();
-    }*/
-    
-    public void cerrar() {
+    public void cerrar( boolean finalizar ) {
         System.out.println("Ejecutando el cierre de toda la aplicacion");
         
         for (int i = 0; i < conexiones.size(); i++) {
-            System.out.println("Cerrando la conexion: " + ( i + 1 ) );
-            conexiones.get(i).cerrar();
+            System.out.println("Cerrando la conexion: " + conexiones.get(i).getIdName() );
+            conexiones.get(i).cerrar( true );
         }
         
-        try {
-            run = false;
-            servidor.close();
-        } catch( IOException ex ) {
-            System.out.println( "ERROR: " + ex );
+        run = false;
+        
+        if( finalizar ) {
+            exit(0);
         }
     }   
 }

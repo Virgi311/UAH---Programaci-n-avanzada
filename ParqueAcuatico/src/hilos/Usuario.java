@@ -1,10 +1,8 @@
 package hilos;
 
 import concurrencia.*;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import util.FuncionesGenerales;
 
 /**
  *
@@ -25,7 +23,9 @@ public class Usuario extends Thread {
     private boolean esAcompañante;
     private final int numAtracciones;
     
-    public Usuario(Parque parque, CyclicBarrier barrera, int identificador, int edad, int numAtracciones, Paso paso) {
+    private final FuncionesGenerales fg;
+    
+    public Usuario(Parque parque, CyclicBarrier barrera, int identificador, int edad, int numAtracciones, Paso paso, FuncionesGenerales fg) {
         this.parque = parque;
         this.barrera = barrera;
         this.identificador = identificador;
@@ -35,6 +35,8 @@ public class Usuario extends Thread {
         this.esAcompañante = false;
         this.codigo = "ID" + identificador + "-" + edad;
         this.paso = paso;
+        
+        this.fg = fg;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class Usuario extends Thread {
             
         paso.mirar();
         parque.getVestuario().entrarVestuarios(this);
-        hacerSleep();
+        fg.dormir(3000, 0);
             
         paso.mirar();
         parque.getVestuario().salirVestuarios(this);
@@ -65,7 +67,7 @@ public class Usuario extends Thread {
         
         paso.mirar();
         parque.getVestuario().entrarVestuarios(this);
-        hacerSleep();
+        fg.dormir(3000, 0);
             
         paso.mirar();
         parque.getVestuario().salirVestuarios(this);
@@ -73,87 +75,61 @@ public class Usuario extends Thread {
         paso.mirar();
         parque.salirParque();
     }
-
-    public void hacerSleep() {
-        try {
-            sleep(3000);
-        } catch (InterruptedException ex) {
-            System.out.println("ERROR: " + ex);
-        }
-    }
     
     public void atraccionAleatoria(String tipo) {
         int num = (int)(5 * Math.random());
         
         switch( num ) {
             case 0:
-                try {
-                    paso.mirar();
-                    parque.getPiscinaNiños().entrarPiscinaNiños(this);
+                paso.mirar();
+                parque.getPiscinaNiños().entrarPiscinaNiños(this);
+                   
+                fg.dormir(1000, 20000);
                     
-                    sleep( 1000 + (int)( 2000 * Math.random() ) );
-                    
-                    paso.mirar();
-                    parque.getPiscinaNiños().salirPiscinaNiños(this);
-                } catch(InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
+                paso.mirar();
+                parque.getPiscinaNiños().salirPiscinaNiños(this);
                 
                 break;
             
             case 1:
-                try {
-                    paso.mirar();
-                    parque.getPiscinaOlas().entrarPiscinaOlas(this);
+                paso.mirar();
+                parque.getPiscinaOlas().entrarPiscinaOlas(this);
                     
-                    sleep( 2000 + (int)( 5000 * Math.random() ) );
+                fg.dormir(2000, 5000);
                     
-                    paso.mirar();
-                    parque.getPiscinaOlas().salirPiscinaOlas(this);
-                } catch(InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
+                paso.mirar();
+                parque.getPiscinaOlas().salirPiscinaOlas(this);
                 
                 break;
                 
             case 2:
-                try {
-                    paso.mirar();
-                    parque.getPiscinaGrande().entrarPiscinaGrande(this);
+                paso.mirar();
+                parque.getPiscinaGrande().entrarPiscinaGrande(this);
                     
-                    sleep( 3000 + (int)( 2000 * Math.random() ) );
+                fg.dormir(3000, 2000);
                     
-                    paso.mirar();
-                    parque.getPiscinaGrande().salirPiscinaGrande(this);
-                } catch(InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
+                paso.mirar();
+                parque.getPiscinaGrande().salirPiscinaGrande(this);
                 
                 break;
                 
             case 3:
-                try {
-                    paso.mirar();
-                    parque.getTumbonas().entrarTumbonas(this);
+                paso.mirar();
+                parque.getTumbonas().entrarTumbonas(this);
                     
-                    sleep( 3000 + (int)( 2000 * Math.random() ) );
+                fg.dormir(3000, 2000);
                     
-                    paso.mirar();
-                    parque.getTumbonas().salirTumbonas(this);
-                } catch(InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
+                paso.mirar();
+                parque.getTumbonas().salirTumbonas(this);
                 
                 break;
                 
             case 4:
-                try {
-                    paso.mirar();
-                    sleep( 3000 + (int)( 2000 * Math.random() ) );
-                    paso.mirar();
-                } catch(InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
+                paso.mirar();
+                
+                fg.dormir(3000, 2000);
+                
+                paso.mirar();
                 
                 break;
         }

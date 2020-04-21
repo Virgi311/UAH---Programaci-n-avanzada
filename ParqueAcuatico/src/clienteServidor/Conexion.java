@@ -7,7 +7,7 @@ import java.net.Socket;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -23,6 +23,7 @@ public class Conexion extends Thread {
     private boolean conexionBool = false;
     
     public Conexion( int id, Socket conexion, Servidor servidor ) {
+        this.id = id;
         try {
             this.conexion = conexion;
             this.servidor = servidor;
@@ -43,23 +44,15 @@ public class Conexion extends Thread {
             try {
                 comunicado = entrada.readUTF();
                 if( comunicado != null && !comunicado.isEmpty() ) {
-                    System.out.println( "La conexion " + id + " envia la orden: " + comunicado );
-                    
+                    if( !comunicado.equals("CERRARAPLICACION") ) {
+                        System.out.println( "La conexion " + id + " envia la orden: " + comunicado );
+                    } else if( comunicado.equals("CERRARAPLICACION") ) {
+                        comunicado = "CERRAR";
+                    }
+                        
                     switch( comunicado ) {
-                        case "PAUSAR":
-                            //pausar();
-                            break;
-                        case "REANUDAR":
-                            //reanudar();
-                            break;
                         case "CERRAR":
-                            cerrar();
-                            break;
-                        case "ABRIRENTRADA":
-                            //abrirEntrada();
-                            break;
-                        case "CERRARENTRADA":
-                            //cerrarEntrada();
+                            cerrar( false );
                             break;
                     }
                 }
@@ -69,43 +62,32 @@ public class Conexion extends Thread {
         }
     }
     
-    //Metodo para comunicar que el servidor ejecute el metodo pausar()
-    /*public void pausar() {
-        System.out.println( "\tPausando..." );
-        servidor.pausar();
-    }
+    //TODO: Metodos de busqueda del cliente en el servidor
     
-    //Metodo para comunicar que el servidor ejecute el metodo reanudar()
-    public void reanudar() {
-        System.out.println( "\tReanudando..." );
-        servidor.reanudar();
-    }
-    
-    //Metodo para comunicar que el servidor ejecute el metodo abrir entrada()
-    public void abrirEntrada() {
-        System.out.println("\tAbriendo la entrada...");
-        servidor.abrirEntrada();
-    }
-    
-    //Metodo para comunicar que el servidor ejecute el metodo cerrar entrada()
-    public void cerrarEntrada() {
-        System.out.println("\tCerrando la entrada...");
-        servidor.cerrarEntrada();
-    }*/
-    
-    //Metodo para eliminar toda la conexion y que el servidor ejecuta eliminar() sobre esta conexion
-    public void cerrar() {
-        System.out.println( "\tCerrando cliente..." );
+    public void cerrar( boolean servidorBool ) {
+        if( !servidorBool ) {
+            System.out.println( "\tCerrando cliente..." );
+        }
         try {
-            entrada.close();
-            salida.close();
-            conexion.close();
+            if( !servidorBool ) {
+                salida.writeUTF("CERRAR");
+                
+                entrada.close();
+                salida.close();
+                conexion.close();
             
-            conexionBool = false;
+                conexionBool = false;
             
-            servidor.eliminar( this );
+                servidor.eliminar( this );
+            } else {
+                salida.writeUTF("CERRARSERVER");
+            }
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
+    }
+        
+    public int getIdName() {
+        return id;
     }
 }

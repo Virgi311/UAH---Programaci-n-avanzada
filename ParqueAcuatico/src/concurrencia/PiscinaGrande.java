@@ -7,14 +7,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import util.FuncionesGenerales;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -33,16 +32,21 @@ public class PiscinaGrande {
     private final CyclicBarrier barreraPiscinaGrande = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
     
-    public PiscinaGrande(JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande) {
+    private final FuncionesGenerales fg;
+    
+    public PiscinaGrande(JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, FuncionesGenerales fg) {
         this.monitorPiscinaGrande = monitorPiscinaGrande;
         this.areaPiscinaGrande = areaPiscinaGrande;
         this.colaPiscinaGrande = colaPiscinaGrande;
+        
+        this.fg = fg;
     }
 
     public void entrarPiscinaGrande(Usuario u) {
         try {
             colaEntrarPiscinaGrande.put(u);
-            imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            
             semPiscinaGrande0.acquire();
             
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
@@ -52,16 +56,15 @@ public class PiscinaGrande {
                     
                     piscinaGrande.add(u);
                     
-                    imprimir(areaPiscinaGrande, piscinaGrande.toString());
+                    fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
                 } catch(BrokenBarrierException ex) {
                     System.out.println("ERROR: " + ex);
                 }
             } else {
                 semPiscinaGrande.acquire();
                 piscinaGrande.add(u);
-                imprimir(areaPiscinaGrande, piscinaGrande.toString());
+                fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
             }
-
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
@@ -69,7 +72,7 @@ public class PiscinaGrande {
 
     public void salirPiscinaGrande(Usuario u) {
         piscinaGrande.remove(u);
-        imprimir(areaPiscinaGrande, piscinaGrande.toString());
+        fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
         semPiscinaGrande.release();
     }
 
@@ -77,9 +80,8 @@ public class PiscinaGrande {
         Usuario u = null;
         try {
             u = (Usuario) colaEntrarPiscinaGrande.take();
-            imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
             monitorPiscinaGrande.setText(u.toString());
-
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
@@ -97,7 +99,7 @@ public class PiscinaGrande {
                 semPiscinaGrande0.release();
 
                 colaEntrarPiscinaGrande.take();
-                imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+                fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
                 semPiscinaGrande0.release();
             } catch (InterruptedException ex) {
                 System.out.println("ERROR: " + ex);
@@ -106,18 +108,15 @@ public class PiscinaGrande {
             try {
                 semPiscinaGrande.acquire();
                 semPiscinaGrande.release();
+                
                 accesoPermitido = true;
+                
                 semPiscinaGrande0.release();
             } catch(InterruptedException ex) {
-                Logger.getLogger(PiscinaOlas.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("ERROR:" + ex);
             }
         }
-
         monitorPiscinaGrande.setText("");
-    }
-
-    private synchronized void imprimir(JTextArea campo, String contenido) {
-        campo.setText(contenido);
     }
 
     public boolean isAccesoPermitido() {

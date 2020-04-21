@@ -6,10 +6,11 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
+import util.FuncionesGenerales;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -46,8 +47,10 @@ public class Parque {
     private PiscinaOlas piscinaOlas;
     private PiscinaGrande piscinaGrande;
     private Tumbonas tumbonas;
+    
+    private final FuncionesGenerales fg;
 
-    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas) {
+    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas, FuncionesGenerales fg) {
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
         this.colaVestuario = colaVestuario;
@@ -66,21 +69,24 @@ public class Parque {
         this.areaTumbonas = areaTumbonas;
         this.monitorTumbonas = monitorTumbonas;
         
-        this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos);
-        this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas);
-        this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande);
-        this.tumbonas = new Tumbonas(colaTumbonas, areaTumbonas, monitorTumbonas);
-        this.vestuario = new Vestuario (colaVestuario, monitorVestuario, areaVestuario);
+        this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos, fg);
+        this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas, fg);
+        this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, fg);
+        this.tumbonas = new Tumbonas(colaTumbonas, areaTumbonas, monitorTumbonas, fg);
+        this.vestuario = new Vestuario (colaVestuario, monitorVestuario, areaVestuario, fg);
+        
+        this.fg = fg;
     }
 
 
     public void entrarParque(Usuario u) {
         try {
             colaEntrarParque.put(u);
-            imprimir(colaEntrada, colaEntrarParque.toString());
+            fg.imprimir(colaEntrada, colaEntrarParque.toString());
+            
             semEntrarparque.acquire();
             colaEntrarParque.take();
-            imprimir(colaEntrada, colaEntrarParque.toString());
+            fg.imprimir(colaEntrada, colaEntrarParque.toString());
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
@@ -88,11 +94,6 @@ public class Parque {
 
     public void salirParque() {
         semEntrarparque.release();
-    }
-
-
-    private synchronized void imprimir(JTextArea campo, String contenido) {
-        campo.setText(contenido);
     }
 
     public Vestuario getVestuario() {

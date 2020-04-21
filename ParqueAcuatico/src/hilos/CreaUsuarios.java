@@ -1,10 +1,9 @@
 package hilos;
 
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import concurrencia.*;
 import java.util.concurrent.CyclicBarrier;
+import util.FuncionesGenerales;
         
 
 /**
@@ -19,9 +18,13 @@ public class CreaUsuarios extends Thread {
     private final Parque parque;
     private final Paso paso;
     
-    public CreaUsuarios(Parque parque, Paso paso) {
+    private final FuncionesGenerales fg;
+    
+    public CreaUsuarios(Parque parque, Paso paso, FuncionesGenerales fg) {
         this.parque = parque;
         this.paso = paso;
+        
+        this.fg = fg;
     }
 
     @Override
@@ -29,12 +32,12 @@ public class CreaUsuarios extends Thread {
         for( int id = 1; id <= capacidad; id++ ) {
             CyclicBarrier barrera = new CyclicBarrier(2);
             int edadUsuario = getEdadAleatoria(1);
-            Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, 10 + (int)(6 * Math.random()), paso);
+            Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, 10 + (int)(6 * Math.random()), paso, fg);
 
             if( edadUsuario < 11 ){
                 id++;
  
-                Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad), usuarioPrincipal.getNumAtracciones(), paso);
+                Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad), usuarioPrincipal.getNumAtracciones(), paso, fg);
                 
                 usuarioPrincipal.setCodigo(usuarioPrincipal.getCodigo() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);
@@ -44,7 +47,7 @@ public class CreaUsuarios extends Thread {
             }
             
             usuarioPrincipal.start();
-            dormir(400, 700);
+            fg.dormir(400, 700);
         }
     }
     
@@ -52,13 +55,5 @@ public class CreaUsuarios extends Thread {
     private int getEdadAleatoria(int min) {
         Random aleatoriedad = new Random(System.currentTimeMillis());
         return aleatoriedad.nextInt(50 - min) + min;
-    }
-    
-    private void dormir(int min, int max) {
-        try {
-            Thread.sleep(min + (int) ((max - min) * Math.random()));
-        } catch (InterruptedException ex) {
-            
-        }
     }
 }

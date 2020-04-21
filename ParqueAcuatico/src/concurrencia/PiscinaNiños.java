@@ -7,13 +7,11 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
-import java.util.concurrent.CyclicBarrier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import util.FuncionesGenerales;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -23,13 +21,8 @@ public class PiscinaNiños {
     private final JTextField monitorPiscinaNiños;
     private final JTextArea areaPiscinaNiños;
     private final JTextArea areaEsperaAdultos;
-        
-    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos) {
-        this.colaPiscinaNiños = colaPiscinaNiños;
-        this.monitorPiscinaNiños = monitorPiscinaNiños;
-        this.areaPiscinaNiños = areaPiscinaNiños;
-        this.areaEsperaAdultos = areaEsperaAdultos;
-    }
+    
+    private final FuncionesGenerales fg;
     
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
     private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);
@@ -40,10 +33,20 @@ public class PiscinaNiños {
     
     private boolean accesoPermitido = false;
     
+    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos, FuncionesGenerales fg) {
+        this.colaPiscinaNiños = colaPiscinaNiños;
+        this.monitorPiscinaNiños = monitorPiscinaNiños;
+        this.areaPiscinaNiños = areaPiscinaNiños;
+        this.areaEsperaAdultos = areaEsperaAdultos;
+        
+        this.fg = fg;
+    }
+    
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
             colaEntrarPiscinaNiños.put(u);
-            imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+            fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+            
             semPiscinaNiños0.acquire();
             
             if( !accesoPermitido ) {
@@ -54,14 +57,14 @@ public class PiscinaNiños {
                 //Se trata de un niño de 5 o menos o de un acompañante de un niño de 5 o menos
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
-                imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
             } else if( u.getEdad() <= 10 ) { //se trata de un niño mayor de 5 años
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
-                imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
             } else {  // se trata de un acompañante de un niño mayor de 5 años
                 esperaAdultos.add(u);
-                imprimir(areaEsperaAdultos, esperaAdultos.toString());
+                fg.imprimir(areaEsperaAdultos, esperaAdultos.toString());
             }
 
         } catch(InterruptedException ex) {
@@ -74,10 +77,10 @@ public class PiscinaNiños {
     public void salirPiscinaNiños(Usuario u) {
         if( u.getEsAcompañante() && u.getAcompañante().getEdad() > 5 ) {
             esperaAdultos.remove(u);
-            imprimir(areaEsperaAdultos, esperaAdultos.toString());
+            fg.imprimir(areaEsperaAdultos, esperaAdultos.toString());
         } else {
             piscinaNiños.remove(u);
-            imprimir(areaPiscinaNiños, piscinaNiños.toString());
+            fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
             semPiscinaNiños.release();
         }
     }
@@ -86,7 +89,7 @@ public class PiscinaNiños {
     public Usuario controlarPiscinaNiños() {
         try {
             Usuario u = (Usuario) colaEntrarPiscinaNiños.take();
-            imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+            fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             monitorPiscinaNiños.setText(u.toString());
 
             return u;
@@ -118,14 +121,10 @@ public class PiscinaNiños {
 
             monitorPiscinaNiños.setText("");
         } catch(InterruptedException ex) {
-            
+            System.out.println("ERROR: " + ex);
         }
     }
     
-    private synchronized void imprimir(JTextArea campo, String contenido) {
-        campo.setText(contenido);
-    }
-
     public boolean isAccesoPermitido() {
         return accesoPermitido;
     }
@@ -133,6 +132,4 @@ public class PiscinaNiños {
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
     }
-    
-
 }

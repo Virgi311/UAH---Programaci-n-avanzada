@@ -4,11 +4,8 @@ import clienteServidor.Servidor;
 import concurrencia.Parque;
 import hilos.CreaUsuarios;
 import concurrencia.Paso;
-import hilos.MonitorVestuario;
-import hilos.MonitorPiscinaNiños;
-import hilos.MonitorPiscinaOlas;
-import hilos.MonitorPiscinaGrande;
-import hilos.MonitorTumbonas;
+import hilos.Monitor;
+import util.FuncionesGenerales;
 
 /**
  *
@@ -21,33 +18,35 @@ public class Main extends javax.swing.JFrame {
     private int botonPausa = 0;
     private static Paso paso;
     private static Servidor servidor;
+    private final FuncionesGenerales fg;
     
     public Main() {
         initComponents();
         
         paso = new Paso();
+        fg = new FuncionesGenerales();
         
         servidor = new Servidor(paso);
         servidor.start();
         
-        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas);
+        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas, fg);
         
-        MonitorVestuario m = new MonitorVestuario(parque);
-        m.start();
+        Monitor mV = new Monitor( parque, 1000, 0, 1, fg );
+        mV.start();
         
-        MonitorPiscinaNiños m1 = new MonitorPiscinaNiños(parque);
-        m1.start();
+        Monitor mPN = new Monitor( parque, 1000, 1500, 2, fg );
+        mPN.start();
         
-        MonitorPiscinaOlas m2 = new MonitorPiscinaOlas(parque);
-        m2.start();
+        Monitor mPO = new Monitor( parque, 1000, 0, 3, fg );
+        mPO.start();
 
-        MonitorPiscinaGrande m3 = new MonitorPiscinaGrande(parque);
-        m3.start();
+        Monitor mPG = new Monitor( parque, 1000, 0, 4, fg );
+        mPG.start();
         
-        MonitorTumbonas m4 = new MonitorTumbonas(parque);
-        m4.start();
+        Monitor mT = new Monitor( parque, 500, 400, 5, fg );
+        mT.start();
         
-        CreaUsuarios nuevo = new CreaUsuarios(parque, paso);
+        CreaUsuarios nuevo = new CreaUsuarios(parque, paso, fg);
         nuevo.start();
                 
         }
@@ -150,6 +149,11 @@ public class Main extends javax.swing.JFrame {
         jLabel39.setText("jLabel39");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(167, 255, 235));
 
@@ -234,12 +238,6 @@ public class Main extends javax.swing.JFrame {
         areaVestuario.setColumns(20);
         areaVestuario.setRows(5);
         jScrollPane6.setViewportView(areaVestuario);
-
-        monitorVestuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monitorVestuarioActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -461,12 +459,6 @@ public class Main extends javax.swing.JFrame {
         areaPiscinaGrande.setRows(5);
         jScrollPane16.setViewportView(areaPiscinaGrande);
 
-        monitorPiscinaGrande.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monitorPiscinaGrandeActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -656,7 +648,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(areaToboganB))
                 .addGap(6, 6, 6))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
+                .addContainerGap(67, Short.MAX_VALUE)
                 .addComponent(jLabel29)
                 .addGap(102, 102, 102))
         );
@@ -826,16 +818,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_PausarActionPerformed
 
     private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
-        paso.setFinalizar(true);
+        servidor.cerrar( true );
     }//GEN-LAST:event_FinalizarActionPerformed
 
-    private void monitorVestuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitorVestuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monitorVestuarioActionPerformed
-
-    private void monitorPiscinaGrandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitorPiscinaGrandeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monitorPiscinaGrandeActionPerformed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        servidor.cerrar( false );
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

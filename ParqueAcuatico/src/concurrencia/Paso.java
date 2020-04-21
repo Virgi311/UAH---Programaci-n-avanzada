@@ -6,19 +6,18 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
 public class Paso {
     
-    private boolean bloqueoActivo, finalizar;
+    private boolean bloqueoActivo;
     private final Lock cerrojo;
     private final Condition parar;
 
     public Paso() {
         bloqueoActivo = false;
-        finalizar = false;
         cerrojo = new ReentrantLock();
         parar = cerrojo.newCondition();
     }
@@ -48,12 +47,7 @@ public class Paso {
         }
     }
 
-    /*public synchronized void notifyUno() {
-        bloqueoActivo = false;
-        notify();
-    }*/
-
-    public void notifyTodos() {
+    public void reanudar() {
         try {
             cerrojo.lock();
             bloqueoActivo = false;
@@ -61,17 +55,5 @@ public class Paso {
         } finally {
             cerrojo.unlock();
         }
-    }
-    
-    public boolean isFinalizar() {
-        return finalizar;
-    }
-
-    public void setFinalizar(boolean finalizar) {
-        this.finalizar = finalizar;
-    }
-
-    public boolean isBloqueoActivo() {
-        return bloqueoActivo;
     }
 }

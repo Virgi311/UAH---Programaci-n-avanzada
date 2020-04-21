@@ -3,12 +3,13 @@ package clienteServidor;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.Scanner;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -24,7 +25,7 @@ public class Cliente extends Thread {
     public Cliente() {
         try {
             System.out.println( "Creando cliente..." );
-
+            
             System.out.print( "Introducir IP del servidor: " );
             Scanner sc = new Scanner( System.in );
             String ip = sc.next();
@@ -49,7 +50,9 @@ public class Cliente extends Thread {
                 String comunicado = entrada.readUTF();
                 if( comunicado != null && !comunicado.isEmpty() ) {
                     if( comunicado.equals( "CERRAR" ) ) {
-                        cerrar();
+                        cerrar( false );
+                    } else if( comunicado.equals( "CERRARSERVER" ) ) {
+                        cerrar( true );
                     }
                 }
             } catch( IOException ex ) {
@@ -58,49 +61,54 @@ public class Cliente extends Thread {
         }
     }
 
-    public void pausar() {
-        System.out.println( "Cliente ejecuta: Pausar()" );
+    //TODO: Metodos de busqueda de cada atraccion
+    
+    public void buscarUbicacion() {
+        System.out.println("\tBuscando ubicaciones...");
+    }
+    
+    public void buscarMenores() {
+        System.out.println("\tBuscando menores...");
+    }
+    
+    public void buscarTobogan() {
+        System.out.println("\tBuscando en los toboganes...");
+    }
+    
+    public void buscarAforo() {
+        System.out.println("\tBuscando el aforo...");
+    }
+    
+    public void cerrar( boolean servidorBool ) {
+        if( servidorBool ) {
+            System.out.println( "Cliente ejecuta: Cerrar() por orden del servidor" );
+        } else {
+            System.out.println( "Cliente ejecuta: Cerrar()" );
+        }
         try {
-            salida.writeUTF( "PAUSAR" );
+            conexion = false;
+            
+            if( servidorBool ) {
+                salida.writeUTF("CERRARAPLICACION");
+                
+                entrada.close();
+                salida.close();
+                
+                cliente.close();
+                exit(0);
+            } else {
+                cliente.close();
+            }
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    }
+    } 
     
-    public void reanudar() {
-        System.out.println( "Cliente ejecuta: Reanudar()" );
-        try {
-            salida.writeUTF( "REANUDAR" );
-        } catch( IOException ex ) {
-            System.out.println( "ERROR: " + ex );
-        }
-    }
-    
-    public void abrirEntrada() {
-        System.out.println( "Cliente ejecuta: Abrir Entrada()" );
-        try {
-            salida.writeUTF( "ABRIRENTRADA" );
-        } catch( IOException ex ) {
-            System.out.println( "ERROR: " + ex );
-        }
-    }
-    
-    public void cerrarEntrada() {
-        System.out.println( "Cliente ejecuta: Cerrar Entrada()" );
-        try {
-            salida.writeUTF( "CERRARENTRADA" );
-        } catch( IOException ex ) {
-            System.out.println( "ERROR: " + ex );
-        }
-    }
-    
-    public void cerrar() {
-        System.out.println( "Cliente ejecuta: Cerrar()" );
+    public void emitirSeñalCerrar() {
         try {
             salida.writeUTF( "CERRAR" );
-            cliente.close();
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    }   
+    } 
 }

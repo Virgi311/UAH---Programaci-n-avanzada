@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
+import util.FuncionesGenerales;
 
 /**
  *
@@ -25,21 +26,25 @@ public class Vestuario {
     
     private final BlockingQueue colaEntrarVestuario = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
+    
+    private final FuncionesGenerales fg;
 
-    public Vestuario(JTextArea colaVestuario, JTextField monitorVestuario, JTextArea areaVestuario) {
+    public Vestuario(JTextArea colaVestuario, JTextField monitorVestuario, JTextArea areaVestuario, FuncionesGenerales fg) {
         this.colaVestuario = colaVestuario;
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
+        
+        this.fg = fg;
     }
     
     public void entrarVestuarios(Usuario u) {
         try {
             colaEntrarVestuario.put(u);
-            imprimir(colaVestuario, colaEntrarVestuario.toString());
+            fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
             semVestuario.acquire();
 
             vestuario.add(u);
-            imprimir(areaVestuario, vestuario.toString());
+            fg.imprimir(areaVestuario, vestuario.toString());
             if( u.getEsAcompañante() || u.getEdad() < 18 ) {
                 semVestuarioNiño.acquire();
             } else {
@@ -52,7 +57,7 @@ public class Vestuario {
 
     public void salirVestuarios(Usuario u) {
         vestuario.remove(u);
-        imprimir(areaVestuario, vestuario.toString());
+        fg.imprimir(areaVestuario, vestuario.toString());
         if( u.getEsAcompañante() || u.getEdad() < 18 ) {
             semVestuarioNiño.release();
         } else {
@@ -65,7 +70,7 @@ public class Vestuario {
             Usuario u = (Usuario) colaEntrarVestuario.take();
 
             monitorVestuario.setText(u.toString());
-            imprimir(colaVestuario, colaEntrarVestuario.toString());
+            fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
 
             return u;
         } catch (InterruptedException ex) {
@@ -97,8 +102,4 @@ public class Vestuario {
             System.out.println("ERROR: " + e);
         }
     }
-    
-    private synchronized void imprimir(JTextArea campo, String contenido) {
-        campo.setText(contenido);
-    }   
 }
