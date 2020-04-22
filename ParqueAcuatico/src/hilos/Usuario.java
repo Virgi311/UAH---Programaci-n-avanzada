@@ -21,7 +21,7 @@ public class Usuario extends Thread {
     private int edad;
     private String codigo;
     private boolean esAcompañante;
-    private final int numAtracciones;
+    private int numAtracciones;
     
     private final FuncionesGenerales fg;
     
@@ -54,14 +54,17 @@ public class Usuario extends Thread {
         if( !esAcompañante && edad > 10 ) {
             while( numAtracciones > 0 ) {
                 atraccionAleatoria("peque");
+                numAtracciones--;
             }
         } else if( edad <= 10 ) {
             while( numAtracciones > 0 ) {
                 atraccionAleatoria("mayor");
+                numAtracciones--;
             }
         } else {
             while( numAtracciones > 0 ) {
                 atraccionAleatoria("acompañante");
+                numAtracciones--;
             }
         }
         
