@@ -31,20 +31,20 @@ public class Main extends javax.swing.JFrame {
         
         Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas, fg, paso);
         
-        Monitor mV = new Monitor( parque, 1000, 0, 1, fg );
-        mV.start();
+        Monitor m1 = new Monitor( parque, 1000, 0, 1, fg );
+        m1.start();
         
-        Monitor mPN = new Monitor( parque, 1000, 1500, 2, fg );
-        mPN.start();
+        Monitor m2 = new Monitor( parque, 1000, 1500, 2, fg );
+        m2.start();
         
-        Monitor mPO = new Monitor( parque, 1000, 0, 3, fg );
-        mPO.start();
+        Monitor m3 = new Monitor( parque, 1000, 0, 3, fg );
+        m3.start();
 
-        Monitor mPG = new Monitor( parque, 1000, 0, 4, fg );
-        mPG.start();
+        Monitor m4 = new Monitor( parque, 1000, 0, 4, fg );
+        m4.start();
         
-        Monitor mT = new Monitor( parque, 500, 400, 5, fg );
-        mT.start();
+        Monitor m5 = new Monitor( parque, 500, 400, 5, fg );
+        m5.start();
         
         CreaUsuarios nuevo = new CreaUsuarios(parque, paso, fg);
         nuevo.start();

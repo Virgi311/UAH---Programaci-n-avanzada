@@ -21,9 +21,9 @@ public class Monitor extends Thread {
      * 3 -> Piscina Olas
      * 4 -> Piscina Grande
      * 5 -> Monitor Tumbonas
-     * 61 -> Tobogan 1
-     * 62 -> Tobogan 2
-     * 63 -> Tobogan 2
+     * 6 -> Tobogan 1
+     * 7 -> Tobogan 2
+     * 8 -> Tobogan 3
      */
     private final int atraccion;
     private final int time;
@@ -75,17 +75,17 @@ public class Monitor extends Thread {
                     parque.getTumbonas().controlarTumbonas(usuario);
                     break;
                     
-                case 61:
+                case 6:
                     //TODO: logica del monitor de tobogan 1
                     fg.dormir(time, randomTime);
                     break;
                     
-                case 62:
+                case 7:
                     //TODO: logica del monitor de tobogan 2
                     fg.dormir(time, randomTime);
                     break;
                 
-                case 63:
+                case 8:
                     //TODO: logica del monitor de tobogan 3
                     fg.dormir(time, randomTime);
                     break;
