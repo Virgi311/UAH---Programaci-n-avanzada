@@ -11,7 +11,7 @@ import util.FuncionesGenerales;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -29,13 +29,15 @@ public class Tumbonas {
     private final BlockingQueue colaMonitorTumbonas = new LinkedBlockingQueue();
     
     private final FuncionesGenerales fg;
+    private final Paso paso;
     
-    public Tumbonas(JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas, FuncionesGenerales fg) {
+    public Tumbonas(JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas, FuncionesGenerales fg, Paso paso) {
         this.colaTumbonas = colaTumbonas;
         this.areaTumbonas = areaTumbonas;
         this.monitorTumbonas = monitorTumbonas;
         
         this.fg = fg;
+        this.paso = paso;
     }
        
     public boolean entrarTumbonas(Usuario u){
@@ -67,6 +69,7 @@ public class Tumbonas {
     public void salirTumbonas(Usuario u){
         tumbonas.remove(u);
         fg.imprimir(areaTumbonas, tumbonas.toString());
+        paso.mirar();
         semTumbonas.release();
     }
     
@@ -87,7 +90,7 @@ public class Tumbonas {
         } else {
             accesoPermitido = false;
         }
-        
+        paso.mirar();
         semTumbonas.release();
         monitorTumbonas.setText("");
     }

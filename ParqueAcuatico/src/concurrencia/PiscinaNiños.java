@@ -23,6 +23,7 @@ public class PiscinaNiños {
     private final JTextArea areaEsperaAdultos;
     
     private final FuncionesGenerales fg;
+    private final Paso paso;
     
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
     private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);
@@ -33,13 +34,14 @@ public class PiscinaNiños {
     
     private boolean accesoPermitido = false;
     
-    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos, FuncionesGenerales fg) {
+    public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos, FuncionesGenerales fg, Paso paso) {
         this.colaPiscinaNiños = colaPiscinaNiños;
         this.monitorPiscinaNiños = monitorPiscinaNiños;
         this.areaPiscinaNiños = areaPiscinaNiños;
         this.areaEsperaAdultos = areaEsperaAdultos;
         
         this.fg = fg;
+        this.paso = paso;
     }
     
     public boolean entrarPiscinaNiños(Usuario u) {
@@ -81,6 +83,7 @@ public class PiscinaNiños {
         } else {
             piscinaNiños.remove(u);
             fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
+            paso.mirar();
             semPiscinaNiños.release();
         }
     }
@@ -103,19 +106,25 @@ public class PiscinaNiños {
         try {
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 accesoPermitido = false;
+                paso.mirar();
                 semPiscinaNiños0.release();
             } else if( u.getEsAcompañante() ) {
                 accesoPermitido = true;
+                paso.mirar();
                 semPiscinaNiños0.release();
             } else if( u.getEdad() > 5 ) {
                 accesoPermitido = true;       
                 semPiscinaNiños.acquire();
+                paso.mirar();
                 semPiscinaNiños.release();
+                paso.mirar();
                 semPiscinaNiños0.release();
             } else{
                 accesoPermitido = true;
                 semPiscinaNiños.acquire(2);
+                paso.mirar();
                 semPiscinaNiños.release(2);
+                paso.mirar();
                 semPiscinaNiños0.release();
             }
 

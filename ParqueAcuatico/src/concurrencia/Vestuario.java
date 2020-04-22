@@ -11,7 +11,7 @@ import util.FuncionesGenerales;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -28,13 +28,15 @@ public class Vestuario {
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
     
     private final FuncionesGenerales fg;
+    private final Paso paso;
 
-    public Vestuario(JTextArea colaVestuario, JTextField monitorVestuario, JTextArea areaVestuario, FuncionesGenerales fg) {
+    public Vestuario(JTextArea colaVestuario, JTextField monitorVestuario, JTextArea areaVestuario, FuncionesGenerales fg, Paso paso) {
         this.colaVestuario = colaVestuario;
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
         
         this.fg = fg;
+        this.paso = paso;
     }
     
     public void entrarVestuarios(Usuario u) {
@@ -59,8 +61,10 @@ public class Vestuario {
         vestuario.remove(u);
         fg.imprimir(areaVestuario, vestuario.toString());
         if( u.getEsAcompañante() || u.getEdad() < 18 ) {
+            paso.mirar();
             semVestuarioNiño.release();
         } else {
+            paso.mirar();
             semVestuarioAdulto.release();
         }
     }
@@ -82,18 +86,24 @@ public class Vestuario {
         try {
             if( u.getEdad() > 17 && !u.getEsAcompañante() ) {
                 semVestuarioAdulto.acquire();
+                paso.mirar();
                 semVestuarioAdulto.release();
+                paso.mirar();
                 semVestuario.release();
             } else if( u.getEdad() <= 10 ) {
                 semVestuarioNiño.acquire(2);
+                paso.mirar();
                 semVestuarioNiño.release(2);
-
+                paso.mirar();
                 semVestuario.release();
             } else if( u.getEsAcompañante() ) {
+                paso.mirar();
                 semVestuario.release();
             } else { 
                 semVestuarioNiño.acquire();
+                paso.mirar();
                 semVestuarioNiño.release();
+                paso.mirar();
                 semVestuario.release();
             }
 

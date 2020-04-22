@@ -13,7 +13,7 @@ import util.FuncionesGenerales;
 
 /**
  *
- * @authores 
+ * @authors 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -33,13 +33,15 @@ public class PiscinaOlas {
     private boolean accesoPermitido = false;
     
     private final FuncionesGenerales fg;
+    private final Paso paso;
 
-    public PiscinaOlas(JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextArea colaPiscinaOlas, FuncionesGenerales fg) {
+    public PiscinaOlas(JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextArea colaPiscinaOlas, FuncionesGenerales fg, Paso paso) {
         this.monitorPiscinaOlas = monitorPiscinaOlas;
         this.areaPiscinaOlas = areaPiscinaOlas;
         this.colaPiscinaOlas = colaPiscinaOlas;
         
         this.fg = fg;
+        this.paso = paso;
     }
 
     public boolean entrarPiscinaOlas(Usuario u) {
@@ -78,6 +80,7 @@ public class PiscinaOlas {
     public void salirPiscinaOlas(Usuario u) {
         piscinaOlas.remove(u);
         fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
+        paso.mirar();
         semPiscinaOlas.release();
     }
 
@@ -97,10 +100,12 @@ public class PiscinaOlas {
     public void controlarPiscinaOlas(Usuario u) {
         if( u.getEdad() <= 5 ) {
             accesoPermitido = false;
+            paso.mirar();
             semPiscinaOlas0.release();
             try {
                 colaEntrarPiscinaOlas.take();
                 fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
+                paso.mirar();
                 semPiscinaOlas0.release();
             } catch(InterruptedException ex) {
                 System.out.println("ERROR: " + ex);
@@ -108,11 +113,14 @@ public class PiscinaOlas {
         } else if( u.getEdad() <= 10 ) {
             try {
                 semPiscinaOlas.acquire(2);
+                paso.mirar();
                 semPiscinaOlas.release(2);
                 accesoPermitido = true;
+                paso.mirar();
                 semPiscinaOlas0.release();
                 colaEntrarPiscinaOlas.take();
                 fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
+                paso.mirar();
                 semPiscinaOlas0.release();
             } catch(InterruptedException ex) {
                 System.out.println("ERROR: " + ex);
@@ -120,8 +128,10 @@ public class PiscinaOlas {
         } else {
             try {
                 semPiscinaOlas.acquire();
+                paso.mirar();
                 semPiscinaOlas.release();
                 accesoPermitido = true;
+                paso.mirar();
                 semPiscinaOlas0.release();
             } catch(InterruptedException ex) {
                 System.out.println("ERROR: " + ex);

@@ -33,13 +33,15 @@ public class PiscinaGrande {
     private boolean accesoPermitido = false;
     
     private final FuncionesGenerales fg;
+    private final Paso paso;
     
-    public PiscinaGrande(JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, FuncionesGenerales fg) {
+    public PiscinaGrande(JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, FuncionesGenerales fg, Paso paso) {
         this.monitorPiscinaGrande = monitorPiscinaGrande;
         this.areaPiscinaGrande = areaPiscinaGrande;
         this.colaPiscinaGrande = colaPiscinaGrande;
         
         this.fg = fg;
+        this.paso = paso;
     }
 
     public void entrarPiscinaGrande(Usuario u) {
@@ -73,6 +75,7 @@ public class PiscinaGrande {
     public void salirPiscinaGrande(Usuario u) {
         piscinaGrande.remove(u);
         fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
+        paso.mirar();
         semPiscinaGrande.release();
     }
 
@@ -93,13 +96,16 @@ public class PiscinaGrande {
         if( u.getEdad() <= 10 ) {
             try {
                 semPiscinaGrande.acquire(2);
+                paso.mirar();
                 semPiscinaGrande.release(2);
 
                 accesoPermitido = true;
+                paso.mirar();
                 semPiscinaGrande0.release();
 
                 colaEntrarPiscinaGrande.take();
                 fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+                paso.mirar();
                 semPiscinaGrande0.release();
             } catch (InterruptedException ex) {
                 System.out.println("ERROR: " + ex);
@@ -107,10 +113,12 @@ public class PiscinaGrande {
         } else {
             try {
                 semPiscinaGrande.acquire();
+                paso.mirar();
                 semPiscinaGrande.release();
                 
                 accesoPermitido = true;
                 
+                paso.mirar();
                 semPiscinaGrande0.release();
             } catch(InterruptedException ex) {
                 System.out.println("ERROR:" + ex);
