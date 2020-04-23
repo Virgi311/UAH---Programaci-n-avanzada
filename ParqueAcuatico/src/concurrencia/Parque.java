@@ -6,6 +6,8 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import util.FuncionesGenerales;
 
 /**
@@ -38,6 +40,14 @@ public class Parque {
     private final JTextArea areaTumbonas;
     private final JTextField monitorTumbonas;
     
+    private final JTextField areaToboganA;
+    private final JTextField areaToboganB;
+    private final JTextField areaToboganC;
+    private final JTextField monitorToboganA;
+    private final JTextField monitorToboganB;
+    private final JTextField monitorToboganC;
+    private final JTextArea colaToboganes;
+    
     //Concurrencia
     private final Semaphore semEntrarparque = new Semaphore(100, true);
     private final BlockingQueue colaEntrarParque = new LinkedBlockingQueue();
@@ -47,11 +57,12 @@ public class Parque {
     private PiscinaOlas piscinaOlas;
     private PiscinaGrande piscinaGrande;
     private Tumbonas tumbonas;
+    private Toboganes toboganes;
     
     private final FuncionesGenerales fg;
     private final Paso paso;
 
-    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas, FuncionesGenerales fg, Paso paso) {
+    public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas, JTextField areaToboganA, JTextField areaToboganB, JTextField areaToboganC, JTextField monitorToboganA, JTextField monitorToboganB, JTextField monitorToboganC, JTextArea colaToboganes, FuncionesGenerales fg, Paso paso) {
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
         this.colaVestuario = colaVestuario;
@@ -69,17 +80,23 @@ public class Parque {
         this.colaTumbonas = colaTumbonas;
         this.areaTumbonas = areaTumbonas;
         this.monitorTumbonas = monitorTumbonas;
+        this.areaToboganA = areaToboganA;
+        this.areaToboganB = areaToboganB;
+        this.areaToboganC = areaToboganC;
+        this.monitorToboganA = monitorToboganA;
+        this.monitorToboganB = monitorToboganB;
+        this.monitorToboganC = monitorToboganC;
+        this.colaToboganes = colaToboganes;
+        this.fg = fg;
+        this.paso = paso;
         
         this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos, fg, paso);
         this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas, fg, paso);
         this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, fg, paso);
         this.tumbonas = new Tumbonas(colaTumbonas, areaTumbonas, monitorTumbonas, fg, paso);
         this.vestuario = new Vestuario (colaVestuario, monitorVestuario, areaVestuario, fg, paso);
-        
-        this.fg = fg;
-        this.paso = paso;
+        this.toboganes = new Toboganes(areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, colaToboganes, piscinaGrande, fg, paso);
     }
-
 
     public void entrarParque(Usuario u) {
         try {
@@ -98,7 +115,7 @@ public class Parque {
         paso.mirar();
         semEntrarparque.release();
     }
-
+    
     public Vestuario getVestuario() {
         return vestuario;
     }
@@ -214,4 +231,14 @@ public class Parque {
     public JTextField getMonitorTumbonas() {
         return monitorTumbonas;
     }   
+
+    public Toboganes getToboganes() {
+        return toboganes;
+    }
+
+    public void setToboganes(Toboganes toboganes) {
+        this.toboganes = toboganes;
+    }
+    
+    
 }

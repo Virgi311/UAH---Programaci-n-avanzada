@@ -30,12 +30,14 @@ public class Monitor extends Thread {
     private final int randomTime;
     private final boolean run;
     private final FuncionesGenerales fg;
+    private final String identificador;
     
-    public Monitor(Parque parque, int time, int randomTime, int atraccion, FuncionesGenerales fg) {
+    public Monitor(Parque parque, int time, int randomTime, int atraccion, FuncionesGenerales fg, String identificador) {
         this.parque = parque;
         this.atraccion = atraccion;
         this.time = time;
         this.randomTime = randomTime;
+        this.identificador =identificador;
         
         this.run = true;
         this.fg = fg;
@@ -46,7 +48,7 @@ public class Monitor extends Thread {
         while( run ) {
             switch( atraccion ) {
                 case 1:
-                    usuario = parque.getVestuario().controlarVestuario();
+                    usuario= parque.getVestuario().controlarVestuario();
                     fg.dormir(time, randomTime);
                     parque.getVestuario().controlarVestuario(usuario);
                     break;
@@ -64,10 +66,14 @@ public class Monitor extends Thread {
                     break;
                     
                 case 4:
-                    usuario = parque.getPiscinaGrande().controlarPiscinaGrande();
-                    fg.dormir(time, randomTime);
-                    parque.getPiscinaGrande().controlarPiscinaGrande(usuario);
-                    break;
+                    while (true) {
+                        fg.dormir(time, randomTime);
+                        Usuario u = parque.getPiscinaGrande().monitorExpulsa();
+                        if (u != null) {
+                        fg.dormir(time, randomTime);
+                        parque.getPiscinaGrande().monitorExpulsa(u);
+                    }
+                }
                 
                 case 5:
                     usuario = parque.getTumbonas().controlarTumbonas();
@@ -76,19 +82,28 @@ public class Monitor extends Thread {
                     break;
                     
                 case 6:
-                    //TODO: logica del monitor de tobogan 1
-                    fg.dormir(time, randomTime);
-                    break;
-                    
-                case 7:
-                    //TODO: logica del monitor de tobogan 2
-                    fg.dormir(time, randomTime);
-                    break;
-                
-                case 8:
-                    //TODO: logica del monitor de tobogan 3
-                    fg.dormir(time, randomTime);
-                    break;
+                    while (true) {
+                        switch (identificador) {
+                            case "A":
+                                usuario = parque.getToboganes().monitorToboganA();
+                                fg.dormir(time, randomTime);
+                                parque.getToboganes().monitorToboganA(usuario);
+                                break;
+
+                            case "B":
+                                usuario = parque.getToboganes().monitorToboganB();
+                                fg.dormir(time, randomTime);
+                                parque.getToboganes().monitorToboganB(usuario);
+                                break;
+
+                            case "C":
+                                usuario = parque.getToboganes().monitorToboganC();
+                                fg.dormir(time, randomTime);
+                                parque.getToboganes().monitorToboganC(usuario);
+                                break;
+                        }
+
+                    }
             }
         }
     }

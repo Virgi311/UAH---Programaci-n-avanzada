@@ -129,15 +129,16 @@ public class Usuario extends Thread {
                 
             case 4:
                 paso.mirar();
+                parque.getToboganes().entrarToboganes(this);
                 
                 fg.dormir(3000, 2000);
                 
-                paso.mirar();
-                
+                parque.getToboganes().toboganApiscinaGrande(this);
+
                 break;
         }
     }
-    
+
     public int getIdentificador() {
         return identificador;
     }
