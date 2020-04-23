@@ -5,8 +5,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * Clase Paso
  *
- * @authors 
+ * Define la forma en que se contrala la ejecución de los hilos
+ *
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -20,7 +23,7 @@ public class Paso {
         bloqueoActivo = false;
         cerrojo = new ReentrantLock();
         parar = cerrojo.newCondition();
-    }
+    } // Cierre del método
 
     public synchronized void mirar() {
         try {
@@ -35,7 +38,7 @@ public class Paso {
         } finally {
             cerrojo.unlock();
         }
-    }
+    } // Cierre del método
 
     public void detener() {
         try {
@@ -45,7 +48,7 @@ public class Paso {
         } finally {
             cerrojo.unlock();
         }
-    }
+    } // Cierre del método
 
     public void reanudar() {
         try {
@@ -55,5 +58,5 @@ public class Paso {
         } finally {
             cerrojo.unlock();
         }
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

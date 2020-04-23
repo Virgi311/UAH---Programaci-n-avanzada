@@ -10,12 +10,16 @@ import javax.swing.JTextField;
 import util.FuncionesGenerales;
 
 /**
+ * Clase Toboganes
  *
- * @authors 
+ * Define la forma y funcionamiento de los toboganes
+ *
+ * @author 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
 public class Toboganes {
+    //Elementos de la interfaz
     private final JTextField areaToboganA;
     private final JTextField areaToboganB;
     private final JTextField areaToboganC;
@@ -38,8 +42,8 @@ public class Toboganes {
         this.piscinaGrande = piscinaGrande;
         this.fg = fg;
         this.paso = paso;
-    }
-    
+    } // Cierre del método
+    //Concurrencia
     private final CopyOnWriteArrayList<Usuario> colaEntrarToboganes = new CopyOnWriteArrayList<>();
 
     private String toboganA;
@@ -101,7 +105,7 @@ public class Toboganes {
             return false;
         }
         return true;
-    }
+    } // Cierre del método
 
     public void toboganApiscinaGrande(Usuario u) {
         if (u.getEdad() < 15) {
@@ -128,7 +132,7 @@ public class Toboganes {
 
         piscinaGrande.salirPiscinaGrande(u);
 
-    }
+    } // Cierre del método
 
     private void nadarPiscina(int min, int max, Usuario u) {
         try {
@@ -136,7 +140,7 @@ public class Toboganes {
         } catch (InterruptedException ex) {
             piscinaGrande.salirPiscinaGrande(u);
         }
-    }
+    } // Cierre del método
 
     public Usuario monitorToboganA() {
 
@@ -149,7 +153,7 @@ public class Toboganes {
             return null;
         }
 
-    }
+    } // Cierre del método
 
     public void monitorToboganA(Usuario u) {
 
@@ -160,7 +164,7 @@ public class Toboganes {
             semToboganA0.release();
         }
 
-    }
+    } // Cierre del método
 
     public Usuario monitorToboganB() {
 
@@ -172,7 +176,7 @@ public class Toboganes {
             return null;
         }
 
-    }
+    } // Cierre del método
 
     public void monitorToboganB(Usuario u) {
 
@@ -183,7 +187,7 @@ public class Toboganes {
             semToboganB0.release();
         }
 
-    }
+    } // Cierre del método
 
     public Usuario monitorToboganC() {
 
@@ -195,7 +199,7 @@ public class Toboganes {
             return null;
         }
 
-    }
+    } // Cierre del método
 
     public void monitorToboganC(Usuario u) {
 
@@ -206,31 +210,29 @@ public class Toboganes {
             semToboganC0.release();
         }
 
-    }
+    } // Cierre del método
 
     public String getToboganA() {
         return toboganA;
-    }
+    } // Cierre del método
 
     public void setToboganA(String toboganA) {
         this.toboganA = toboganA;
-    }
+    } // Cierre del método
 
     public String getToboganB() {
         return toboganB;
-    }
+    } // Cierre del método
 
     public void setToboganB(String toboganB) {
         this.toboganB = toboganB;
-    }
+    } // Cierre del método
 
     public String getToboganC() {
         return toboganC;
-    }
+    } // Cierre del método
 
     public void setToboganC(String toboganC) {
         this.toboganC = toboganC;
-    }
-
-    
-}
+    } // Cierre del método
+} // Cierre de la clase

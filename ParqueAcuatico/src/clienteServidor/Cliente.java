@@ -7,9 +7,13 @@ import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.Scanner;
 
+
 /**
+ * Clase Cliente
  *
- * @authors 
+ * Contiene información del cliente en la conexión
+ *
+ * @author 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -41,7 +45,7 @@ public class Cliente extends Thread {
         } catch( IOException ex ) {
             System.out.println("ERROR: " + ex);
         }
-    }
+    } // Cierre del método
     
     @Override 
     public void run() {
@@ -59,25 +63,25 @@ public class Cliente extends Thread {
                 System.out.println( "ERROR: " + ex );
             }
         }
-    }
+    }// Cierre del método
 
     //TODO: Metodos de busqueda de cada atraccion
     
     public void buscarUbicacion() {
         System.out.println("\tBuscando ubicaciones...");
-    }
+    }// Cierre del método
     
     public void buscarMenores() {
         System.out.println("\tBuscando menores...");
-    }
+    }// Cierre del método
     
     public void buscarTobogan() {
         System.out.println("\tBuscando en los toboganes...");
-    }
+    }// Cierre del método
     
     public void buscarAforo() {
         System.out.println("\tBuscando el aforo...");
-    }
+    }// Cierre del método
     
     public void cerrar( boolean servidorBool ) {
         if( servidorBool ) {
@@ -102,7 +106,7 @@ public class Cliente extends Thread {
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    } 
+    } // Cierre del método
     
     public void emitirSeñalCerrar() {
         try {
@@ -110,5 +114,5 @@ public class Cliente extends Thread {
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    } 
-}
+    } // Cierre del método
+} // Cierre de la clase

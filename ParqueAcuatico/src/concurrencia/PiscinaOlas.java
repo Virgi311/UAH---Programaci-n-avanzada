@@ -12,13 +12,16 @@ import javax.swing.JTextField;
 import util.FuncionesGenerales;
 
 /**
+ * Clase PiscinaOlas
  *
- * @authors 
+ * Define la forma y funcionamiento de la piscina de olas
+ *
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
 public class PiscinaOlas {
-
+    //Elementos de la interfaz
     private final JTextField monitorPiscinaOlas;
     private final JTextArea areaPiscinaOlas;
     private final JTextArea colaPiscinaOlas;
@@ -42,7 +45,7 @@ public class PiscinaOlas {
         
         this.fg = fg;
         this.paso = paso;
-    }
+    } // Cierre del método
 
     public boolean entrarPiscinaOlas(Usuario u) {
         try {
@@ -75,14 +78,14 @@ public class PiscinaOlas {
         }
 
         return true;
-    }
+    } // Cierre del método
 
     public void salirPiscinaOlas(Usuario u) {
         piscinaOlas.remove(u);
         fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
         paso.mirar();
         semPiscinaOlas.release();
-    }
+    } // Cierre del método
 
     public Usuario controlarPiscinaOlas() {
         Usuario u = null;
@@ -95,7 +98,7 @@ public class PiscinaOlas {
         }
 
         return u;
-    }
+    } // Cierre del método
 
     public void controlarPiscinaOlas(Usuario u) {
         if( u.getEdad() <= 5 ) {
@@ -139,17 +142,17 @@ public class PiscinaOlas {
         }
 
         monitorPiscinaOlas.setText("");
-    }
+    } // Cierre del método
 
     public boolean isAccesoPermitido() {
         return accesoPermitido;
-    }
+    } // Cierre del método
 
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
-    }
+    } // Cierre del método
 
     public CyclicBarrier getBarrera() {
         return barreraPiscinaOlas;
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

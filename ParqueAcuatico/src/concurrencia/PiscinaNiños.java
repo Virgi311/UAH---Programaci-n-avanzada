@@ -10,29 +10,29 @@ import hilos.Usuario;
 import util.FuncionesGenerales;
 
 /**
+ * Clase PiscinaNiños
  *
- * @authors 
+ * Define la forma y funcionamiento de la piscina de niños
+ *
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
 public class PiscinaNiños {
-    
+    //Elementos de la interfaz
     private final JTextArea colaPiscinaNiños;
     private final JTextField monitorPiscinaNiños;
     private final JTextArea areaPiscinaNiños;
     private final JTextArea areaEsperaAdultos;
-    
-    private final FuncionesGenerales fg;
-    private final Paso paso;
-    
+    //Concurrencia
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
-    private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);
-    
+    private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);  
     private final BlockingQueue colaEntrarPiscinaNiños = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaNiños = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<Usuario> esperaAdultos = new CopyOnWriteArrayList<>();
-    
     private boolean accesoPermitido = false;
+    private final FuncionesGenerales fg;
+    private final Paso paso;
     
     public PiscinaNiños(JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea areaEsperaAdultos, FuncionesGenerales fg, Paso paso) {
         this.colaPiscinaNiños = colaPiscinaNiños;
@@ -42,7 +42,7 @@ public class PiscinaNiños {
         
         this.fg = fg;
         this.paso = paso;
-    }
+    } // Cierre del método
     
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
@@ -74,7 +74,7 @@ public class PiscinaNiños {
         }
 
         return true;
-    }
+    } // Cierre del método
      
     public void salirPiscinaNiños(Usuario u) {
         if( u.getEsAcompañante() && u.getAcompañante().getEdad() > 5 ) {
@@ -86,7 +86,7 @@ public class PiscinaNiños {
             paso.mirar();
             semPiscinaNiños.release();
         }
-    }
+    } // Cierre del método
     
     
     public Usuario controlarPiscinaNiños() {
@@ -99,7 +99,7 @@ public class PiscinaNiños {
         } catch (InterruptedException ex) {
             return null;
         }
-    }
+    } // Cierre del método
 
     
     public void controlarPiscinaNiños(Usuario u) {
@@ -132,13 +132,13 @@ public class PiscinaNiños {
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
-    }
+    } // Cierre del método
     
     public boolean isAccesoPermitido() {
         return accesoPermitido;
-    }
+    } // Cierre del método
 
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

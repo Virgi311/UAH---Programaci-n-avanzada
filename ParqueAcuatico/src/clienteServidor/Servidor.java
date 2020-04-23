@@ -9,8 +9,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
+ * Clase Conexión Servidor 
+ * 
+ * Contiene información del servidor en la conexión
  *
- * @authors 
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -33,7 +36,7 @@ public class Servidor extends Thread {
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    }
+    } // Cierre del método
     
     @Override
     public void run() {
@@ -53,21 +56,21 @@ public class Servidor extends Thread {
                 System.out.println( "ERROR: " + ex );
             }
         }
-    }
+    } // Cierre del método
     
     public void eliminar( Conexion conexion ) {
         conexiones.remove( conexion );
-    }
+    } // Cierre del método
     
     public void detener() {
         System.out.println("Ejecutando metodo Detener()");
         paso.detener();
-    }
+    } // Cierre del método
     
     public void reanudar() {
         System.out.println("Ejecutando metodo Reanudar()");
         paso.reanudar();
-    }
+    } // Cierre del método
     
     public void cerrar( boolean finalizar ) {
         System.out.println("Ejecutando el cierre de toda la aplicacion");
@@ -82,5 +85,5 @@ public class Servidor extends Thread {
         if( finalizar ) {
             exit(0);
         }
-    }   
-}
+    } // Cierre del método  
+} // Cierre de la clase

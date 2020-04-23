@@ -10,24 +10,26 @@ import hilos.Usuario;
 import util.FuncionesGenerales;
 
 /**
+ * Clase Tumbonas
  *
- * @authors 
+ * Define la forma y funcionamiento de las tumbonas
+ *
+ * @author 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
 public class Tumbonas {
+    //Elementos de la interfaz
     private final JTextArea colaTumbonas;
     private final JTextArea areaTumbonas;
     private final JTextField monitorTumbonas;
-
-    private boolean accesoPermitido = false;
-    
+    //Concurrencia
     private final Semaphore semTumbonas = new Semaphore(20);
     private final Semaphore semTumbonas0 = new Semaphore(0, true);
     private final CopyOnWriteArrayList<Usuario> colaEntrarTumbonas = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<Usuario> tumbonas = new CopyOnWriteArrayList<>();
     private final BlockingQueue colaMonitorTumbonas = new LinkedBlockingQueue();
-    
+    private boolean accesoPermitido = false;
     private final FuncionesGenerales fg;
     private final Paso paso;
     
@@ -38,7 +40,7 @@ public class Tumbonas {
         
         this.fg = fg;
         this.paso = paso;
-    }
+    } // Cierre del método
        
     public boolean entrarTumbonas(Usuario u){
         if( u.getEdad() <= 10 || u.getEsAcompañante() ) {
@@ -64,14 +66,14 @@ public class Tumbonas {
         }
     
         return true;
-    }
+    } // Cierre del método
     
     public void salirTumbonas(Usuario u){
         tumbonas.remove(u);
         fg.imprimir(areaTumbonas, tumbonas.toString());
         paso.mirar();
         semTumbonas.release();
-    }
+    } // Cierre del método
     
     public Usuario controlarTumbonas(){
         try {
@@ -82,7 +84,7 @@ public class Tumbonas {
         } catch (InterruptedException ex) {
             return null;
         } 
-    }
+    } // Cierre del método
     
     public void controlarTumbonas(Usuario u){
         if( u.getEdad() >= 15 ) {
@@ -93,13 +95,13 @@ public class Tumbonas {
         paso.mirar();
         semTumbonas.release();
         monitorTumbonas.setText("");
-    }
+    } // Cierre del método
     
     public boolean isAccesoPermitido() {
         return accesoPermitido;
-    }
+    } // Cierre del método
 
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

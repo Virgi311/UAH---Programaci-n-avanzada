@@ -4,8 +4,11 @@ import concurrencia.Parque;
 import util.FuncionesGenerales;
 
 /**
+ * Clase Monitor
  *
- * @authors 
+ * Define la forma y funcionamiento de los monitores del parque
+ *
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -41,7 +44,7 @@ public class Monitor extends Thread {
         
         this.run = true;
         this.fg = fg;
-    }
+    } // Cierre del método
     
     @Override
     public void run() {
@@ -72,7 +75,8 @@ public class Monitor extends Thread {
                         if (u != null) {
                         fg.dormir(time, randomTime);
                         parque.getPiscinaGrande().monitorExpulsa(u);
-                    }
+                        break;
+                    } 
                 }
                 
                 case 5:
@@ -102,9 +106,9 @@ public class Monitor extends Thread {
                                 parque.getToboganes().monitorToboganC(usuario);
                                 break;
                         }
-
+                         
                     }
             }
         }
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

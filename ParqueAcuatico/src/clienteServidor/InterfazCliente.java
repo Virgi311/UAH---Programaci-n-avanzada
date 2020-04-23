@@ -1,8 +1,11 @@
 package clienteServidor;
 
 /**
+ * Clase InterfazCliente
  *
- * @authors 
+ * Contiene la implementacion GUI del control remoto
+ *
+ * @author 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -15,7 +18,7 @@ public class InterfazCliente extends javax.swing.JFrame {
         
         cliente = new Cliente();
         cliente.start();
-    }
+    } // Cierre del método
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -422,7 +425,7 @@ public class InterfazCliente extends javax.swing.JFrame {
                 new InterfazCliente().setVisible(true);
             }
         });
-    }
+    } // Cierre del método
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarAforo;
@@ -465,4 +468,4 @@ public class InterfazCliente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
-}
+} // Cierre de la clase

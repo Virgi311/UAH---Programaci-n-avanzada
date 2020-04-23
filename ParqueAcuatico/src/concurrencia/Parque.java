@@ -11,13 +11,16 @@ import java.util.logging.Logger;
 import util.FuncionesGenerales;
 
 /**
+ * Clase Parque
  *
- * @authors 
+ * Define la forma y funcionamiento del parque
+ *
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
 public class Parque {
-    //Elementos interfaz
+    //Elementos de la interfaz
     private final JTextField monitorVestuario;
     private final JTextArea areaVestuario;
     private final JTextArea colaVestuario;
@@ -96,7 +99,7 @@ public class Parque {
         this.tumbonas = new Tumbonas(colaTumbonas, areaTumbonas, monitorTumbonas, fg, paso);
         this.vestuario = new Vestuario (colaVestuario, monitorVestuario, areaVestuario, fg, paso);
         this.toboganes = new Toboganes(areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, colaToboganes, piscinaGrande, fg, paso);
-    }
+    } // Cierre del método
 
     public void entrarParque(Usuario u) {
         try {
@@ -109,136 +112,134 @@ public class Parque {
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
-    }
+    } // Cierre del método
 
     public void salirParque() {
         paso.mirar();
         semEntrarparque.release();
-    }
+    } // Cierre del método
     
     public Vestuario getVestuario() {
         return vestuario;
-    }
+    } // Cierre del método
 
     public void setVestuario(Vestuario vestuario) {
         this.vestuario = vestuario;
-    }
+    } // Cierre del método
 
     public PiscinaNiños getPiscinaNiños() {
         return piscinaNiños;
-    }
+    } // Cierre del método
 
     public void setPiscinaNiños(PiscinaNiños piscinaNiños) {
         this.piscinaNiños = piscinaNiños;
-    }
+    } // Cierre del método
     
     public JTextField getMonitorVestuario() {
         return monitorVestuario;
-    }
+    } // Cierre del método
 
     public JTextArea getAreaVestuario() {
         return areaVestuario;
-    }
+    } // Cierre del método
 
     public JTextArea getColaVestuario() {
         return colaVestuario;
-    }
+    } // Cierre del método
 
     public JTextArea getColaEntrada() {
         return colaEntrada;
-    }
+    } // Cierre del método
 
     public JTextArea getColaPiscinaNiños() {
         return colaPiscinaNiños;
-    }
+    } // Cierre del método
 
     public JTextField getMonitorPiscinaNiños() {
         return monitorPiscinaNiños;
-    }
+    } // Cierre del método
 
     public JTextArea getAreaPiscinaNiños() {
         return areaPiscinaNiños;
-    }
+    } // Cierre del método
 
     public JTextArea getColaEsperaAdultos() {
         return colaEsperaAdultos;
-    }
+    } // Cierre del método
 
     public Semaphore getSemEntrarparque() {
         return semEntrarparque;
-    }
+    } // Cierre del método
 
     public BlockingQueue getColaEntrarParque() {
         return colaEntrarParque;
-    }
+    } // Cierre del método
 
     public PiscinaOlas getPiscinaOlas() {
         return piscinaOlas;
-    }
+    } // Cierre del método
 
     public void setPiscinaOlas(PiscinaOlas piscinaOlas) {
         this.piscinaOlas = piscinaOlas;
-    }
+    } // Cierre del método
 
     public JTextArea getColaPiscinaOlas() {
         return colaPiscinaOlas;
-    }
+    } // Cierre del método
 
     public JTextField getMonitorPiscinaOlas() {
         return monitorPiscinaOlas;
-    }
+    } // Cierre del método
 
     public JTextArea getAreaPiscinaOlas() {
         return areaPiscinaOlas;
-    }
+    } // Cierre del método
 
     public PiscinaGrande getPiscinaGrande() {
         return piscinaGrande;
-    }
+    } // Cierre del método
 
     public void setPiscinaGrande(PiscinaGrande piscinaGrande) {
         this.piscinaGrande = piscinaGrande;
-    }
+    } // Cierre del método
 
     public Tumbonas getTumbonas() {
         return tumbonas;
-    }
+    } // Cierre del método
 
     public void setTumbonas(Tumbonas tumbonas) {
         this.tumbonas = tumbonas;
-    }
+    } // Cierre del método
 
     public JTextField getMonitorPiscinaGrande() {
         return monitorPiscinaGrande;
-    }
+    } // Cierre del método
 
     public JTextArea getAreaPiscinaGrande() {
         return areaPiscinaGrande;
-    }
+    } // Cierre del método
 
     public JTextArea getColaPiscinaGrande() {
         return colaPiscinaGrande;
-    }
+    } // Cierre del método
 
     public JTextArea getColaTumbonas() {
         return colaTumbonas;
-    }
+    } // Cierre del método
 
     public JTextArea getAreaTumbonas() {
         return areaTumbonas;
-    }
+    } // Cierre del método
 
     public JTextField getMonitorTumbonas() {
         return monitorTumbonas;
-    }   
+    }    // Cierre del método
 
     public Toboganes getToboganes() {
         return toboganes;
-    }
+    } // Cierre del método
 
     public void setToboganes(Toboganes toboganes) {
         this.toboganes = toboganes;
-    }
-    
-    
-}
+    } // Cierre del método
+} // Cierre de la clase

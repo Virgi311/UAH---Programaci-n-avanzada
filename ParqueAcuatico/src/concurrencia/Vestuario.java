@@ -10,23 +10,25 @@ import hilos.Usuario;
 import util.FuncionesGenerales;
 
 /**
+ * Clase Vestuario
  *
- * @authors 
+ * Define la forma y funcionamiento del vestuario
+ *
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
 public class Vestuario {
+    //Elementos de la interfaz
     private final JTextArea colaVestuario;
     private final JTextField monitorVestuario;
     private final JTextArea areaVestuario;
-     
+    //Concurrencia
     private final Semaphore semVestuarioAdulto = new Semaphore(20, true);
     private final Semaphore semVestuarioNiño = new Semaphore(10, true);
     private final Semaphore semVestuario = new Semaphore(0, true);
-    
     private final BlockingQueue colaEntrarVestuario = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
-    
     private final FuncionesGenerales fg;
     private final Paso paso;
 
@@ -37,7 +39,7 @@ public class Vestuario {
         
         this.fg = fg;
         this.paso = paso;
-    }
+    } // Cierre del método
     
     public void entrarVestuarios(Usuario u) {
         try {
@@ -55,7 +57,7 @@ public class Vestuario {
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
-    }
+    } // Cierre del método
 
     public void salirVestuarios(Usuario u) {
         vestuario.remove(u);
@@ -67,7 +69,7 @@ public class Vestuario {
             paso.mirar();
             semVestuarioAdulto.release();
         }
-    }
+    } // Cierre del método
 
     public Usuario controlarVestuario() {
         try {
@@ -80,7 +82,7 @@ public class Vestuario {
         } catch (InterruptedException ex) {
             return null;
         }
-    }
+    } // Cierre del método
 
     public void controlarVestuario(Usuario u) {
         try {
@@ -111,5 +113,5 @@ public class Vestuario {
         } catch (InterruptedException e) {
             System.out.println("ERROR: " + e);
         }
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

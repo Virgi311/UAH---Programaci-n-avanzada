@@ -5,8 +5,11 @@ import java.util.concurrent.CyclicBarrier;
 import util.FuncionesGenerales;
 
 /**
+ * Clase Usuario
  *
- * @authors 
+ * Define la forma y funcionamiento de los usuarios del parque
+ *
+ * @author 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -37,7 +40,7 @@ public class Usuario extends Thread {
         this.paso = paso;
         
         this.fg = fg;
-    }
+    } // Cierre del método
 
     @Override
     public void run() {
@@ -77,7 +80,7 @@ public class Usuario extends Thread {
 
         paso.mirar();
         parque.salirParque();
-    }
+    } // Cierre del método
     
     public void atraccionAleatoria(String tipo) {
         int num = (int)(5 * Math.random());
@@ -137,55 +140,55 @@ public class Usuario extends Thread {
 
                 break;
         }
-    }
+    } // Cierre del método
 
     public int getIdentificador() {
         return identificador;
-    }
+    } // Cierre del método
 
     public void setIdentificador(int identificador) {
         this.identificador = identificador;
-    }
+    } // Cierre del método
 
     public Integer getEdad() {
         return edad;
-    }
+    } // Cierre del método
 
     public void setEdad(Integer edad) {
         this.edad = edad;
-    }
+    } // Cierre del método
 
     public Usuario getAcompañante() {
         return acompañante;
-    }
+    } // Cierre del método
 
     public void setAcompañante(Usuario acompañante) {
         this.acompañante = acompañante;
         esAcompañante = acompañante.getEdad() >= 18;
-    }
+    } // Cierre del método
     
     public String getCodigo() {
         return codigo;
-    }
+    } // Cierre del método
 
     public void setCodigo(String nombre) {
         this.codigo = nombre;
-    }
+    } // Cierre del método
     
     public boolean getEsAcompañante() {
         return esAcompañante;
-    }
+    } // Cierre del método
 
     public void setEsAcompañante(boolean esAcompañante) {
         this.esAcompañante = esAcompañante;
-    }
+    } // Cierre del método
     
     public int getNumAtracciones() {
         return numAtracciones;
-    }
+    } // Cierre del método
     
     @Override
     public String toString() {
         return codigo;
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

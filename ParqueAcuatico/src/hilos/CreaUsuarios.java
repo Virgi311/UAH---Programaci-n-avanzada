@@ -7,8 +7,11 @@ import util.FuncionesGenerales;
         
 
 /**
+ * Clase CreaUsuarios
  *
- * @authors 
+ * Define la forma en que se crean los hilos usuarios del parque
+ *
+ * @author
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -25,7 +28,7 @@ public class CreaUsuarios extends Thread {
         this.paso = paso;
         
         this.fg = fg;
-    }
+    } // Cierre del método
 
     @Override
     public void run() {
@@ -49,11 +52,11 @@ public class CreaUsuarios extends Thread {
             usuarioPrincipal.start();
             fg.dormir(400, 700);
         }
-    }
+    } // Cierre del método
     
 
     private int getEdadAleatoria(int min) {
         Random aleatoriedad = new Random(System.currentTimeMillis());
         return aleatoriedad.nextInt(50 - min) + min;
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase

@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
+ * Clase Conexión
  *
- * @authors 
+ * Contiene información de la conexión
+ *
+ * @author 
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
@@ -35,7 +38,7 @@ public class Conexion extends Thread {
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    }
+    } // Cierre del método
     
     @Override
     public void run () {
@@ -60,7 +63,7 @@ public class Conexion extends Thread {
                 System.out.println( "ERROR: " + ex );
             }
         }
-    }
+    } // Cierre del método
     
     //TODO: Metodos de busqueda del cliente en el servidor
     
@@ -85,9 +88,9 @@ public class Conexion extends Thread {
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    }
+    } // Cierre del método
         
     public int getIdName() {
         return id;
-    }
-}
+    } // Cierre del método
+} // Cierre de la clase
