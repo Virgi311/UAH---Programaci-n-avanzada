@@ -69,15 +69,8 @@ public class Monitor extends Thread {
                     break;
                     
                 case 4:
-                    while (true) {
-                        fg.dormir(time, randomTime);
-                        Usuario u = parque.getPiscinaGrande().monitorExpulsa();
-                        if (u != null) {
-                        fg.dormir(time, randomTime);
-                        parque.getPiscinaGrande().monitorExpulsa(u);
+                        //usuario = parque.getPiscinaGrande().
                         break;
-                    } 
-                }
                 
                 case 5:
                     usuario = parque.getTumbonas().controlarTumbonas();
@@ -86,28 +79,26 @@ public class Monitor extends Thread {
                     break;
                     
                 case 6:
-                    while (true) {
-                        switch (identificador) {
-                            case "A":
-                                usuario = parque.getToboganes().monitorToboganA();
-                                fg.dormir(time, randomTime);
-                                parque.getToboganes().monitorToboganA(usuario);
-                                break;
+                    switch (identificador) {
+                        case "A":
+                            usuario = parque.getToboganes().monitorToboganA();
+                            fg.dormir(time, randomTime);
+                            parque.getToboganes().monitorToboganA(usuario);
+                            break;
 
-                            case "B":
-                                usuario = parque.getToboganes().monitorToboganB();
-                                fg.dormir(time, randomTime);
-                                parque.getToboganes().monitorToboganB(usuario);
-                                break;
+                        case "B":
+                            usuario = parque.getToboganes().monitorToboganB();
+                            fg.dormir(time, randomTime);
+                            parque.getToboganes().monitorToboganB(usuario);
+                            break;
 
-                            case "C":
-                                usuario = parque.getToboganes().monitorToboganC();
-                                fg.dormir(time, randomTime);
-                                parque.getToboganes().monitorToboganC(usuario);
-                                break;
-                        }
-                         
+                        case "C":
+                            usuario = parque.getToboganes().monitorToboganC();
+                            fg.dormir(time, randomTime);
+                            parque.getToboganes().monitorToboganC(usuario);
+                            break;
                     }
+                    break;
             }
         }
     } // Cierre del método

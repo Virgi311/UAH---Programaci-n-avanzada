@@ -29,10 +29,10 @@ public class Main extends javax.swing.JFrame {
         paso = new Paso();
         fg = new FuncionesGenerales();
         
-        servidor = new Servidor(paso);
-        servidor.start();
-        
         Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas, areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, jTextArea20, fg, paso);
+        
+        servidor = new Servidor(paso, parque);
+        servidor.start();
         
         Monitor m1 = new Monitor( parque, 1000, 0, 1, fg, null );
         m1.start();

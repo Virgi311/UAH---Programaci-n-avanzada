@@ -6,8 +6,6 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import util.FuncionesGenerales;
 
 /**
@@ -64,6 +62,7 @@ public class Parque {
     
     private final FuncionesGenerales fg;
     private final Paso paso;
+    private int menores;
 
     public Parque(JTextField monitorVestuario, JTextArea areaVestuario, JTextArea colaVestuario, JTextArea colaEntrada, JTextArea colaPiscinaNiños, JTextField monitorPiscinaNiños, JTextArea areaPiscinaNiños, JTextArea colaEsperaAdultos, JTextArea colaPiscinaOlas, JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextField monitorPiscinaGrande, JTextArea areaPiscinaGrande, JTextArea colaPiscinaGrande, JTextArea colaTumbonas, JTextArea areaTumbonas, JTextField monitorTumbonas, JTextField areaToboganA, JTextField areaToboganB, JTextField areaToboganC, JTextField monitorToboganA, JTextField monitorToboganB, JTextField monitorToboganC, JTextArea colaToboganes, FuncionesGenerales fg, Paso paso) {
         this.monitorVestuario = monitorVestuario;
@@ -92,6 +91,7 @@ public class Parque {
         this.colaToboganes = colaToboganes;
         this.fg = fg;
         this.paso = paso;
+        this.menores = 0;
         
         this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos, fg, paso);
         this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas, fg, paso);
@@ -241,5 +241,17 @@ public class Parque {
 
     public void setToboganes(Toboganes toboganes) {
         this.toboganes = toboganes;
+    } // Cierre del método
+    
+    public void setMenoresEntra() {
+        this.menores++;
+    } // Cierre del método
+    
+    public void setMenoresSale() {
+        this.menores--;
+    } // Cierre del método
+    
+    public int getMenores() {
+        return menores;
     } // Cierre del método
 } // Cierre de la clase

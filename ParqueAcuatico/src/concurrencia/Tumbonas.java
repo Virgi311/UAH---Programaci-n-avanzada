@@ -104,4 +104,16 @@ public class Tumbonas {
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
     } // Cierre del método
+
+    public CopyOnWriteArrayList<Usuario> getColaEntrarTumbonas() {
+        return colaEntrarTumbonas;
+    } // Cierre del método
+
+    public CopyOnWriteArrayList<Usuario> getTumbonas() {
+        return tumbonas;
+    } // Cierre del método
+
+    public BlockingQueue getColaMonitorTumbonas() {
+        return colaMonitorTumbonas;
+    } // Cierre del método
 } // Cierre de la clase

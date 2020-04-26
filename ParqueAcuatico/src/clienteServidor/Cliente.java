@@ -6,6 +6,7 @@ import java.io.IOException;
 import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.Scanner;
+import javax.swing.JTextField;
 
 
 /**
@@ -26,7 +27,20 @@ public class Cliente extends Thread {
     
     private boolean conexion = false;
     
-    public Cliente() {
+    private final JTextField jTextField2;
+    private final JTextField jTextField3;
+    private final JTextField jTextField4;
+    private final JTextField jTextField5;
+    private final JTextField jTextField6;
+    private final JTextField jTextField7;
+    private final JTextField jTextField9;
+    private final JTextField jTextField10;
+    private final JTextField jTextField11;
+    private final JTextField jTextField12;
+    private final JTextField jTextField13;
+    private final JTextField jTextField14;
+    
+    public Cliente( JTextField jTextField2, JTextField jTextField3, JTextField jTextField4, JTextField jTextField5, JTextField jTextField6, JTextField jTextField7, JTextField jTextField9, JTextField jTextField10, JTextField jTextField11, JTextField jTextField12, JTextField jTextField13, JTextField jTextField14 ) {
         try {
             System.out.println( "Creando cliente..." );
             
@@ -45,6 +59,19 @@ public class Cliente extends Thread {
         } catch( IOException ex ) {
             System.out.println("ERROR: " + ex);
         }
+        this.jTextField2 = jTextField2;
+        this.jTextField3 = jTextField3;
+        this.jTextField4 = jTextField4;
+        this.jTextField5 = jTextField5;
+        this.jTextField6 = jTextField6;
+        this.jTextField7 = jTextField7;
+        this.jTextField9 = jTextField9;
+        this.jTextField10 = jTextField10;
+        this.jTextField11 = jTextField11;
+        this.jTextField12 = jTextField12;
+        this.jTextField13 = jTextField13;
+        this.jTextField14 = jTextField14;
+        
     } // Cierre del método
     
     @Override 
@@ -57,6 +84,40 @@ public class Cliente extends Thread {
                         cerrar( false );
                     } else if( comunicado.equals( "CERRARSERVER" ) ) {
                         cerrar( true );
+                    } else {
+                        String control = comunicado.split("!")[0];
+                        
+                        switch( control ) {
+                            case "UBICACION":
+                                if( comunicado.split("!").length == 2 ) {
+                                    jTextField2.setText(comunicado.split("!")[1]);
+                                    jTextField3.setText("");
+                                } else {
+                                    jTextField2.setText(comunicado.split("!")[2]);
+                                    jTextField3.setText(comunicado.split("!")[1]);
+                                }
+                                    
+                                break;
+                            
+                            case "MENORES":
+                                jTextField4.setText(comunicado.split("!")[1]);
+                                break;
+                                
+                            case "TOBOGANES":
+                                jTextField5.setText(comunicado.split("!")[1]);
+                                jTextField6.setText(comunicado.split("!")[2]);
+                                jTextField7.setText(comunicado.split("!")[3]);
+                                break;
+                               
+                            case "AFORO":
+                                jTextField9.setText(comunicado.split("!")[1]);
+                                jTextField10.setText(comunicado.split("!")[2]);
+                                jTextField11.setText(comunicado.split("!")[3]);
+                                jTextField12.setText(comunicado.split("!")[4]);
+                                jTextField13.setText(comunicado.split("!")[5]);
+                                jTextField14.setText(comunicado.split("!")[6]);
+                                break;
+                        }
                     }
                 }
             } catch( IOException ex ) {
@@ -67,20 +128,40 @@ public class Cliente extends Thread {
 
     //TODO: Metodos de busqueda de cada atraccion
     
-    public void buscarUbicacion() {
-        System.out.println("\tBuscando ubicaciones...");
+    public void buscarUbicacion( String codigo ) {
+        System.out.println("\tBuscando ubicacion...");
+        try {
+            salida.writeUTF("UBICACION!" + codigo);
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
     }// Cierre del método
     
     public void buscarMenores() {
         System.out.println("\tBuscando menores...");
+        try {
+            salida.writeUTF("MENORES");
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
     }// Cierre del método
     
     public void buscarTobogan() {
         System.out.println("\tBuscando en los toboganes...");
+        try {
+            salida.writeUTF("TOBOGANES");
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
     }// Cierre del método
     
     public void buscarAforo() {
         System.out.println("\tBuscando el aforo...");
+        try {
+            salida.writeUTF("AFORO");
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
     }// Cierre del método
     
     public void cerrar( boolean servidorBool ) {

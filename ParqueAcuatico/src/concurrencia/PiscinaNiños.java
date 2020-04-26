@@ -134,11 +134,15 @@ public class PiscinaNiños {
         }
     } // Cierre del método
     
-    public boolean isAccesoPermitido() {
-        return accesoPermitido;
+    public BlockingQueue getColaEntrarPiscinaNiños() {
+        return colaEntrarPiscinaNiños;
     } // Cierre del método
 
-    public void setAccesoPermitido(boolean accesoPermitido) {
-        this.accesoPermitido = accesoPermitido;
+    public CopyOnWriteArrayList<Usuario> getPiscinaNiños() {
+        return piscinaNiños;
     } // Cierre del método
+
+    public CopyOnWriteArrayList<Usuario> getEsperaAdultos() {
+        return esperaAdultos;
+    } // Cierre del método    
 } // Cierre de la clase

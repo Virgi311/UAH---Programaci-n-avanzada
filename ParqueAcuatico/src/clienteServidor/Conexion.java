@@ -52,11 +52,27 @@ public class Conexion extends Thread {
                     } else if( comunicado.equals("CERRARAPLICACION") ) {
                         comunicado = "CERRAR";
                     }
+                    
+                    if( comunicado.split("!").length == 2 && comunicado.split("!")[0].equals("UBICACION") ) {
+                        buscarUbicacion( comunicado.split("!")[1] );
+                    } else {
+                        switch( comunicado ) {
+                            case "CERRAR":
+                                cerrar( false );
+                                break;
                         
-                    switch( comunicado ) {
-                        case "CERRAR":
-                            cerrar( false );
-                            break;
+                            case "AFORO":
+                                buscarAforo();
+                                break;
+                        
+                            case "TOBOGANES":
+                                buscarToboganes();
+                                break;
+                            
+                            case "MENORES":
+                                buscarMenores();
+                                break;
+                        }
                     }
                 }
             } catch (IOException ex) {
@@ -66,6 +82,44 @@ public class Conexion extends Thread {
     } // Cierre del método
     
     //TODO: Metodos de busqueda del cliente en el servidor
+     
+    public void buscarUbicacion( String codigo ) {
+        String ubicacion = servidor.buscarUbicacion(codigo);
+        try {
+            if( ubicacion == null ) {
+                ubicacion = "UBICACION!No encontrado";
+            }
+            salida.writeUTF(ubicacion);
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
+    } // Cierre del método
+    
+    public void buscarMenores() {
+        int menores = servidor.buscarMenores();
+        try {
+            salida.writeUTF("MENORES!" + menores);
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
+    } // Cierre del método
+    
+    public void buscarAforo() {
+        
+    } // Cierre del método
+    
+    public void buscarToboganes() {
+        String toboganes = servidor.buscarToboganes();
+        try {
+            salida.writeUTF("TOBOGANES!" + toboganes);
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
+    } // Cierre del método
+    
+    public int getIdName() {
+        return id;
+    } // Cierre del método
     
     public void cerrar( boolean servidorBool ) {
         if( !servidorBool ) {
@@ -88,9 +142,5 @@ public class Conexion extends Thread {
         } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    } // Cierre del método
-        
-    public int getIdName() {
-        return id;
     } // Cierre del método
 } // Cierre de la clase

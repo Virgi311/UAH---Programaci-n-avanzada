@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import util.FuncionesGenerales;
-import java.util.Random;
 
 /**
  * Clase PiscinaGrande
@@ -45,69 +44,68 @@ public class PiscinaGrande {
     public void entrarPiscinaGrande(Usuario u) {
         try {
             colaEntrarPiscinaGrande.put(u);
-            imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            
             if(u.getEdad() < 11){
                 semPiscinaGrande.acquire(2);
                 semPiscinaGrande.release(1);
             } else{
                 semPiscinaGrande.acquire();
             }
+            
             colaEntrarPiscinaGrande.take();
-            imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            
             piscinaGrande.add(u);
-            imprimir(areaPiscinaGrande, piscinaGrande.toString());
-
+            fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
         } catch (InterruptedException ex) {
+            System.out.println("ERROR:" + ex);
         }
     } // Cierre del método
 
     public void salirPiscinaGrande(Usuario u) {
         piscinaGrande.remove(u);
-        imprimir(areaPiscinaGrande, piscinaGrande.toString());
+        fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
         semPiscinaGrande.release();
     } // Cierre del método
     
     public Usuario monitorExpulsa(){
-        if(piscinaGrande.isEmpty()){
-            return null;
-        }
-        int pos = getNumAleatorio(piscinaGrande.size());
+        int pos = (int) ( piscinaGrande.size() * Math.random() );
         Usuario u = piscinaGrande.get(pos);
         if(u.getEsAcompañante()){
-            return null;
+            Usuario ua = u.getAcompañante();
+            monitorPiscinaGrande.setText(ua.toString());
+            return ua;
         }
         monitorPiscinaGrande.setText(u.toString());
         return u;
     } // Cierre del método
     
     public void monitorExpulsa(Usuario u){
-        
         monitorPiscinaGrande.setText("");
-        u.interrupt();
-        
+        u.interrupt();  
     } // Cierre del método
     
-    public void haySitioEnPiscina(){
-        try {
-            semPiscinaGrande.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(PiscinaGrande.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean excesoAforo(){
+        int numPersonas = piscinaGrande.size();
+        if( numPersonas == 50 ) {
+            return true;
         }
+        
+        return false;
     } // Cierre del método
     
     public void entrarPorTobogan(Usuario u){
         piscinaGrande.add(u);
-        imprimir(areaPiscinaGrande, piscinaGrande.toString());
+        fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
     } // Cierre del método
 
-
-    private synchronized void imprimir(JTextArea campo, String contenido) {
-        campo.setText(contenido);
+    public BlockingQueue getColaEntrarPiscinaGrande() {
+        return colaEntrarPiscinaGrande;
     } // Cierre del método
-    
-    private int getNumAleatorio(int max) {
-        Random aleatoriedad = new Random(System.currentTimeMillis());
-        return aleatoriedad.nextInt(max);
+
+    public CopyOnWriteArrayList<Usuario> getPiscinaGrande() {
+        return piscinaGrande;
     } // Cierre del método
 } // Cierre de la clase
 

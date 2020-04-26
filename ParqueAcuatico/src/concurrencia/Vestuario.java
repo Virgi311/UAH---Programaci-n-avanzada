@@ -114,4 +114,12 @@ public class Vestuario {
             System.out.println("ERROR: " + e);
         }
     } // Cierre del método
+    
+    public CopyOnWriteArrayList<Usuario> getVestuarios() {
+        return vestuario;
+    } // Cierre del método
+    
+    public BlockingQueue getColaVestuarios() {
+        return colaEntrarVestuario;
+    } // Cierre del método
 } // Cierre de la clase

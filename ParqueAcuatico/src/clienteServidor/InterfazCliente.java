@@ -1,5 +1,7 @@
 package clienteServidor;
 
+import javax.swing.JOptionPane;
+
 /**
  * Clase InterfazCliente
  *
@@ -16,7 +18,7 @@ public class InterfazCliente extends javax.swing.JFrame {
     public InterfazCliente() {
         initComponents();
         
-        cliente = new Cliente();
+        cliente = new Cliente( jTextField2, jTextField3, jTextField4, jTextField5, jTextField6, jTextField7, jTextField9, jTextField10, jTextField11, jTextField12, jTextField13, jTextField14 );
         cliente.start();
     } // Cierre del método
     
@@ -90,6 +92,12 @@ public class InterfazCliente extends javax.swing.JFrame {
         btnBuscarUbicacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarUbicacionActionPerformed(evt);
+            }
+        });
+
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
             }
         });
 
@@ -396,7 +404,13 @@ public class InterfazCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarUbicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarUbicacionActionPerformed
-        cliente.buscarUbicacion();
+        String codigo = jTextField1.getText();
+        
+        if( codigo.isEmpty() || codigo.replace(" ", "").equals("") ) {
+            JOptionPane.showMessageDialog(null, "Indique un usuario para buscar su ubicacion.");
+        } else {
+            cliente.buscarUbicacion(codigo);
+        }
     }//GEN-LAST:event_btnBuscarUbicacionActionPerformed
 
     private void btnBuscarMenoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMenoresActionPerformed
@@ -416,6 +430,12 @@ public class InterfazCliente extends javax.swing.JFrame {
             cliente.emitirSeñalCerrar();
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+    }//GEN-LAST:event_jTextField1MouseClicked
 
     public static void main(String args[]) {
         

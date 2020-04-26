@@ -144,15 +144,11 @@ public class PiscinaOlas {
         monitorPiscinaOlas.setText("");
     } // Cierre del método
 
-    public boolean isAccesoPermitido() {
-        return accesoPermitido;
+    public BlockingQueue getColaEntrarPiscinaOlas() {
+        return colaEntrarPiscinaOlas;
     } // Cierre del método
 
-    public void setAccesoPermitido(boolean accesoPermitido) {
-        this.accesoPermitido = accesoPermitido;
-    } // Cierre del método
-
-    public CyclicBarrier getBarrera() {
-        return barreraPiscinaOlas;
+    public CopyOnWriteArrayList<Usuario> getPiscinaOlas() {
+        return piscinaOlas;
     } // Cierre del método
 } // Cierre de la clase

@@ -31,18 +31,6 @@ public class Toboganes {
     private final FuncionesGenerales fg;
     private final Paso paso;
     
-    public Toboganes(JTextField areaToboganA, JTextField areaToboganB, JTextField areaToboganC, JTextField monitorToboganA, JTextField monitorToboganB, JTextField monitorToboganC, JTextArea colaToboganes, PiscinaGrande piscinaGrande, FuncionesGenerales fg, Paso paso ) {
-        this.areaToboganA = areaToboganA;
-        this.areaToboganB = areaToboganB;
-        this.areaToboganC = areaToboganC;
-        this.monitorToboganA = monitorToboganA;
-        this.monitorToboganB = monitorToboganB;
-        this.monitorToboganC = monitorToboganC;
-        this.colaToboganes = colaToboganes;
-        this.piscinaGrande = piscinaGrande;
-        this.fg = fg;
-        this.paso = paso;
-    } // Cierre del método
     //Concurrencia
     private final CopyOnWriteArrayList<Usuario> colaEntrarToboganes = new CopyOnWriteArrayList<>();
 
@@ -61,6 +49,20 @@ public class Toboganes {
     private final Semaphore semToboganA0 = new Semaphore(0, true);
     private final Semaphore semToboganB0 = new Semaphore(0, true);
     private final Semaphore semToboganC0 = new Semaphore(0, true);
+    
+    public Toboganes(JTextField areaToboganA, JTextField areaToboganB, JTextField areaToboganC, JTextField monitorToboganA, JTextField monitorToboganB, JTextField monitorToboganC, JTextArea colaToboganes, PiscinaGrande piscinaGrande, FuncionesGenerales fg, Paso paso ) {
+        this.areaToboganA = areaToboganA;
+        this.areaToboganB = areaToboganB;
+        this.areaToboganC = areaToboganC;
+        this.monitorToboganA = monitorToboganA;
+        this.monitorToboganB = monitorToboganB;
+        this.monitorToboganC = monitorToboganC;
+        this.colaToboganes = colaToboganes;
+        this.piscinaGrande = piscinaGrande;
+        
+        this.fg = fg;
+        this.paso = paso;
+    } // Cierre del método
 
     public boolean entrarToboganes(Usuario u) {
         try {
@@ -70,7 +72,6 @@ public class Toboganes {
             colaEntrarToboganes.add(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
             if (u.getEdad() < 15) {
-
                 semToboganA.acquire();
                 colaToboganA.put(u);
                 semToboganA0.acquire();
@@ -84,15 +85,12 @@ public class Toboganes {
                 semToboganC0.acquire();
             }
 
-            piscinaGrande.haySitioEnPiscina();
-
             colaEntrarToboganes.remove(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
 
             if (u.getEdad() < 15) {
                 toboganA = u.toString();
                 areaToboganA.setText(toboganA);
-
             } else if (u.getEdad() < 18) {
                 toboganB = u.toString();
                 areaToboganB.setText(toboganB);
@@ -108,12 +106,15 @@ public class Toboganes {
     } // Cierre del método
 
     public void toboganApiscinaGrande(Usuario u) {
+        if( piscinaGrande.excesoAforo() ){
+            Usuario usuario = piscinaGrande.monitorExpulsa();
+            piscinaGrande.monitorExpulsa(usuario);
+        }
+        
         if (u.getEdad() < 15) {
-
             toboganA = "";
             areaToboganA.setText("");
             semToboganA.release();
-
         } else if (u.getEdad() < 18) {
             toboganB = "";
             areaToboganB.setText("");
@@ -234,5 +235,21 @@ public class Toboganes {
 
     public void setToboganC(String toboganC) {
         this.toboganC = toboganC;
+    } // Cierre del método
+
+    public CopyOnWriteArrayList<Usuario> getColaEntrarToboganes() {
+        return colaEntrarToboganes;
+    } // Cierre del método
+
+    public BlockingQueue getColaToboganA() {
+        return colaToboganA;
+    } // Cierre del método
+
+    public BlockingQueue getColaToboganB() {
+        return colaToboganB;
+    } // Cierre del método
+
+    public BlockingQueue getColaToboganC() {
+        return colaToboganC;
     } // Cierre del método
 } // Cierre de la clase
