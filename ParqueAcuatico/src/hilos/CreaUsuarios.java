@@ -20,7 +20,7 @@ public class CreaUsuarios extends Thread {
     private final int mayoria_edad = 18;
     private final Parque parque;
     private final Paso paso;
-    
+
     private final FuncionesGenerales fg;
     
     public CreaUsuarios(Parque parque, Paso paso, FuncionesGenerales fg) {
@@ -36,27 +36,28 @@ public class CreaUsuarios extends Thread {
             CyclicBarrier barrera = new CyclicBarrier(2);
             int edadUsuario = getEdadAleatoria(1);
             Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, 10 + (int)(6 * Math.random()), paso, fg);
-
+            Usuario usuarioAcompañante = null;
             if( edadUsuario < 11 ){
                 id++;
- 
-                Usuario usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad), usuarioPrincipal.getNumAtracciones(), paso, fg);
-                
+                usuarioAcompañante = new Usuario(parque, barrera, id, getEdadAleatoria(mayoria_edad), usuarioPrincipal.getNumAtracciones(), paso, fg);
                 usuarioPrincipal.setCodigo(usuarioPrincipal.getCodigo() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);
                 usuarioAcompañante.setCodigo(usuarioAcompañante.getCodigo() + "-" + usuarioPrincipal.getIdentificador());
                 usuarioAcompañante.setEsAcompañante(true);
-                usuarioAcompañante.start();
             }
             
             usuarioPrincipal.start();
+            if (usuarioAcompañante != null) {
+                usuarioAcompañante.start();
+            }
             fg.dormir(400, 700);
+            paso.mirar();
         }
     } // Cierre del método
     
 
     private int getEdadAleatoria(int min) {
         Random aleatoriedad = new Random(System.currentTimeMillis());
-        return aleatoriedad.nextInt(50 - min) + min;
+        return aleatoriedad.nextInt(50 + 1 - min) + min;
     } // Cierre del método
 } // Cierre de la clase
