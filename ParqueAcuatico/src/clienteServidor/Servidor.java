@@ -264,19 +264,50 @@ public class Servidor extends Thread {
         }
         
         return null;
-    }
+    } // Cierre del método
     
     public int buscarMenores() {
         return parque.getMenores();
-    }
+    } // Cierre del método
     
     public String buscarToboganes() {
-        return parque.getToboganes().getToboganA() + "!" + parque.getToboganes().getToboganB() + "!" + parque.getToboganes().getToboganC();
-    }
+        return ( ( !parque.getToboganes().getToboganA().equals("") ) ? 1 : 0 )
+                + "!" + ( ( !parque.getToboganes().getToboganB().equals("") ) ? 1 : 0 ) 
+                + "!" + ( ( !parque.getToboganes().getToboganC().equals("") ) ? 1 : 0 );
+    } // Cierre del método
     
-    public void buscarAforo() {
+    public String buscarAforo() {
+        int numVestuario = ( parque.getVestuario().getColaVestuarios().size() )
+                            + ( ( !parque.getMonitorVestuario().getText().equals("") ) ? 1 : 0 )
+                            + ( parque.getVestuario().getVestuarios().size() );
         
-    }
+        int numPiscinaOlas = ( parque.getPiscinaOlas().getColaEntrarPiscinaOlas().size() )
+                                + ( ( !parque.getMonitorPiscinaOlas().getText().equals("") ) ? 1 :0 )
+                                + ( parque.getPiscinaOlas().getPiscinaOlas().size() );
+       
+        int numPiscinaNiños = ( parque.getPiscinaNiños().getColaEntrarPiscinaNiños().size() )
+                                + ( ( !parque.getMonitorPiscinaNiños().getText().equals("") ) ? 1 : 0 )
+                                + ( parque.getPiscinaNiños().getPiscinaNiños().size() )
+                                + ( parque.getPiscinaNiños().getEsperaAdultos().size() );
+        
+        int numPiscinaGrande = ( parque.getPiscinaGrande().getColaEntrarPiscinaGrande().size() )
+                                + ( ( !parque.getMonitorPiscinaGrande().getText().equals("") ) ? 1 : 0 )
+                                + ( parque.getPiscinaGrande().getPiscinaGrande().size() );
+        
+        int numTumbonas = ( parque.getTumbonas().getColaEntrarTumbonas().size() )
+                            + ( ( !parque.getMonitorTumbonas().getText().equals("") ? 1 : 0 ) )
+                            + ( parque.getTumbonas().getTumbonas().size() );
+        
+        int numToboganes = ( parque.getToboganes().getColaEntrarToboganes().size() ) 
+                            + ( ( !parque.getMonitorToboganA().getText().equals("") ? 1 : 0 ) )
+                            + ( ( !parque.getMonitorToboganB().getText().equals("") ? 1 : 0 ) )
+                            + ( ( !parque.getMonitorToboganC().getText().equals("") ? 1 : 0 ) )
+                            + ( ( !parque.getToboganes().getToboganA().equals("") ) ? 1 : 0 )
+                            + ( ( !parque.getToboganes().getToboganB().equals("") ) ? 1 : 0 )
+                            + ( ( !parque.getToboganes().getToboganC().equals("") ) ? 1 : 0 );
+        
+        return "AFORO!" + numVestuario + "!" + numPiscinaOlas + "!" + numPiscinaNiños + "!" + numPiscinaGrande + "!" + numTumbonas + "!" + numToboganes;
+    } // Cierre del método
     
     public void cerrar( boolean finalizar ) {
         System.out.println("Ejecutando el cierre de toda la aplicacion");

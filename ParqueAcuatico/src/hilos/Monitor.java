@@ -40,7 +40,7 @@ public class Monitor extends Thread {
         this.atraccion = atraccion;
         this.time = time;
         this.randomTime = randomTime;
-        this.identificador =identificador;
+        this.identificador = identificador;
         
         this.run = true;
         this.fg = fg;
@@ -69,7 +69,9 @@ public class Monitor extends Thread {
                     break;
                     
                 case 4:
-                        //usuario = parque.getPiscinaGrande().
+                        usuario = parque.getPiscinaGrande().controlarPiscinaGrande();
+                        fg.dormir(time, randomTime);
+                        parque.getPiscinaGrande().controlarPiscinaGrande(usuario);
                         break;
                 
                 case 5:

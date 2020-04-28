@@ -60,6 +60,10 @@ public class Toboganes {
         this.colaToboganes = colaToboganes;
         this.piscinaGrande = piscinaGrande;
         
+        this.toboganA = "";
+        this.toboganB = "";
+        this.toboganC = "";
+        
         this.fg = fg;
         this.paso = paso;
     } // Cierre del método
@@ -71,6 +75,7 @@ public class Toboganes {
             }
             colaEntrarToboganes.add(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
+            
             if (u.getEdad() < 15) {
                 semToboganA.acquire();
                 colaToboganA.put(u);

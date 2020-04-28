@@ -71,7 +71,6 @@ public class Cliente extends Thread {
         this.jTextField12 = jTextField12;
         this.jTextField13 = jTextField13;
         this.jTextField14 = jTextField14;
-        
     } // Cierre del método
     
     @Override 
@@ -126,8 +125,6 @@ public class Cliente extends Thread {
         }
     }// Cierre del método
 
-    //TODO: Metodos de busqueda de cada atraccion
-    
     public void buscarUbicacion( String codigo ) {
         System.out.println("\tBuscando ubicacion...");
         try {

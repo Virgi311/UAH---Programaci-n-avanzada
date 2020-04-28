@@ -80,9 +80,7 @@ public class Conexion extends Thread {
             }
         }
     } // Cierre del método
-    
-    //TODO: Metodos de busqueda del cliente en el servidor
-     
+
     public void buscarUbicacion( String codigo ) {
         String ubicacion = servidor.buscarUbicacion(codigo);
         try {
@@ -105,7 +103,12 @@ public class Conexion extends Thread {
     } // Cierre del método
     
     public void buscarAforo() {
-        
+        String aforo = servidor.buscarAforo();
+        try {
+            salida.writeUTF(aforo);
+        } catch( IOException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
     } // Cierre del método
     
     public void buscarToboganes() {

@@ -49,13 +49,13 @@ public class Main extends javax.swing.JFrame {
         Monitor m5 = new Monitor( parque, 4000, 2000, 5, fg, null );
         m5.start();
         
-        Monitor m6 = new Monitor( parque, 500, 400, 5, fg, "A" );
+        Monitor m6 = new Monitor( parque, 500, 400, 6, fg, "A" );
         m6.start();
         
-        Monitor m7 = new Monitor( parque, 500, 400, 5, fg, "B" );
+        Monitor m7 = new Monitor( parque, 500, 400, 6, fg, "B" );
         m7.start();
         
-        Monitor m8 = new Monitor( parque, 500, 400, 5, fg, "C" );
+        Monitor m8 = new Monitor( parque, 500, 400, 6, fg, "C" );
         m8.start();
         
         CreaUsuarios nuevo = new CreaUsuarios(parque, paso, fg);

@@ -5,8 +5,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import util.FuncionesGenerales;
@@ -25,10 +23,13 @@ public class PiscinaGrande {
     private final JTextField monitorPiscinaGrande;
     private final JTextArea areaPiscinaGrande;
     private final JTextArea colaPiscinaGrande;
+    
     //Concurrencia
     private final Semaphore semPiscinaGrande = new Semaphore(50, true);
+    private final Semaphore semPiscinaGrande0 = new Semaphore(0, true);
     private final BlockingQueue colaEntrarPiscinaGrande = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaGrande = new CopyOnWriteArrayList<>();
+    
     private final Paso paso;
     private final FuncionesGenerales fg;
     
@@ -45,6 +46,7 @@ public class PiscinaGrande {
         try {
             colaEntrarPiscinaGrande.put(u);
             fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            semPiscinaGrande0.acquire();
             
             if(u.getEdad() < 11){
                 semPiscinaGrande.acquire(2);
@@ -52,9 +54,6 @@ public class PiscinaGrande {
             } else{
                 semPiscinaGrande.acquire();
             }
-            
-            colaEntrarPiscinaGrande.take();
-            fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
             
             piscinaGrande.add(u);
             fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
@@ -67,6 +66,31 @@ public class PiscinaGrande {
         piscinaGrande.remove(u);
         fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
         semPiscinaGrande.release();
+    } // Cierre del método
+    
+    public Usuario controlarPiscinaGrande() {
+        try {
+            Usuario u = (Usuario) colaEntrarPiscinaGrande.take();
+            fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            monitorPiscinaGrande.setText(u.toString());
+
+            return u;
+        } catch (InterruptedException ex) {
+            return null;
+        }
+    } // Cierre del método
+    
+    public void controlarPiscinaGrande( Usuario usuario ) {
+        try {
+                semPiscinaGrande.acquire();
+                paso.mirar();
+                semPiscinaGrande.release();
+                paso.mirar();
+                semPiscinaGrande0.release();
+            } catch(InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
+            }
+        monitorPiscinaGrande.setText("");
     } // Cierre del método
     
     public Usuario monitorExpulsa(){
@@ -88,11 +112,7 @@ public class PiscinaGrande {
     
     public boolean excesoAforo(){
         int numPersonas = piscinaGrande.size();
-        if( numPersonas == 50 ) {
-            return true;
-        }
-        
-        return false;
+        return numPersonas == 50;
     } // Cierre del método
     
     public void entrarPorTobogan(Usuario u){
