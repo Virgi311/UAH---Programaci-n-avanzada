@@ -19,7 +19,7 @@ public class CreaUsuarios extends Thread {
     private final int mayoria_edad = 18;
     private final Parque parque;
     private final Paso paso;
-    
+
     private final FuncionesGenerales fg;
     
     public CreaUsuarios(Parque parque, Paso paso, FuncionesGenerales fg) {
@@ -39,8 +39,7 @@ public class CreaUsuarios extends Thread {
             if( edadUsuario < 11 ){
                 id++;
  
-                usuarioAcompañante = new Usuario(parque, barrera, id, getAleatorio(18, 50), usuarioPrincipal.getNumAtracciones(), paso, fg);
-                
+                usuarioAcompañante = new Usuario(parque, barrera, id, getAleatorio(mayoria_edad, 50), usuarioPrincipal.getNumAtracciones(), paso, fg);
                 usuarioPrincipal.setCodigo(usuarioPrincipal.getCodigo() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);
                 usuarioAcompañante.setCodigo(usuarioAcompañante.getCodigo() + "-" + usuarioPrincipal.getIdentificador());
@@ -49,12 +48,11 @@ public class CreaUsuarios extends Thread {
             }
             
             usuarioPrincipal.start();
-            
-            if( edadUsuario < 11 ) {
+            if (usuarioAcompañante != null) {
                 usuarioAcompañante.start();
             }
-            
             fg.dormir(400, 700);
+            paso.mirar();
         }
     } // Cierre del método
 

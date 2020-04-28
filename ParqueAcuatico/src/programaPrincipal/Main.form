@@ -51,13 +51,13 @@
                   <Component id="jPanel3" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel6" max="32767" attributes="0"/>
                           <Component id="jPanel4" max="32767" attributes="0"/>
+                          <Component id="jPanel6" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jPanel5" max="32767" attributes="0"/>
                           <Component id="jPanel7" max="32767" attributes="0"/>
+                          <Component id="jPanel5" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -71,7 +71,7 @@
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel3" min="-2" pref="151" max="-2" attributes="0"/>
+              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jPanel4" max="32767" attributes="0"/>
@@ -79,8 +79,8 @@
               </Group>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jPanel7" max="32767" attributes="0"/>
                   <Component id="jPanel6" max="32767" attributes="0"/>
+                  <Component id="jPanel7" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
@@ -101,33 +101,33 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jLabel1" min="-2" pref="294" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
-                  <Component id="Pausar" min="-2" pref="133" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="Finalizar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" pref="91" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="1139" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="1370" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jLabel1" min="-2" pref="303" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
+                  <Component id="Pausar" min="-2" pref="170" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="Finalizar" min="-2" pref="170" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="Finalizar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="Pausar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel2" pref="43" max="32767" attributes="0"/>
                       <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
@@ -146,7 +146,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Showcard Gothic" size="30" style="0"/>
+              <Font name="Showcard Gothic" size="32" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="PARQUE ACU&#xc1;TICO"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -160,7 +160,7 @@
         <Component class="javax.swing.JButton" name="Pausar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="18" style="0"/>
+              <Font name="Stencil" size="20" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="PAUSAR"/>
           </Properties>
@@ -171,7 +171,7 @@
         <Component class="javax.swing.JButton" name="Finalizar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="18" style="0"/>
+              <Font name="Stencil" size="20" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="FINALIZAR"/>
           </Properties>
@@ -210,60 +210,59 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" pref="46" max="-2" attributes="0"/>
+                              <Component id="jLabel4" min="-2" pref="78" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane6" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="monitorVestuario" min="-2" pref="91" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="monitorVestuario" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane2" min="-2" pref="1377" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane6" min="-2" pref="1379" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" min="-2" pref="1156" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="667" max="-2" attributes="0"/>
+                          <Component id="jLabel3" min="-2" pref="132" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jLabel3" min="-2" pref="116" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="559" max="-2" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" pref="19" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" pref="19" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel4" min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="monitorVestuario" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel6" pref="28" max="32767" attributes="0"/>
                       <Component id="jScrollPane6" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -272,7 +271,7 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="16" style="1"/>
+              <Font name="Stencil" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="VESTUARIOS"/>
           </Properties>
@@ -367,7 +366,7 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
-                  <Component id="jLabel7" min="-2" pref="153" max="-2" attributes="0"/>
+                  <Component id="jLabel7" min="-2" pref="183" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -376,13 +375,13 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel7" min="-2" pref="25" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel8" pref="40" max="32767" attributes="0"/>
                       <Component id="jScrollPane7" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
@@ -390,19 +389,19 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="monitorPiscinaNiños" min="-2" pref="24" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane9" min="-2" pref="29" max="-2" attributes="0"/>
                               <Component id="jLabel10" min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="jScrollPane9" min="-2" pref="41" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel11" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="jScrollPane10" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -411,7 +410,7 @@
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="16" style="1"/>
+              <Font name="Stencil" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="PISCINA DE NI&#xd1;OS"/>
           </Properties>
@@ -525,10 +524,10 @@
                       </Group>
                   </Group>
               </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jLabel12" min="-2" pref="145" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="237" max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="220" max="-2" attributes="0"/>
+                  <Component id="jLabel12" min="-2" pref="163" max="-2" attributes="0"/>
+                  <EmptySpace pref="364" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -536,25 +535,22 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Component id="jLabel12" min="-2" pref="32" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel13" pref="40" max="32767" attributes="0"/>
-                      <Component id="jScrollPane11" pref="0" max="32767" attributes="0"/>
-                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jLabel13" max="32767" attributes="0"/>
+                      <Component id="jScrollPane11" min="-2" pref="40" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="monitorPiscinaOlas" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="jLabel14" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel15" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="jScrollPane13" min="-2" pref="28" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel15" min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="jScrollPane13" min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -578,7 +574,7 @@
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="16" style="1"/>
+              <Font name="Stencil" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="PISCINA DE OLAS"/>
           </Properties>
@@ -629,33 +625,30 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                              <Component id="jLabel18" min="-2" pref="49" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel17" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                          <Component id="jLabel18" min="-2" pref="49" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jLabel17" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jScrollPane16" max="32767" attributes="0"/>
-                      <Component id="monitorPiscinaGrande" min="-2" pref="100" max="-2" attributes="0"/>
-                      <Component id="jScrollPane14" alignment="0" pref="521" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jScrollPane14" alignment="1" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="monitorPiscinaGrande" min="-2" pref="100" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="jScrollPane16" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="234" max="-2" attributes="0"/>
-                  <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
+                  <Component id="jLabel16" min="-2" pref="168" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -663,11 +656,12 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="jLabel16" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                  <Component id="jLabel16" min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane14" min="-2" pref="38" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           <Component id="jLabel17" min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
@@ -677,12 +671,12 @@
                       <Component id="jLabel18" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="monitorPiscinaGrande" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane16" min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="jLabel19" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="jScrollPane16" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -706,7 +700,7 @@
         <Component class="javax.swing.JLabel" name="jLabel16">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="16" style="1"/>
+              <Font name="Stencil" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="PISCINA GRANDE"/>
           </Properties>
@@ -757,61 +751,58 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jLabel21" min="-2" pref="101" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel23" min="-2" pref="62" max="-2" attributes="0"/>
                               <Component id="jLabel22" min="-2" pref="52" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jLabel21" min="-2" pref="103" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="monitorTumbonas" alignment="0" min="-2" pref="97" max="-2" attributes="0"/>
-                              <Component id="jScrollPane17" alignment="0" min="-2" pref="497" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
+                          <Component id="monitorTumbonas" min="-2" pref="97" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="jScrollPane19" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jScrollPane19" max="32767" attributes="0"/>
+                              <Component id="jScrollPane17" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
-                  <Component id="jLabel20" min="-2" pref="89" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="215" max="-2" attributes="0"/>
+                  <Component id="jLabel20" min="-2" pref="135" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                  <Component id="jLabel20" pref="18" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel21" pref="36" max="32767" attributes="0"/>
-                      <Component id="jScrollPane17" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel22" max="32767" attributes="0"/>
-                      <Component id="monitorTumbonas" pref="29" max="32767" attributes="0"/>
-                  </Group>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                  <Component id="jLabel20" min="-2" pref="20" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel23" pref="29" max="32767" attributes="0"/>
-                      <Component id="jScrollPane19" pref="0" max="32767" attributes="0"/>
+                      <Component id="jLabel21" max="32767" attributes="0"/>
+                      <Component id="jScrollPane17" min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jLabel22" max="32767" attributes="0"/>
+                      <Component id="monitorTumbonas" min="-2" pref="29" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel23" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="jScrollPane19" min="-2" pref="37" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -820,7 +811,7 @@
         <Component class="javax.swing.JLabel" name="jLabel20">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="16" style="1"/>
+              <Font name="Stencil" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="TUMBONAS"/>
           </Properties>
@@ -886,31 +877,27 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel25" min="-2" pref="95" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel25" min="-2" pref="95" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
+                          <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="147" max="-2" attributes="0"/>
+                          <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
                           <Component id="jScrollPane20" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jLabel24" min="-2" pref="110" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="563" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                  <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                                  <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
                   </Group>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="700" max="-2" attributes="0"/>
+                  <Component id="jLabel24" min="-2" pref="144" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -926,8 +913,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="jPanel10" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jPanel9" alignment="0" max="32767" attributes="0"/>
                               <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jPanel9" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       </Group>
@@ -944,7 +931,7 @@
         <Component class="javax.swing.JLabel" name="jLabel24">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Stencil" size="16" style="1"/>
+              <Font name="Stencil" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="TOBOGANES"/>
           </Properties>
@@ -972,24 +959,24 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="monitorToboganA" max="32767" attributes="0"/>
+                          <Component id="monitorToboganA" pref="178" max="32767" attributes="0"/>
                           <Component id="areaToboganA" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="60" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Component id="jLabel26" min="-2" pref="14" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="monitorToboganA" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -999,7 +986,7 @@
                           <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="areaToboganA" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1008,7 +995,7 @@
             <Component class="javax.swing.JLabel" name="jLabel26">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Engravers MT" size="11" style="1"/>
+                  <Font name="Engravers MT" size="14" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="TOBOG&#xc1;N A"/>
               </Properties>
@@ -1039,32 +1026,32 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel31" max="32767" attributes="0"/>
+                          <Component id="jLabel31" pref="64" max="32767" attributes="0"/>
                           <Component id="jLabel30" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="monitorToboganB" pref="176" max="32767" attributes="0"/>
-                          <Component id="areaToboganB" max="32767" attributes="0"/>
+                          <Component id="monitorToboganB" max="32767" attributes="0"/>
+                          <Component id="areaToboganB" min="-2" pref="176" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="67" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="monitorToboganB" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1083,7 +1070,7 @@
             <Component class="javax.swing.JLabel" name="jLabel29">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Engravers MT" size="11" style="1"/>
+                  <Font name="Engravers MT" size="14" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="TOBOG&#xc1;N B"/>
               </Properties>
@@ -1122,24 +1109,24 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="areaToboganC" max="32767" attributes="0"/>
+                          <Component id="areaToboganC" pref="178" max="32767" attributes="0"/>
                           <Component id="monitorToboganC" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="54" max="32767" attributes="0"/>
-                      <Component id="jLabel32" min="-2" pref="100" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="monitorToboganC" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1158,7 +1145,7 @@
             <Component class="javax.swing.JLabel" name="jLabel32">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Engravers MT" size="11" style="1"/>
+                  <Font name="Engravers MT" size="14" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="TOBOG&#xc1;N C"/>
               </Properties>
