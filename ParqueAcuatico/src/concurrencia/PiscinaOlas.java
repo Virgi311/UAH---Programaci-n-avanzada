@@ -25,16 +25,13 @@ public class PiscinaOlas {
     private final JTextField monitorPiscinaOlas;
     private final JTextArea areaPiscinaOlas;
     private final JTextArea colaPiscinaOlas;
-
+    //Concurrencia
     private final Semaphore semPiscinaOlas = new Semaphore(20, true);
     private final Semaphore semPiscinaOlas0 = new Semaphore(0, true);
-
     private final BlockingQueue colaEntrarPiscinaOlas = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaOlas = new CopyOnWriteArrayList<>();
-
     private final CyclicBarrier barreraPiscinaOlas = new CyclicBarrier(2);
     private boolean accesoPermitido = false;
-    
     private final FuncionesGenerales fg;
     private final Paso paso;
 

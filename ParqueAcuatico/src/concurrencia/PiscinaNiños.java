@@ -24,14 +24,12 @@ public class PiscinaNiños {
     private final JTextField monitorPiscinaNiños;
     private final JTextArea areaPiscinaNiños;
     private final JTextArea areaEsperaAdultos;
-    
     //Concurrencia
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
     private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);  
     private final BlockingQueue colaEntrarPiscinaNiños = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaNiños = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<Usuario> esperaAdultos = new CopyOnWriteArrayList<>();
-    
     private boolean accesoPermitido = false;
     private final FuncionesGenerales fg;
     private final Paso paso;

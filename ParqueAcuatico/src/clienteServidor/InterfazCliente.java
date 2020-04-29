@@ -12,13 +12,13 @@ import javax.swing.JOptionPane;
  * Javier González López 09067677L
  */
 public class InterfazCliente extends javax.swing.JFrame {
-
+    //Campos de la clase
     private static Cliente cliente;
     
     public InterfazCliente() {
         initComponents();
         
-        cliente = new Cliente( jTextField2, jTextField3, jTextField4, jTextField5, jTextField6, jTextField7, jTextField9, jTextField10, jTextField11, jTextField12, jTextField13, jTextField14 );
+        cliente = new Cliente( jTextFieldUbicacion, jTextField3, jTextField4, jTextField5, jTextField6, jTextField7, jTextField9, jTextField10, jTextField11, jTextField12, jTextField13, jTextField14 );
         cliente.start();
     } // Cierre del método
     
@@ -34,7 +34,7 @@ public class InterfazCliente extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnBuscarUbicacion = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldUbicacion = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -100,6 +100,11 @@ public class InterfazCliente extends javax.swing.JFrame {
                 jTextField1MouseClicked(evt);
             }
         });
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,7 +124,7 @@ public class InterfazCliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1)
-                            .addComponent(jTextField2)
+                            .addComponent(jTextFieldUbicacion)
                             .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(11, 11, 11))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -138,7 +143,7 @@ public class InterfazCliente extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -217,7 +222,7 @@ public class InterfazCliente extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addComponent(btnBuscarTobogan)
                 .addContainerGap())
         );
@@ -254,7 +259,7 @@ public class InterfazCliente extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(50, 50, 50)
                                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 5, Short.MAX_VALUE))
+                        .addGap(0, 9, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnBuscarMenores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -315,20 +320,20 @@ public class InterfazCliente extends javax.swing.JFrame {
                             .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                             .addComponent(jTextField12, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField9)))
+                            .addComponent(jTextField11, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextField14)))
                     .addComponent(btnBuscarAforo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(11, 11, 11))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,7 +364,7 @@ public class InterfazCliente extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(btnBuscarAforo)
                 .addContainerGap())
         );
@@ -381,8 +386,8 @@ public class InterfazCliente extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(41, 41, 41)))
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,9 +438,13 @@ public class InterfazCliente extends javax.swing.JFrame {
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
         jTextField1.setText("");
-        jTextField2.setText("");
+        jTextFieldUbicacion.setText("");
         jTextField3.setText("");
     }//GEN-LAST:event_jTextField1MouseClicked
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     public static void main(String args[]) {
         
@@ -480,12 +489,12 @@ public class InterfazCliente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField jTextFieldUbicacion;
     // End of variables declaration//GEN-END:variables
 } // Cierre de la clase

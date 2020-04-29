@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Javier González López 09067677L
  */
 public class Servidor extends Thread {
-    
+    //Campos de la clase
     private ServerSocket servidor;
     private InetAddress ip;
     private ArrayList<Conexion> conexiones;

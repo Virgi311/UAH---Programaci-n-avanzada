@@ -28,11 +28,9 @@ public class Parque {
     private final JTextField monitorToboganA;
     private final JTextField monitorToboganB;
     private final JTextField monitorToboganC;
-    
     //Concurrencia
     private final Semaphore semEntrarparque = new Semaphore(100, true);
     private final BlockingQueue colaEntrarParque = new LinkedBlockingQueue();
-    
     private final Vestuario vestuario;
     private final PiscinaNiños piscinaNiños;
     private final PiscinaOlas piscinaOlas;

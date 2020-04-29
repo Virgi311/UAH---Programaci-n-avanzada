@@ -14,10 +14,9 @@ import concurrencia.Paso;
  * Javier González López 09067677L
  */
 public class Monitor extends Thread {
-
+    // Campos de la clase
     private final Parque parque;
     private Usuario usuario;
-    private final int atraccion;
     /* Variable mapeada para escoger el monitor de la atraccion
      *
      * 1 -> Vestuario
@@ -25,10 +24,11 @@ public class Monitor extends Thread {
      * 3 -> Piscina Olas
      * 4 -> Piscina Grande
      * 5 -> Monitor Tumbonas
-     * 6 -> Tobogan 1
-     * 7 -> Tobogan 2
-     * 8 -> Tobogan 3
+     * 6 -> Tobogan A
+     * 7 -> Tobogan B
+     * 8 -> Tobogan C
      */
+    private final int atraccion;
     private final int time;
     private final int randomTime;
     private final boolean run;

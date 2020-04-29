@@ -10,7 +10,7 @@ import javax.swing.JTextArea;
  * Javier González López 09067677L
  */
 public class FuncionesGenerales {
-    
+    //Campos de la clase
     public FuncionesGenerales() { }
     
     public void dormir(int time, int randomTime) {
@@ -19,9 +19,9 @@ public class FuncionesGenerales {
         } catch( InterruptedException ex ) {
             System.out.println( "ERROR: " + ex );
         }
-    }
+    } // Cierre del metodo
     
     public synchronized void imprimir(JTextArea campo, String contenido) {
         campo.setText( contenido );
-    }
-}
+    } // Cierre del metodo
+} // Cierre de la clase

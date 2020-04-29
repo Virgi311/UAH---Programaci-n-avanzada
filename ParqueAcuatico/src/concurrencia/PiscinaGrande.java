@@ -23,13 +23,11 @@ public class PiscinaGrande {
     private final JTextField monitorPiscinaGrande;
     private final JTextArea areaPiscinaGrande;
     private final JTextArea colaPiscinaGrande;
-    
     //Concurrencia
     private final Semaphore semPiscinaGrande = new Semaphore(50, true);
     private final Semaphore semPiscinaGrande0 = new Semaphore(0, true);
     private final BlockingQueue colaEntrarPiscinaGrande = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaGrande = new CopyOnWriteArrayList<>();
-    
     private final Paso paso;
     private final FuncionesGenerales fg;
     

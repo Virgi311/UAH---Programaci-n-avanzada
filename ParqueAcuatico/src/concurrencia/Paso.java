@@ -14,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Javier González López 09067677L
  */
 public class Paso {
-    
+    //Campos de la clase
     private boolean bloqueoActivo;
     private final Lock cerrojo;
     private final Condition parar;

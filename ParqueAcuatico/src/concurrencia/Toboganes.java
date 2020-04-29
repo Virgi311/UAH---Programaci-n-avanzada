@@ -30,22 +30,17 @@ public class Toboganes {
     private final PiscinaGrande piscinaGrande;
     private final FuncionesGenerales fg;
     private final Paso paso;
-    
     //Concurrencia
     private final CopyOnWriteArrayList<Usuario> colaEntrarToboganes = new CopyOnWriteArrayList<>();
-
     private String toboganA;
     private String toboganB;
     private String toboganC;
-
     private final BlockingQueue colaToboganA = new LinkedBlockingQueue();
     private final BlockingQueue colaToboganB = new LinkedBlockingQueue();
     private final BlockingQueue colaToboganC = new LinkedBlockingQueue();
-
     private final Semaphore semToboganA = new Semaphore(1, true);
     private final Semaphore semToboganB = new Semaphore(1, true);
     private final Semaphore semToboganC = new Semaphore(1, true);
-
     private final Semaphore semToboganA0 = new Semaphore(0, true);
     private final Semaphore semToboganB0 = new Semaphore(0, true);
     private final Semaphore semToboganC0 = new Semaphore(0, true);

@@ -19,12 +19,10 @@ import javax.swing.JTextField;
  * Javier González López 09067677L
  */
 public class Cliente extends Thread {
-    
+    //Campos de la clase
     private Socket cliente;
-    
     private DataInputStream entrada;
     private DataOutputStream salida;
-    
     private boolean conexion = false;
     
     private final JTextField jTextField2;
