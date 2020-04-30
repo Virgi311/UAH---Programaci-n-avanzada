@@ -113,7 +113,13 @@ public class PiscinaGrande {
         return numPersonas == 50;
     } // Cierre del método
     
-    public void entrarPorTobogan(Usuario u){
+        public void comprobarSitioPiscina() {
+        try {
+            semPiscinaGrande.acquire();
+        } catch (InterruptedException ex) {}
+    }
+        
+    public void accesoDesdeTobogan(Usuario u){
         piscinaGrande.add(u);
         fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
     } // Cierre del método

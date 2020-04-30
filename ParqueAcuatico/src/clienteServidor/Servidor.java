@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * Clase Conexión Servidor 
+ * Clase Servidor 
  * 
  * Contiene información del servidor en la conexión
  *

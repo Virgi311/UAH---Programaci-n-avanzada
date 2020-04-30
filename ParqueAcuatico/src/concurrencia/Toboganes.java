@@ -32,9 +32,6 @@ public class Toboganes {
     private final Paso paso;
     //Concurrencia
     private final CopyOnWriteArrayList<Usuario> colaEntrarToboganes = new CopyOnWriteArrayList<>();
-    private String toboganA;
-    private String toboganB;
-    private String toboganC;
     private final BlockingQueue colaToboganA = new LinkedBlockingQueue();
     private final BlockingQueue colaToboganB = new LinkedBlockingQueue();
     private final BlockingQueue colaToboganC = new LinkedBlockingQueue();
@@ -44,6 +41,9 @@ public class Toboganes {
     private final Semaphore semToboganA0 = new Semaphore(0, true);
     private final Semaphore semToboganB0 = new Semaphore(0, true);
     private final Semaphore semToboganC0 = new Semaphore(0, true);
+    private String toboganA;
+    private String toboganB;
+    private String toboganC;
     
     public Toboganes(JTextField areaToboganA, JTextField areaToboganB, JTextField areaToboganC, JTextField monitorToboganA, JTextField monitorToboganB, JTextField monitorToboganC, JTextArea colaToboganes, PiscinaGrande piscinaGrande, FuncionesGenerales fg, Paso paso ) {
         this.areaToboganA = areaToboganA;
@@ -84,7 +84,9 @@ public class Toboganes {
                 colaToboganC.put(u);
                 semToboganC0.acquire();
             }
-
+            
+            piscinaGrande.comprobarSitioPiscina();
+            
             colaEntrarToboganes.remove(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
 
@@ -105,7 +107,7 @@ public class Toboganes {
         return true;
     } // Cierre del método
 
-    public void toboganApiscinaGrande(Usuario u) {
+    public void AccesoPiscinaGrande(Usuario u) {
         if( piscinaGrande.excesoAforo() ){
             Usuario usuario = piscinaGrande.monitorExpulsa();
             piscinaGrande.monitorExpulsa(usuario);
@@ -127,7 +129,7 @@ public class Toboganes {
 
         }
 
-        piscinaGrande.entrarPorTobogan(u);
+        piscinaGrande.accesoDesdeTobogan(u);
 
         nadarPiscina(3000, 5000, u);
 

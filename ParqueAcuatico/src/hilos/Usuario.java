@@ -153,7 +153,7 @@ public class Usuario extends Thread {
                             System.out.println("ERROR: " + ex);
                         }
                     } else {
-                        fg.dormir(1000, 20000);
+                        fg.dormir(1000, 2000);
                     }
                     
                     paso.mirar();
@@ -180,7 +180,7 @@ public class Usuario extends Thread {
                             System.out.println("ERROR: " + ex);
                         }
                     } else {
-                        fg.dormir(2000, 50000);
+                        fg.dormir(2000, 5000);
                     }
                     
                     paso.mirar();
@@ -208,7 +208,7 @@ public class Usuario extends Thread {
                         System.out.println("ERROR: " + ex);
                     }
                 } else {
-                    fg.dormir(3000, 20000);
+                    fg.dormir(3000, 2000);
                 }
                     
                 paso.mirar();
@@ -234,7 +234,7 @@ public class Usuario extends Thread {
                             System.out.println("ERROR: " + ex);
                         }
                     } else {
-                        fg.dormir(3000, 20000);
+                        fg.dormir(3000, 2000);
                     }
                     
                     paso.mirar();
@@ -261,11 +261,11 @@ public class Usuario extends Thread {
                             System.out.println("ERROR: " + ex);
                         }
                     } else {
-                        fg.dormir(3000, 20000);
+                        fg.dormir(3000, 2000);
                     }
                 
                     paso.mirar();
-                    parque.getToboganes().toboganApiscinaGrande(this);
+                    parque.getToboganes().AccesoPiscinaGrande(this);
                     if( tipo == 2 ) {
                         try {
                             barrera.await();
