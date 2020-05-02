@@ -1,5 +1,9 @@
 package util;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import static java.lang.Thread.sleep;
 import javax.swing.JTextArea;
 
@@ -9,13 +13,31 @@ import javax.swing.JTextArea;
  * Virginia Vallejo Sánchez 51983578J
  * Javier González López 09067677L
  */
-public class FuncionesGenerales {
-    //Campos de la clase
-    public FuncionesGenerales() { }
+public final class FuncionesGenerales {
     
-    public void dormir(int time, int randomTime) {
+    private final String ruta;
+    private final File file;
+    private final boolean debug;
+    private final String USUARIO = "";
+    //Campos de la clase
+    public FuncionesGenerales(boolean debug) {
+        this.debug = debug;
+        
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            ruta = "C://Users/" + USUARIO + "/Desktop/debug.log";
+        } else {
+            ruta = "/tmp/debug.log";
+        } 
+        this.file = new File(ruta);
+        
+        if(debug) {
+            createDebugFile();
+        }
+    }
+    
+    public void dormir(int min, int max) {
         try {
-            sleep( time + (int)( randomTime * Math.random() ) );
+            sleep( min + (int)( ( max - min ) * Math.random() ) );
         } catch( InterruptedException ex ) {
             System.out.println( "ERROR: " + ex );
         }
@@ -24,4 +46,38 @@ public class FuncionesGenerales {
     public synchronized void imprimir(JTextArea campo, String contenido) {
         campo.setText( contenido );
     } // Cierre del metodo
+    
+    public void createDebugFile() {
+        try {
+            String contenido = "DEBUG PARCTICA DE LABORATORIO 3 - PARQUE ACUATICO\n\n";
+                
+            if( file.exists() ) {
+                if( file.delete() ){
+                    file.createNewFile();
+                }
+            } else {
+                file.createNewFile();
+            }
+               
+            FileWriter fw = new FileWriter(file);
+            try (BufferedWriter bw = new BufferedWriter(fw)) {
+                bw.write(contenido);
+            }
+        } catch(IOException ex) {
+            System.out.println("ERROR: " + ex);
+        }
+    }
+    
+    public void writeDebugFile(String contenido) {
+        if(debug) {
+            try {
+                FileWriter fw = new FileWriter(file, true);
+                try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    bw.write(contenido);
+                }
+            } catch(IOException ex) {
+                System.out.println("ERROR: " + ex);
+            }
+        }
+    }
 } // Cierre de la clase

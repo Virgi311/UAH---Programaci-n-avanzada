@@ -97,8 +97,8 @@ public class Servidor extends Thread {
             }
         }
         
-        if( parque.getMonitorVestuario().getText().equals(usuario) ) {
-            return "UBICACION!" + 0 + "!Monitor del Vestuario.";
+        if( ( parque.getVestuario().getMonitorVestuarioUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor del Vestuario.";
         }
         
         for( Object usuArray : parque.getVestuario().getVestuarios().toArray() ) {
@@ -121,8 +121,8 @@ public class Servidor extends Thread {
             }
         }
         
-        if( parque.getMonitorPiscinaNiños().getText().equals(usuario) ) {
-            return "UBICACION!" + 0 + "!Monitor del Vestuario.";
+        if( ( parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario().getControlNumAtracciones() + "!Monitor de la piscina de niños.";
         }
         
         for( Object usuArray : parque.getPiscinaNiños().getPiscinaNiños().toArray() ) {
@@ -155,8 +155,8 @@ public class Servidor extends Thread {
             }
         }
         
-        if( parque.getMonitorPiscinaGrande().getText().equals(usuario) ) {
-            return "UBICACION!" + 0 + "!Monitor de la piscina grande.";
+        if( ( parque.getPiscinaGrande().getMonitorPiscinaGrandeUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor de la piscina grande.";
         }
         
         for( Object usuArray : parque.getPiscinaGrande().getPiscinaGrande().toArray() ) {
@@ -179,8 +179,8 @@ public class Servidor extends Thread {
             }
         }
         
-        if( parque.getMonitorPiscinaOlas().getText().equals(usuario) ) {
-            return "UBICACION!" + 0 + "!Monitor de la piscina de olas.";
+        if( ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario() != null ) && ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().getControlNumAtracciones() + "!Monitor de la piscina de olas.";
         }
         
         for( Object usuArray : parque.getPiscinaOlas().getPiscinaOlas().toArray() ) {
@@ -213,6 +213,10 @@ public class Servidor extends Thread {
             }
         }
         
+        if( ( parque.getTumbonas().getMonitorTumbonasUsuario()!= null ) && ( parque.getTumbonas().getMonitorTumbonasUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getTumbonas().getMonitorTumbonasUsuario().getControlNumAtracciones() + "!Monitor de las Tumbonas.";
+        }
+        
         for( Object usuArray : parque.getTumbonas().getTumbonas().toArray() ) {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
@@ -237,7 +241,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Tobogan A.";
+                String ubicacion = "Cola tobogan A.";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -247,7 +251,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Tobogan B.";
+                String ubicacion = "Cola tobogan B.";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -257,10 +261,34 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Tobogan C.";
+                String ubicacion = "Cola tobogan C.";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
+        }
+        
+        if( ( parque.getToboganes().getMonitroToboganAUsuario() != null ) && ( parque.getToboganes().getMonitroToboganAUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getToboganes().getMonitroToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A.";
+        }
+        
+        if( ( parque.getToboganes().getMonitroToboganBUsuario() != null ) && ( parque.getToboganes().getMonitroToboganBUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getToboganes().getMonitroToboganBUsuario().getControlNumAtracciones() + "!Monitor del Tobogan B.";
+        }
+        
+        if( ( parque.getToboganes().getMonitroToboganCUsuario()!= null ) && ( parque.getToboganes().getMonitroToboganCUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getToboganes().getMonitroToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C.";
+        }
+        
+        if( parque.getToboganes().getToboganA().equals(usuario) ) {
+            return "UBICACION!" + parque.getToboganes().getToboganAUsuario().getControlNumAtracciones() + "!Tobogan A.";
+        }
+        
+        if( parque.getToboganes().getToboganB().equals(usuario) ) {
+            return "UBICACION!" + parque.getToboganes().getToboganBUsuario().getControlNumAtracciones() + "!Tobogan B.";
+        }
+        
+        if( parque.getToboganes().getToboganC().equals(usuario) ) {
+            return "UBICACION!" + parque.getToboganes().getToboganCUsuario().getControlNumAtracciones() + "!Tobogan C.";
         }
         
         return null;
@@ -271,9 +299,9 @@ public class Servidor extends Thread {
     } // Cierre del método
     
     public String buscarToboganes() {
-        return ( ( !parque.getToboganes().getToboganA().equals("") ) ? 1 : 0 )
-                + "!" + ( ( !parque.getToboganes().getToboganB().equals("") ) ? 1 : 0 ) 
-                + "!" + ( ( !parque.getToboganes().getToboganC().equals("") ) ? 1 : 0 );
+        return ( ( !parque.getToboganes().getToboganA().equals("") ) ? parque.getToboganes().getToboganA() : " " )
+                + "!" + ( ( !parque.getToboganes().getToboganB().equals("") ) ? parque.getToboganes().getToboganB() : " " ) 
+                + "!" + ( ( !parque.getToboganes().getToboganC().equals("") ) ? parque.getToboganes().getToboganC() : " " );
     } // Cierre del método
     
     public String buscarAforo() {

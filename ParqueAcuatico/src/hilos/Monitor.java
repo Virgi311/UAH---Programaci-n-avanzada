@@ -29,8 +29,8 @@ public class Monitor extends Thread {
      * 8 -> Tobogan C
      */
     private final int atraccion;
-    private final int time;
-    private final int randomTime;
+    private final int min;
+    private final int max;
     private final boolean run;
     private final FuncionesGenerales fg;
     private final String identificador;
@@ -39,8 +39,8 @@ public class Monitor extends Thread {
     public Monitor(Parque parque, int time, int randomTime, int atraccion, FuncionesGenerales fg, String identificador, Paso paso) {
         this.parque = parque;
         this.atraccion = atraccion;
-        this.time = time;
-        this.randomTime = randomTime;
+        this.min = time;
+        this.max = randomTime;
         this.identificador = identificador;
         
         this.paso = paso;
@@ -55,7 +55,7 @@ public class Monitor extends Thread {
                 case 1: // Monitor del vestuario
                     paso.mirar();
                     usuario= parque.getVestuario().controlarVestuario();
-                    fg.dormir(time, randomTime);
+                    fg.dormir(min, max);
                     parque.getVestuario().controlarVestuario(usuario);
                     paso.mirar();
                     break;
@@ -63,7 +63,7 @@ public class Monitor extends Thread {
                 case 2: // Monitor de la piscina de niños
                     paso.mirar();
                     usuario = parque.getPiscinaNiños().controlarPiscinaNiños();
-                    fg.dormir(time, randomTime);
+                    fg.dormir(min, max);
                     parque.getPiscinaNiños().controlarPiscinaNiños(usuario);
                     paso.mirar();
                     break;
@@ -71,21 +71,21 @@ public class Monitor extends Thread {
                 case 3: // Monitor de la piscina de olas
                     paso.mirar();
                     usuario = parque.getPiscinaOlas().controlarPiscinaOlas();
-                    fg.dormir(time, randomTime);
+                    fg.dormir(min, max);
                     parque.getPiscinaOlas().controlarPiscinaOlas(usuario);
                     paso.mirar();
                     break;
                     
-                case 4:
-                        usuario = parque.getPiscinaGrande().controlarPiscinaGrande();
-                        fg.dormir(time, randomTime);
-                        parque.getPiscinaGrande().controlarPiscinaGrande(usuario);
-                        break;
+                case 4: // Monitor de la piscina grande
+                    usuario = parque.getPiscinaGrande().controlarPiscinaGrande();
+                    fg.dormir(min, max);
+                    parque.getPiscinaGrande().controlarPiscinaGrande(usuario);
+                    break;
                         
                 case 5: // Monitor de las tumbonas
                     paso.mirar();
                     usuario = parque.getTumbonas().controlarTumbonas();
-                    fg.dormir(time, randomTime);
+                    fg.dormir(min, max);
                     parque.getTumbonas().controlarTumbonas(usuario);
                     paso.mirar();
                     break;
@@ -95,7 +95,7 @@ public class Monitor extends Thread {
                         case "A": // Monitor del tobogan A
                             paso.mirar();
                             usuario = parque.getToboganes().monitorToboganA();
-                            fg.dormir(time, randomTime);
+                            fg.dormir(min, max);
                             parque.getToboganes().monitorToboganA(usuario);
                             paso.mirar();
                             break;
@@ -103,7 +103,7 @@ public class Monitor extends Thread {
                         case "B": // Monitor del tobogan B
                             paso.mirar();
                             usuario = parque.getToboganes().monitorToboganB();
-                            fg.dormir(time, randomTime);
+                            fg.dormir(min, max);
                             parque.getToboganes().monitorToboganB(usuario);
                             paso.mirar();
                             break;
@@ -111,7 +111,7 @@ public class Monitor extends Thread {
                         case "C": // Monitor del tobogan C
                             paso.mirar();
                             usuario = parque.getToboganes().monitorToboganC();
-                            fg.dormir(time, randomTime);
+                            fg.dormir(min, max);
                             parque.getToboganes().monitorToboganC(usuario);
                             paso.mirar();
                             break;

@@ -5,6 +5,10 @@ import concurrencia.Parque;
 import hilos.CreaUsuarios;
 import concurrencia.Paso;
 import hilos.Monitor;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import util.FuncionesGenerales;
 
 /**
@@ -22,40 +26,41 @@ public class Main extends javax.swing.JFrame {
     private static Paso paso;
     private static Servidor servidor;
     private final FuncionesGenerales fg;
+    private final boolean debug = true;
     
     public Main() {
         initComponents();
         
         paso = new Paso();
-        fg = new FuncionesGenerales();
+        fg = new FuncionesGenerales(debug);
         
         Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas, areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, jTextArea20, fg, paso);
         
         servidor = new Servidor(paso, parque);
         servidor.start();
         
-        Monitor m1 = new Monitor( parque, 1000, 0, 1, fg, null, paso);
+        Monitor m1 = new Monitor( parque, 1000, 1000, 1, fg, null, paso);
         m1.start();
         
         Monitor m2 = new Monitor( parque, 1000, 1500, 2, fg, null, paso);
         m2.start();
         
-        Monitor m3 = new Monitor( parque, 1000, 0, 3, fg, null, paso);
+        Monitor m3 = new Monitor( parque, 1000, 1000, 3, fg, null, paso);
         m3.start();
 
-        Monitor m4 = new Monitor( parque, 1000, 500, 4, fg, null, paso);
+        Monitor m4 = new Monitor( parque, 500, 500, 4, fg, null, paso);
         m4.start();
         
-        Monitor m5 = new Monitor( parque, 4000, 2000, 5, fg, null, paso);
+        Monitor m5 = new Monitor( parque, 500, 900, 5, fg, null, paso);
         m5.start();
    
-        Monitor m6 = new Monitor( parque, 500, 400, 6, fg, "A", paso);
+        Monitor m6 = new Monitor( parque, 400, 500, 6, fg, "A", paso);
         m6.start();
         
-        Monitor m7 = new Monitor( parque, 500, 400, 6, fg, "B", paso);
+        Monitor m7 = new Monitor( parque, 400, 500, 6, fg, "B", paso);
         m7.start();
         
-        Monitor m8 = new Monitor( parque, 500, 400, 6, fg, "C", paso);
+        Monitor m8 = new Monitor( parque, 400, 500, 6, fg, "C", paso);
         m8.start();
         
         CreaUsuarios nuevo = new CreaUsuarios(parque, paso, fg);

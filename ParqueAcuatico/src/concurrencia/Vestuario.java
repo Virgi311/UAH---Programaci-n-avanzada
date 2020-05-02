@@ -23,12 +23,15 @@ public class Vestuario {
     private final JTextArea colaVestuario;
     private final JTextField monitorVestuario;
     private final JTextArea areaVestuario;
+    
     //Concurrencia
     private final Semaphore semVestuarioAdulto = new Semaphore(20, true);
     private final Semaphore semVestuarioNiño = new Semaphore(10, true);
     private final Semaphore semVestuario = new Semaphore(0, true);
     private final BlockingQueue colaEntrarVestuario = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
+    
+    private Usuario monitorVestuarioUsuario;
     private final FuncionesGenerales fg;
     private final Paso paso;
 
@@ -37,46 +40,57 @@ public class Vestuario {
         this.monitorVestuario = monitorVestuario;
         this.areaVestuario = areaVestuario;
         
+        this.monitorVestuarioUsuario = null;
         this.fg = fg;
         this.paso = paso;
     } // Cierre del método
     
     public void entrarVestuarios(Usuario u) {
+        paso.mirar();
         try {
             colaEntrarVestuario.put(u);
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola del vestuario. \n");
+            
+            paso.mirar();
             semVestuario.acquire();
-
             vestuario.add(u);
             fg.imprimir(areaVestuario, vestuario.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el vestuario. \n");
+            
+            paso.mirar();
             if( u.getEsAcompañante() || u.getEdad() < 18 ) {
                 semVestuarioNiño.acquire();
             } else {
                 semVestuarioAdulto.acquire();
             }
-        } catch(InterruptedException ex) {
+        } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }
     } // Cierre del método
 
     public void salirVestuarios(Usuario u) {
+        paso.mirar();
         vestuario.remove(u);
         fg.imprimir(areaVestuario, vestuario.toString());
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del vestuario. \n");
+        
+        paso.mirar();
         if( u.getEsAcompañante() || u.getEdad() < 18 ) {
-            paso.mirar();
             semVestuarioNiño.release();
         } else {
-            paso.mirar();
             semVestuarioAdulto.release();
         }
     } // Cierre del método
 
     public Usuario controlarVestuario() {
+        paso.mirar();
         try {
             Usuario u = (Usuario) colaEntrarVestuario.take();
-
-            monitorVestuario.setText(u.toString());
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
+            monitorVestuario.setText(u.toString());
+            monitorVestuarioUsuario = u;
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del vestuario. \n");
 
             return u;
         } catch (InterruptedException ex) {
@@ -85,6 +99,7 @@ public class Vestuario {
     } // Cierre del método
 
     public void controlarVestuario(Usuario u) {
+        paso.mirar();
         try {
             if( u.getEdad() > 17 && !u.getEsAcompañante() ) {
                 semVestuarioAdulto.acquire();
@@ -99,7 +114,6 @@ public class Vestuario {
                 paso.mirar();
                 semVestuario.release();
             } else if( u.getEsAcompañante() ) {
-                paso.mirar();
                 semVestuario.release();
             } else { 
                 semVestuarioNiño.acquire();
@@ -110,8 +124,10 @@ public class Vestuario {
             }
 
             monitorVestuario.setText("");
-        } catch (InterruptedException e) {
-            System.out.println("ERROR: " + e);
+            monitorVestuarioUsuario = null;
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del vestuario. \n");
+        } catch( InterruptedException ex ) {
+            System.out.println("ERROR: " + ex);
         }
     } // Cierre del método
     
@@ -121,5 +137,9 @@ public class Vestuario {
     
     public BlockingQueue getColaVestuarios() {
         return colaEntrarVestuario;
+    } // Cierre del método
+
+    public Usuario getMonitorVestuarioUsuario() {
+        return monitorVestuarioUsuario;
     } // Cierre del método
 } // Cierre de la clase

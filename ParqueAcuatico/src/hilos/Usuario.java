@@ -57,7 +57,7 @@ public class Usuario extends Thread {
             
         paso.mirar();
         parque.getVestuario().entrarVestuarios(this);
-        fg.dormir(3000, 0);
+        fg.dormir(3000, 3000);
             
         if( edad <= 10 || esAcompañante ) {
             try {
@@ -95,7 +95,7 @@ public class Usuario extends Thread {
         }
         
         parque.getVestuario().entrarVestuarios(this);
-        fg.dormir(3000, 0);
+        fg.dormir(3000, 3000);
             
         if( esAcompañante ) {
             try {
@@ -144,6 +144,7 @@ public class Usuario extends Thread {
         
         switch( num ) {
             case 0:
+                fg.writeDebugFile("Usuario: " + getCodigo() + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es la Piscina niños.\n");
                 paso.mirar();
                 if( parque.getPiscinaNiños().entrarPiscinaNiños(this) ) {   
                     if( tipo == 3 ) {
@@ -153,7 +154,7 @@ public class Usuario extends Thread {
                             System.out.println("ERROR: " + ex);
                         }
                     } else {
-                        fg.dormir(1000, 2000);
+                        fg.dormir(1000, 3000);
                     }
                     
                     paso.mirar();
@@ -171,6 +172,7 @@ public class Usuario extends Thread {
                 break;
             
             case 1:
+                fg.writeDebugFile("Usuario: " + getCodigo() + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es la Piscina de olas.\n");
                 paso.mirar();
                 if( parque.getPiscinaOlas().entrarPiscinaOlas(this) ) {  
                     if( tipo == 3 ) {
@@ -198,6 +200,7 @@ public class Usuario extends Thread {
                 break;
                 
             case 2:
+                fg.writeDebugFile("Usuario: " + getCodigo() + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es la Piscina grande.\n");
                 paso.mirar();
                 parque.getPiscinaGrande().entrarPiscinaGrande(this);
                 
@@ -208,7 +211,7 @@ public class Usuario extends Thread {
                         System.out.println("ERROR: " + ex);
                     }
                 } else {
-                    fg.dormir(3000, 2000);
+                    fg.dormir(3000, 5000);
                 }
                     
                 paso.mirar();
@@ -225,6 +228,7 @@ public class Usuario extends Thread {
                 break;
                 
             case 3:
+                fg.writeDebugFile("Usuario: " + getCodigo() + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es las tumbonas.\n");
                 paso.mirar();
                 if( parque.getTumbonas().entrarTumbonas(this) ) {
                     if( tipo == 3 ) {
@@ -234,7 +238,7 @@ public class Usuario extends Thread {
                             System.out.println("ERROR: " + ex);
                         }
                     } else {
-                        fg.dormir(3000, 2000);
+                        fg.dormir(2000, 4000);
                     }
                     
                     paso.mirar();
@@ -252,6 +256,7 @@ public class Usuario extends Thread {
                 break;
                 
             case 4:
+                fg.writeDebugFile("Usuario: " + getCodigo() + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es los toboganes.\n");
                 paso.mirar();
                 if( parque.getToboganes().entrarToboganes(this) ) {
                     if( tipo == 3 ) {
@@ -261,7 +266,7 @@ public class Usuario extends Thread {
                             System.out.println("ERROR: " + ex);
                         }
                     } else {
-                        fg.dormir(3000, 2000);
+                        fg.dormir(2000, 3000);
                     }
                 
                     paso.mirar();

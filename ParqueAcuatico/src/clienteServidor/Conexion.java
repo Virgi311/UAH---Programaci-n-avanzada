@@ -86,7 +86,7 @@ public class Conexion extends Thread {
                 ubicacion = "UBICACION!No encontrado";
             }
             salida.writeUTF(ubicacion);
-        } catch(IOException ex) {
+        } catch( IOException ex ) {
             System.out.println("ERROR: " + ex);
         }
     } // Cierre del método
@@ -104,7 +104,7 @@ public class Conexion extends Thread {
         String aforo = servidor.buscarAforo();
         try {
             salida.writeUTF(aforo);
-        } catch(IOException ex) {
+        } catch( IOException ex ) {
             System.out.println("ERROR: " + ex);
         }
     } // Cierre del método
@@ -113,7 +113,7 @@ public class Conexion extends Thread {
         String toboganes = servidor.buscarToboganes();
         try {
             salida.writeUTF("TOBOGANES!" + toboganes);
-        } catch(IOException ex) {
+        } catch( IOException ex ) {
             System.out.println("ERROR: " + ex);
         }
     } // Cierre del método
@@ -140,7 +140,7 @@ public class Conexion extends Thread {
             } else {
                 salida.writeUTF("CERRARSERVER");
             }
-        } catch(IOException ex) {
+        } catch( IOException ex ) {
             System.out.println( "ERROR: " + ex );
         }
     } // Cierre del método

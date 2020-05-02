@@ -66,13 +66,16 @@ public class Parque {
 
     public void entrarParque(Usuario u) {
         try {
+            paso.mirar();
             colaEntrarParque.put(u);
             fg.imprimir(colaEntrada, colaEntrarParque.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la entrada al parque.\n");
             
+            paso.mirar();
             semEntrarparque.acquire();
             colaEntrarParque.take();
             fg.imprimir(colaEntrada, colaEntrarParque.toString());
-        } catch(InterruptedException ex) {
+        } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }
     } // Cierre del método

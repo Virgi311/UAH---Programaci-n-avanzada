@@ -24,12 +24,15 @@ public class PiscinaNiños {
     private final JTextField monitorPiscinaNiños;
     private final JTextArea areaPiscinaNiños;
     private final JTextArea areaEsperaAdultos;
+    
     //Concurrencia
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
     private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);  
     private final BlockingQueue colaEntrarPiscinaNiños = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaNiños = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<Usuario> esperaAdultos = new CopyOnWriteArrayList<>();
+    
+    private Usuario monitorPiscinaNiñosUsuario;
     private boolean accesoPermitido = false;
     private final FuncionesGenerales fg;
     private final Paso paso;
@@ -40,35 +43,42 @@ public class PiscinaNiños {
         this.areaPiscinaNiños = areaPiscinaNiños;
         this.areaEsperaAdultos = areaEsperaAdultos;
         
+        this.monitorPiscinaNiñosUsuario = null;
         this.fg = fg;
         this.paso = paso;
     } // Cierre del método
     
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
+            paso.mirar();
             colaEntrarPiscinaNiños.put(u);
             fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de la piscina niños.\n");
             
+            paso.mirar();
             semPiscinaNiños0.acquire();
             
             if( !accesoPermitido ) {
                 return false;
             }
             
-            if( u.getEdad() <= 5 || (u.getEsAcompañante() && u.getAcompañante().getEdad() <= 5) ) { 
-                //Se trata de un niño de 5 o menos o de un acompañante de un niño de 5 o menos
+            paso.mirar();
+            if( u.getEdad() <= 5 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() <= 5 ) ) { 
+                //Se trata de un niño de 5 o menos años
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
                 fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de niños.\n");
             } else if( u.getEdad() <= 10 ) { //se trata de un niño mayor de 5 años
                 semPiscinaNiños.acquire();
                 piscinaNiños.add(u);
                 fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de niños.\n");
             } else {  // se trata de un acompañante de un niño mayor de 5 años
                 esperaAdultos.add(u);
                 fg.imprimir(areaEsperaAdultos, esperaAdultos.toString());
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la espera de adultos de la piscina de niños.\n");
             }
-
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
@@ -77,13 +87,15 @@ public class PiscinaNiños {
     } // Cierre del método
      
     public void salirPiscinaNiños(Usuario u) {
+        paso.mirar();
         if( u.getEsAcompañante() && u.getAcompañante().getEdad() > 5 ) {
             esperaAdultos.remove(u);
             fg.imprimir(areaEsperaAdultos, esperaAdultos.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale de la espera de adultos de la piscina de niños.\n");
         } else {
             piscinaNiños.remove(u);
             fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
-            paso.mirar();
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale de la piscina de niños.\n");
             semPiscinaNiños.release();
         }
     } // Cierre del método
@@ -91,10 +103,13 @@ public class PiscinaNiños {
     
     public Usuario controlarPiscinaNiños() {
         try {
+            paso.mirar();
             Usuario u = (Usuario) colaEntrarPiscinaNiños.take();
             fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina de niños.\n");
             monitorPiscinaNiños.setText(u.toString());
-
+            monitorPiscinaNiñosUsuario = u;
+            
             return u;
         } catch (InterruptedException ex) {
             return null;
@@ -104,13 +119,12 @@ public class PiscinaNiños {
     
     public void controlarPiscinaNiños(Usuario u) {
         try {
+            paso.mirar();
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 accesoPermitido = false;
-                paso.mirar();
                 semPiscinaNiños0.release();
             } else if( u.getEsAcompañante() ) {
                 accesoPermitido = true;
-                paso.mirar();
                 semPiscinaNiños0.release();
             } else if( u.getEdad() > 5 ) {
                 accesoPermitido = true;       
@@ -129,6 +143,8 @@ public class PiscinaNiños {
             }
 
             monitorPiscinaNiños.setText("");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de niños.\n");
+            monitorPiscinaNiñosUsuario = null;
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
@@ -145,4 +161,8 @@ public class PiscinaNiños {
     public CopyOnWriteArrayList<Usuario> getEsperaAdultos() {
         return esperaAdultos;
     } // Cierre del método    
+
+    public Usuario getMonitorPiscinaNiñosUsuario() {
+        return monitorPiscinaNiñosUsuario;
+    } // Cierre del método   
 } // Cierre de la clase

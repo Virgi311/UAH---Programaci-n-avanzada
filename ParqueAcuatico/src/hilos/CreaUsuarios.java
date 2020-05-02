@@ -34,8 +34,11 @@ public class CreaUsuarios extends Thread {
         for( int id = 1; id <= capacidad; id++ ) {
             CyclicBarrier barrera = new CyclicBarrier(2);
             int edadUsuario = getAleatorio(1, 50);
-            Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, getAleatorio(10, 15), paso, fg);
+            Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, getAleatorio(5, 15), paso, fg);
             Usuario usuarioAcompañante = null;
+            
+            fg.writeDebugFile("Usuario: " + usuarioPrincipal.getCodigo() + " creado con numero de atracciones:" + usuarioPrincipal.getNumAtracciones() + ".\n");
+            
             if( edadUsuario < 11 ){
                 id++;
  
@@ -45,12 +48,15 @@ public class CreaUsuarios extends Thread {
                 usuarioAcompañante.setCodigo(usuarioAcompañante.getCodigo() + "-" + usuarioPrincipal.getIdentificador());
                 usuarioAcompañante.setEsAcompañante(true);
                 usuarioPrincipal.setAcompañante(usuarioAcompañante);
+                
+                fg.writeDebugFile("Usuario acompañante: " + usuarioAcompañante.getCodigo() + " creado para usuario: " + usuarioPrincipal.getCodigo() + ".\n");
             }
             
             usuarioPrincipal.start();
             if (usuarioAcompañante != null) {
                 usuarioAcompañante.start();
             }
+            
             fg.dormir(400, 700);
             paso.mirar();
         }

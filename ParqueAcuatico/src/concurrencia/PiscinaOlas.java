@@ -25,12 +25,15 @@ public class PiscinaOlas {
     private final JTextField monitorPiscinaOlas;
     private final JTextArea areaPiscinaOlas;
     private final JTextArea colaPiscinaOlas;
+    
     //Concurrencia
     private final Semaphore semPiscinaOlas = new Semaphore(20, true);
     private final Semaphore semPiscinaOlas0 = new Semaphore(0, true);
     private final BlockingQueue colaEntrarPiscinaOlas = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaOlas = new CopyOnWriteArrayList<>();
     private final CyclicBarrier barreraPiscinaOlas = new CyclicBarrier(2);
+    
+    private Usuario monitorPiscinaOlasUsuario;
     private boolean accesoPermitido = false;
     private final FuncionesGenerales fg;
     private final Paso paso;
@@ -40,20 +43,26 @@ public class PiscinaOlas {
         this.areaPiscinaOlas = areaPiscinaOlas;
         this.colaPiscinaOlas = colaPiscinaOlas;
         
+        this.monitorPiscinaOlasUsuario = null;
         this.fg = fg;
         this.paso = paso;
     } // Cierre del método
 
     public boolean entrarPiscinaOlas(Usuario u) {
         try {
+            paso.mirar();
             colaEntrarPiscinaOlas.put(u);
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la piscina de olas.\n");
+            
+            paso.mirar();
             semPiscinaOlas0.acquire();
             
             if( !accesoPermitido ) {
                 return false;
             }
             
+            paso.mirar();
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 try {
                     semPiscinaOlas.acquire();
@@ -62,15 +71,17 @@ public class PiscinaOlas {
                     piscinaOlas.add(u);
                     
                     fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
-                } catch(BrokenBarrierException ex) {
+                    fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de olas.\n");
+                } catch( BrokenBarrierException ex ) {
                     System.out.println("ERROR: " + ex);
                 }
             } else {
                 semPiscinaOlas.acquire();
                 piscinaOlas.add(u);
                 fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de olas.\n");
             }
-        } catch(InterruptedException ex) {
+        } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }
 
@@ -78,19 +89,23 @@ public class PiscinaOlas {
     } // Cierre del método
 
     public void salirPiscinaOlas(Usuario u) {
+        paso.mirar();
         piscinaOlas.remove(u);
         fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
-        paso.mirar();
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale de la piscina de olas.\n");
         semPiscinaOlas.release();
     } // Cierre del método
 
     public Usuario controlarPiscinaOlas() {
         Usuario u = null;
+        paso.mirar();
         try {
             u = (Usuario) colaEntrarPiscinaOlas.take();
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina de olas.\n");
             monitorPiscinaOlas.setText(u.toString());
-        } catch (InterruptedException ex) {
+            monitorPiscinaOlasUsuario = u;
+        } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }
 
@@ -98,47 +113,45 @@ public class PiscinaOlas {
     } // Cierre del método
 
     public void controlarPiscinaOlas(Usuario u) {
+        paso.mirar();
         if( u.getEdad() <= 5 ) {
             accesoPermitido = false;
-            paso.mirar();
             semPiscinaOlas0.release();
             try {
                 colaEntrarPiscinaOlas.take();
                 fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-                paso.mirar();
                 semPiscinaOlas0.release();
-            } catch(InterruptedException ex) {
+            } catch( InterruptedException ex ) {
                 System.out.println("ERROR: " + ex);
             }
         } else if( u.getEdad() <= 10 ) {
             try {
                 semPiscinaOlas.acquire(2);
-                paso.mirar();
                 semPiscinaOlas.release(2);
                 accesoPermitido = true;
                 paso.mirar();
                 semPiscinaOlas0.release();
                 colaEntrarPiscinaOlas.take();
                 fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-                paso.mirar();
                 semPiscinaOlas0.release();
-            } catch(InterruptedException ex) {
+            } catch( InterruptedException ex ) {
                 System.out.println("ERROR: " + ex);
             }
         } else {
             try {
                 semPiscinaOlas.acquire();
-                paso.mirar();
                 semPiscinaOlas.release();
                 accesoPermitido = true;
                 paso.mirar();
                 semPiscinaOlas0.release();
-            } catch(InterruptedException ex) {
+            } catch( InterruptedException ex ) {
                 System.out.println("ERROR: " + ex);
             }
         }
 
         monitorPiscinaOlas.setText("");
+        monitorPiscinaOlasUsuario = null;
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de olas.\n");
     } // Cierre del método
 
     public BlockingQueue getColaEntrarPiscinaOlas() {
@@ -147,5 +160,9 @@ public class PiscinaOlas {
 
     public CopyOnWriteArrayList<Usuario> getPiscinaOlas() {
         return piscinaOlas;
+    } // Cierre del método
+
+    public Usuario getMonitorPiscinaOlasUsuario() {
+        return monitorPiscinaOlasUsuario;
     } // Cierre del método
 } // Cierre de la clase
