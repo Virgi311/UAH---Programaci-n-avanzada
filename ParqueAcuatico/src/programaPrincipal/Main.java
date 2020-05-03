@@ -5,10 +5,6 @@ import concurrencia.Parque;
 import hilos.CreaUsuarios;
 import concurrencia.Paso;
 import hilos.Monitor;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import util.FuncionesGenerales;
 
 /**

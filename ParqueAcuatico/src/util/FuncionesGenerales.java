@@ -18,13 +18,13 @@ public final class FuncionesGenerales {
     private final String ruta;
     private final File file;
     private final boolean debug;
-    private final String USUARIO = "";
+    
     //Campos de la clase
     public FuncionesGenerales(boolean debug) {
         this.debug = debug;
         
         if (System.getProperty("os.name").startsWith("Windows")) {
-            ruta = "C://Users/" + USUARIO + "/Desktop/debug.log";
+            ruta = "S://jglez/Escritorio/debug.log";
         } else {
             ruta = "/tmp/debug.log";
         } 
