@@ -24,9 +24,9 @@ public class Monitor extends Thread {
      * 3 -> Piscina Olas
      * 4 -> Piscina Grande
      * 5 -> Monitor Tumbonas
-     * 6 -> Tobogan A
-     * 7 -> Tobogan B
-     * 8 -> Tobogan C
+     * 6 A -> Tobogan A
+     * 6 B -> Tobogan B
+     * 6 C -> Tobogan C
      */
     private final int atraccion;
     private final int min;
@@ -73,7 +73,6 @@ public class Monitor extends Thread {
                     usuario = parque.getPiscinaOlas().controlarPiscinaOlas();
                     fg.dormir(min, max);
                     parque.getPiscinaOlas().controlarPiscinaOlas(usuario);
-                    paso.mirar();
                     break;
                     
                 case 4: // Monitor de la piscina grande

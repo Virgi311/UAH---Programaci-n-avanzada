@@ -66,8 +66,8 @@ public class PiscinaGrande {
             
             paso.mirar();
             piscinaGrande.add(u);
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entro a la piscina grande.\n");
             fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entro a la piscina grande.\n");
         } catch( InterruptedException ex ) {
             System.out.println("ERROR:" + ex);
         }
@@ -99,18 +99,18 @@ public class PiscinaGrande {
     
     public void controlarPiscinaGrande( Usuario usuario ) {
         try {
-                paso.mirar();
-                semPiscinaGrande.acquire();
-                paso.mirar();
-                semPiscinaGrande.release();
-                paso.mirar();
-                semPiscinaGrande0.release();
-            } catch( InterruptedException ex ) {
-                System.out.println("ERROR: " + ex);
-            }
-        monitorPiscinaGrande.setText("");
-        monitorPiscinaGrandeUsuario = null;
-        fg.writeDebugFile("Usuario: " + usuario.getCodigo() + " sale del monitor de la piscina grande.\n");
+            monitorPiscinaGrande.setText("");
+            monitorPiscinaGrandeUsuario = null;
+            fg.writeDebugFile("Usuario: " + usuario.getCodigo() + " sale del monitor de la piscina grande.\n");
+            paso.mirar();
+            semPiscinaGrande.acquire();
+            paso.mirar();
+            semPiscinaGrande.release();
+            paso.mirar();
+            semPiscinaGrande0.release();
+        } catch( InterruptedException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
     } // Cierre del método
     
     public Usuario monitorExpulsa(){

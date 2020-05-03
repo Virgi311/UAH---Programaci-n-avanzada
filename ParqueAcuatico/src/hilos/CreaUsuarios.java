@@ -37,7 +37,7 @@ public class CreaUsuarios extends Thread {
             Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, getAleatorio(5, 15), paso, fg);
             Usuario usuarioAcompañante = null;
             
-            fg.writeDebugFile("Usuario: " + usuarioPrincipal.getCodigo() + " creado con numero de atracciones:" + usuarioPrincipal.getNumAtracciones() + ".\n");
+            fg.writeDebugFile("Usuario: " + usuarioPrincipal.getCodigo() + " creado con numero de atracciones: " + usuarioPrincipal.getNumAtracciones() + ".\n");
             
             if( edadUsuario < 11 ){
                 id++;

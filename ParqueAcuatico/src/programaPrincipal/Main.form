@@ -543,6 +543,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="monitorPiscinaOlas" min="-2" pref="111" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                          <Component id="jLabel36" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="esperaCompañero" min="-2" pref="111" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
@@ -571,6 +575,8 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="monitorPiscinaOlas" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="jLabel14" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="jLabel36" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="esperaCompañero" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -637,6 +643,13 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="monitorPiscinaOlas">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel36">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Espera a un compa&#xf1;ero:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="esperaCompa&#xf1;ero">
         </Component>
       </SubComponents>
     </Container>

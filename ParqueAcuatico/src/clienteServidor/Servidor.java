@@ -267,16 +267,16 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getToboganes().getMonitroToboganAUsuario() != null ) && ( parque.getToboganes().getMonitroToboganAUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getMonitroToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A.";
+        if( ( parque.getToboganes().getMonitorToboganAUsuario() != null ) && ( parque.getToboganes().getMonitorToboganAUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getToboganes().getMonitorToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A.";
         }
         
-        if( ( parque.getToboganes().getMonitroToboganBUsuario() != null ) && ( parque.getToboganes().getMonitroToboganBUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getMonitroToboganBUsuario().getControlNumAtracciones() + "!Monitor del Tobogan B.";
+        if( ( parque.getToboganes().getMonitorToboganBUsuario() != null ) && ( parque.getToboganes().getMonitorToboganBUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getToboganes().getMonitorToboganBUsuario().getControlNumAtracciones() + "!Monitor del Tobogan B.";
         }
         
-        if( ( parque.getToboganes().getMonitroToboganCUsuario()!= null ) && ( parque.getToboganes().getMonitroToboganCUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getMonitroToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C.";
+        if( ( parque.getToboganes().getMonitorToboganCUsuario()!= null ) && ( parque.getToboganes().getMonitorToboganCUsuario().toString().equals(usuario) ) ) {
+            return "UBICACION!" + parque.getToboganes().getMonitorToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C.";
         }
         
         if( parque.getToboganes().getToboganA().equals(usuario) ) {
@@ -311,6 +311,7 @@ public class Servidor extends Thread {
         
         int numPiscinaOlas = ( parque.getPiscinaOlas().getColaEntrarPiscinaOlas().size() )
                                 + ( ( !parque.getMonitorPiscinaOlas().getText().equals("") ) ? 1 :0 )
+                                + ( ( !parque.getEsperaCompañero().getText().equals("") ) ? 1 : 0 )
                                 + ( parque.getPiscinaOlas().getPiscinaOlas().size() );
        
         int numPiscinaNiños = ( parque.getPiscinaNiños().getColaEntrarPiscinaNiños().size() )

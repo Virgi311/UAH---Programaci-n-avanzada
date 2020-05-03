@@ -50,9 +50,9 @@ public class Toboganes {
     private Usuario toboganAUsuario;
     private Usuario toboganBUsuario;
     private Usuario toboganCUsuario;
-    private Usuario monitroToboganAUsuario;
-    private Usuario monitroToboganBUsuario;
-    private Usuario monitroToboganCUsuario;
+    private Usuario monitorToboganAUsuario;
+    private Usuario monitorToboganBUsuario;
+    private Usuario monitorToboganCUsuario;
     
     public Toboganes(JTextField areaToboganA, JTextField areaToboganB, JTextField areaToboganC, JTextField monitorToboganA, JTextField monitorToboganB, JTextField monitorToboganC, JTextArea colaToboganes, PiscinaGrande piscinaGrande, FuncionesGenerales fg, Paso paso ) {
         this.areaToboganA = areaToboganA;
@@ -71,9 +71,9 @@ public class Toboganes {
         this.toboganBUsuario = null;
         this.toboganCUsuario = null;
                         
-        this.monitroToboganCUsuario = null;
-        this.monitroToboganCUsuario = null;
-        this.monitroToboganCUsuario = null;
+        this.monitorToboganCUsuario = null;
+        this.monitorToboganCUsuario = null;
+        this.monitorToboganCUsuario = null;
         this.fg = fg;
         this.paso = paso;
     } // Cierre del método
@@ -171,7 +171,7 @@ public class Toboganes {
         try {
             Usuario u = (Usuario) colaToboganA.take();
             monitorToboganA.setText(u.toString());
-            monitroToboganAUsuario = u;
+            monitorToboganAUsuario = u;
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan A. \n");
             return u;
         } catch (InterruptedException ex) {
@@ -182,7 +182,7 @@ public class Toboganes {
     public void monitorToboganA(Usuario u) {
         paso.mirar();
         monitorToboganA.setText("");
-        monitroToboganAUsuario = null;
+        monitorToboganAUsuario = null;
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan A. \n");
         int edad = u.getEdad();
 
@@ -197,7 +197,7 @@ public class Toboganes {
         try {
             Usuario u = (Usuario) colaToboganB.take();
             monitorToboganB.setText(u.toString());
-            monitroToboganBUsuario = u;
+            monitorToboganBUsuario = u;
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan B. \n");
             return u;
         } catch (InterruptedException ex) {
@@ -209,7 +209,7 @@ public class Toboganes {
     public void monitorToboganB(Usuario u) {
         paso.mirar();
         monitorToboganB.setText("");
-        monitroToboganBUsuario = null;
+        monitorToboganBUsuario = null;
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan B. \n");
         int edad = u.getEdad();
 
@@ -223,7 +223,7 @@ public class Toboganes {
         try {
             Usuario u = (Usuario) colaToboganC.take();
             monitorToboganC.setText(u.toString());
-            monitroToboganCUsuario = u;
+            monitorToboganCUsuario = u;
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan C. \n");
             return u;
         } catch (InterruptedException ex) {
@@ -234,7 +234,7 @@ public class Toboganes {
     public void monitorToboganC(Usuario u) {
         paso.mirar();
         monitorToboganC.setText("");
-        monitroToboganCUsuario = null;
+        monitorToboganCUsuario = null;
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan C. \n");
         int edad = u.getEdad();
 
@@ -283,16 +283,16 @@ public class Toboganes {
         return colaToboganC;
     } // Cierre del método
 
-    public Usuario getMonitroToboganAUsuario() {
-        return monitroToboganAUsuario;
+    public Usuario getMonitorToboganAUsuario() {
+        return monitorToboganAUsuario;
     }
 
-    public Usuario getMonitroToboganBUsuario() {
-        return monitroToboganBUsuario;
+    public Usuario getMonitorToboganBUsuario() {
+        return monitorToboganBUsuario;
     }
 
-    public Usuario getMonitroToboganCUsuario() {
-        return monitroToboganCUsuario;
+    public Usuario getMonitorToboganCUsuario() {
+        return monitorToboganCUsuario;
     }
 
     public Usuario getToboganAUsuario() {

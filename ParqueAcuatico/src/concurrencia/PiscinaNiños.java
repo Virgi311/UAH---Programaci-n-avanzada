@@ -119,6 +119,9 @@ public class PiscinaNiños {
     
     public void controlarPiscinaNiños(Usuario u) {
         try {
+            monitorPiscinaNiños.setText("");
+            monitorPiscinaNiñosUsuario = null;
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de niños.\n");
             paso.mirar();
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 accesoPermitido = false;
@@ -141,10 +144,6 @@ public class PiscinaNiños {
                 paso.mirar();
                 semPiscinaNiños0.release();
             }
-
-            monitorPiscinaNiños.setText("");
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de niños.\n");
-            monitorPiscinaNiñosUsuario = null;
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }

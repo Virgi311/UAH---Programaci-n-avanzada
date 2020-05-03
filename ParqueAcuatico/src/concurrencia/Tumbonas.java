@@ -47,7 +47,7 @@ public class Tumbonas {
     } // Cierre del método
        
     public boolean entrarTumbonas(Usuario u){
-        if( u.getEdad() <= 10 || u.getEsAcompañante() ) {
+        if( u.getEdad() < 15 || u.getEsAcompañante() ) {
             return false;
         }
         
@@ -61,12 +61,9 @@ public class Tumbonas {
             semTumbonas.acquire();
             colaEntrarTumbonas.remove(u);
             fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
-            colaMonitorTumbonas.put(u);
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola del monitor de las tumbonas. \n");
+            colaMonitorTumbonas.put(u);
             semTumbonas.acquire();
-            if( !accesoPermitido ) {
-                return false;
-            }
             
             paso.mirar();
             tumbonas.add(u);
@@ -103,19 +100,10 @@ public class Tumbonas {
     
     public void controlarTumbonas(Usuario u) {
         paso.mirar();
-        accesoPermitido = u.getEdad() >= 15;
-        semTumbonas.release();
         monitorTumbonas.setText("");
         monitorTumbonasUsuario = null;
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de las tumbonas. \n");
-    } // Cierre del método
-    
-    public boolean isAccesoPermitido() {
-        return accesoPermitido;
-    } // Cierre del método
-
-    public void setAccesoPermitido(boolean accesoPermitido) {
-        this.accesoPermitido = accesoPermitido;
+        semTumbonas.release();
     } // Cierre del método
 
     public CopyOnWriteArrayList<Usuario> getColaEntrarTumbonas() {

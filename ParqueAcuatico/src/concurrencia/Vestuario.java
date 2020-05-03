@@ -101,6 +101,10 @@ public class Vestuario {
     public void controlarVestuario(Usuario u) {
         paso.mirar();
         try {
+            monitorVestuario.setText("");
+            monitorVestuarioUsuario = null;
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del vestuario. \n");
+            
             if( u.getEdad() > 17 && !u.getEsAcompañante() ) {
                 semVestuarioAdulto.acquire();
                 paso.mirar();
@@ -121,11 +125,7 @@ public class Vestuario {
                 semVestuarioNiño.release();
                 paso.mirar();
                 semVestuario.release();
-            }
-
-            monitorVestuario.setText("");
-            monitorVestuarioUsuario = null;
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del vestuario. \n");
+            }       
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }

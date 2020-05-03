@@ -25,6 +25,7 @@ public class PiscinaOlas {
     private final JTextField monitorPiscinaOlas;
     private final JTextArea areaPiscinaOlas;
     private final JTextArea colaPiscinaOlas;
+    private final JTextField esperaCompañero;
     
     //Concurrencia
     private final Semaphore semPiscinaOlas = new Semaphore(20, true);
@@ -34,22 +35,32 @@ public class PiscinaOlas {
     private final CyclicBarrier barreraPiscinaOlas = new CyclicBarrier(2);
     
     private Usuario monitorPiscinaOlasUsuario;
-    private boolean accesoPermitido = false;
+    private Usuario esperaCompañeroUsuario;
+    private boolean accesoPermitido;
+    private boolean accesoCerrado;
     private final FuncionesGenerales fg;
     private final Paso paso;
 
-    public PiscinaOlas(JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextArea colaPiscinaOlas, FuncionesGenerales fg, Paso paso) {
+    public PiscinaOlas(JTextField monitorPiscinaOlas, JTextArea areaPiscinaOlas, JTextArea colaPiscinaOlas, FuncionesGenerales fg, Paso paso, JTextField esperaCompañero) {
         this.monitorPiscinaOlas = monitorPiscinaOlas;
         this.areaPiscinaOlas = areaPiscinaOlas;
         this.colaPiscinaOlas = colaPiscinaOlas;
+        this.esperaCompañero = esperaCompañero;
         
         this.monitorPiscinaOlasUsuario = null;
+        this.esperaCompañeroUsuario = null;
+        this.accesoPermitido = false;
+        this.accesoCerrado = false;
         this.fg = fg;
         this.paso = paso;
     } // Cierre del método
 
     public boolean entrarPiscinaOlas(Usuario u) {
         try {
+            if( accesoCerrado ) {
+                return false;
+            }
+            
             paso.mirar();
             colaEntrarPiscinaOlas.put(u);
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
@@ -66,14 +77,18 @@ public class PiscinaOlas {
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 try {
                     semPiscinaOlas.acquire();
+                    esperaCompañero.setText(u.toString());
+                    esperaCompañeroUsuario = u;
                     barreraPiscinaOlas.await();
+                    esperaCompañero.setText("");
+                    esperaCompañeroUsuario = null;
                     
                     piscinaOlas.add(u);
                     
                     fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
                     fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de olas.\n");
                 } catch( BrokenBarrierException ex ) {
-                    System.out.println("ERROR: " + ex);
+                    return false;
                 }
             } else {
                 semPiscinaOlas.acquire();
@@ -113,6 +128,9 @@ public class PiscinaOlas {
     } // Cierre del método
 
     public void controlarPiscinaOlas(Usuario u) {
+        monitorPiscinaOlas.setText("");
+        monitorPiscinaOlasUsuario = null;
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de olas.\n");
         paso.mirar();
         if( u.getEdad() <= 5 ) {
             accesoPermitido = false;
@@ -148,10 +166,6 @@ public class PiscinaOlas {
                 System.out.println("ERROR: " + ex);
             }
         }
-
-        monitorPiscinaOlas.setText("");
-        monitorPiscinaOlasUsuario = null;
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de olas.\n");
     } // Cierre del método
 
     public BlockingQueue getColaEntrarPiscinaOlas() {
@@ -164,5 +178,21 @@ public class PiscinaOlas {
 
     public Usuario getMonitorPiscinaOlasUsuario() {
         return monitorPiscinaOlasUsuario;
+    } // Cierre del método
+
+    public Usuario getEsperaCompañeroUsuario() {
+        return esperaCompañeroUsuario;
+    } // Cierre del método
+
+    public void setEsperaCompañeroUsuario(Usuario esperaCompañeroUsuario) {
+        this.esperaCompañeroUsuario = esperaCompañeroUsuario;
+    } // Cierre del método
+
+    public JTextField getEsperaCompañero() {
+        return esperaCompañero;
+    } // Cierre del método
+
+    public void setAccesoCerrado(boolean accesoCerrado) {
+        this.accesoCerrado = accesoCerrado;
     } // Cierre del método
 } // Cierre de la clase
