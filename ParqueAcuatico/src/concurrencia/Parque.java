@@ -70,9 +70,9 @@ public class Parque {
     public void entrarParque(Usuario u) {
         try {
             paso.mirar();
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la entrada al parque.\n");
             colaEntrarParque.put(u);
             fg.imprimir(colaEntrada, colaEntrarParque.toString());
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la entrada al parque.\n");
             
             paso.mirar();
             semEntrarparque.acquire();
@@ -85,14 +85,15 @@ public class Parque {
 
     public void salirParque(Usuario u) {
         paso.mirar();
-        semEntrarparque.release();
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del parque.\n");
+        semEntrarparque.release();
         
         if( getAforo() < 2 && piscinaOlas.getEsperaCompañeroUsuario() != null ) {
             piscinaOlas.setAccesoCerrado(true);
             fg.writeDebugFile("Usuario: " + piscinaOlas.getEsperaCompañeroUsuario().getCodigo() + " se quedo solo esperando en la piscina de olas a alguien para entrar, le echamos.\n");
             piscinaOlas.getEsperaCompañeroUsuario().setTryPiscinaOlas(true);
             piscinaOlas.getEsperaCompañeroUsuario().interrupt();
+            
             piscinaOlas.getEsperaCompañero().setText("");
             piscinaOlas.setEsperaCompañeroUsuario(null);
         } else if ( getAforo() < 2 ) {
@@ -203,9 +204,9 @@ public class Parque {
                             + ( ( !monitorToboganA.getText().equals("") ? 1 : 0 ) )
                             + ( ( !monitorToboganB.getText().equals("") ? 1 : 0 ) )
                             + ( ( !monitorToboganC.getText().equals("") ? 1 : 0 ) )
-                            + ( ( !toboganes.getToboganA().equals("") ) ? 1 : 0 )
-                            + ( ( !toboganes.getToboganB().equals("") ) ? 1 : 0 )
-                            + ( ( !toboganes.getToboganC().equals("") ) ? 1 : 0 );
+                            + ( ( toboganes.getToboganAUsuario() != null ) ? 1 : 0 )
+                            + ( ( toboganes.getToboganBUsuario() != null ) ? 1 : 0 )
+                            + ( ( toboganes.getToboganCUsuario() != null ) ? 1 : 0 );
         return numVestuario + numPiscinaGrande + numPiscinaNiños + numPiscinaOlas + numToboganes + numTumbonas;
     } // Cierre del método
 } // Cierre de la clase

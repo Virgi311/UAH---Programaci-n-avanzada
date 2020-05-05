@@ -36,7 +36,6 @@ public class PiscinaOlas {
     
     private Usuario monitorPiscinaOlasUsuario;
     private Usuario esperaCompañeroUsuario;
-    private boolean accesoPermitido;
     private boolean accesoCerrado;
     private final FuncionesGenerales fg;
     private final Paso paso;
@@ -49,7 +48,6 @@ public class PiscinaOlas {
         
         this.monitorPiscinaOlasUsuario = null;
         this.esperaCompañeroUsuario = null;
-        this.accesoPermitido = false;
         this.accesoCerrado = false;
         this.fg = fg;
         this.paso = paso;
@@ -62,41 +60,30 @@ public class PiscinaOlas {
             }
             
             paso.mirar();
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la piscina de olas.\n");
             colaEntrarPiscinaOlas.put(u);
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la piscina de olas.\n");
             
             paso.mirar();
             semPiscinaOlas0.acquire();
             
-            if( !accesoPermitido ) {
+            if( !u.getAccesoPermitido() ) {
                 return false;
             }
             
             paso.mirar();
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
-                try {
-                    semPiscinaOlas.acquire();
-                    esperaCompañero.setText(u.toString());
-                    esperaCompañeroUsuario = u;
-                    barreraPiscinaOlas.await();
-                    esperaCompañero.setText("");
-                    esperaCompañeroUsuario = null;
-                    
-                    piscinaOlas.add(u);
-                    
-                    fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
-                    fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de olas.\n");
-                } catch( BrokenBarrierException ex ) {
-                    return false;
-                }
-            } else {
-                semPiscinaOlas.acquire();
-                piscinaOlas.add(u);
-                fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
-                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de olas.\n");
+                esperaCompañero.setText(u.toString());
+                esperaCompañeroUsuario = u;
+                barreraPiscinaOlas.await();
+                esperaCompañero.setText("");
+                esperaCompañeroUsuario = null;
             }
-        } catch( InterruptedException ex ) {
+            
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de olas.\n");
+            piscinaOlas.add(u);
+            fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
+        } catch( InterruptedException | BrokenBarrierException ex ) {
             System.out.println("ERROR: " + ex);
         }
 
@@ -112,60 +99,47 @@ public class PiscinaOlas {
     } // Cierre del método
 
     public Usuario controlarPiscinaOlas() {
-        Usuario u = null;
-        paso.mirar();
         try {
-            u = (Usuario) colaEntrarPiscinaOlas.take();
-            fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
+            paso.mirar();
+            Usuario u = (Usuario) colaEntrarPiscinaOlas.take();
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina de olas.\n");
+            fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
+            
             monitorPiscinaOlas.setText(u.toString());
             monitorPiscinaOlasUsuario = u;
+            
+            return u;
         } catch( InterruptedException ex ) {
-            System.out.println("ERROR: " + ex);
+            return null;
         }
 
-        return u;
     } // Cierre del método
 
     public void controlarPiscinaOlas(Usuario u) {
-        monitorPiscinaOlas.setText("");
-        monitorPiscinaOlasUsuario = null;
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de olas.\n");
         paso.mirar();
-        if( u.getEdad() <= 5 ) {
-            accesoPermitido = false;
-            semPiscinaOlas0.release();
-            try {
-                colaEntrarPiscinaOlas.take();
-                fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-                semPiscinaOlas0.release();
-            } catch( InterruptedException ex ) {
-                System.out.println("ERROR: " + ex);
-            }
-        } else if( u.getEdad() <= 10 ) {
+        if( u.getEdad() < 6 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 6 ) ) {
+            u.setAccesoPermitido(false);
+        } else if( u.getEdad() < 11 ) {
             try {
                 semPiscinaOlas.acquire(2);
-                semPiscinaOlas.release(2);
-                accesoPermitido = true;
-                paso.mirar();
-                semPiscinaOlas0.release();
-                colaEntrarPiscinaOlas.take();
-                fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
-                semPiscinaOlas0.release();
+                semPiscinaOlas.release();
             } catch( InterruptedException ex ) {
                 System.out.println("ERROR: " + ex);
             }
         } else {
             try {
                 semPiscinaOlas.acquire();
-                semPiscinaOlas.release();
-                accesoPermitido = true;
-                paso.mirar();
-                semPiscinaOlas0.release();
             } catch( InterruptedException ex ) {
                 System.out.println("ERROR: " + ex);
             }
         }
+        
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de olas.\n");
+        monitorPiscinaOlas.setText("");
+        monitorPiscinaOlasUsuario = null;
+        
+        paso.mirar();
+        semPiscinaOlas0.release();
     } // Cierre del método
 
     public BlockingQueue getColaEntrarPiscinaOlas() {

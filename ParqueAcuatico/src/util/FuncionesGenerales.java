@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JTextArea;
 
 /**
@@ -24,7 +27,7 @@ public final class FuncionesGenerales {
         this.debug = debug;
         
         if (System.getProperty("os.name").startsWith("Windows")) {
-            ruta = "S://jglez/Escritorio/debug.log";
+            ruta = "C://Users/User/Desktop/debug.log";
         } else {
             ruta = "/tmp/debug.log";
         } 
@@ -58,7 +61,8 @@ public final class FuncionesGenerales {
             } else {
                 file.createNewFile();
             }
-               
+            
+            
             FileWriter fw = new FileWriter(file);
             try (BufferedWriter bw = new BufferedWriter(fw)) {
                 bw.write(contenido);
@@ -68,12 +72,14 @@ public final class FuncionesGenerales {
         }
     }
     
-    public void writeDebugFile(String contenido) {
+    public synchronized void writeDebugFile(String contenido) {
         if(debug) {
+            Date date = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             try {
                 FileWriter fw = new FileWriter(file, true);
                 try (BufferedWriter bw = new BufferedWriter(fw)) {
-                    bw.write(contenido);
+                    bw.write( dateFormat.format(date) + " => " + contenido );
                 }
             } catch(IOException ex) {
                 System.out.println("ERROR: " + ex);

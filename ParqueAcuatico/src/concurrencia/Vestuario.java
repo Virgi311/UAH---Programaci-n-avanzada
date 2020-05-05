@@ -48,22 +48,16 @@ public class Vestuario {
     public void entrarVestuarios(Usuario u) {
         paso.mirar();
         try {
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola del vestuario. \n");
             colaEntrarVestuario.put(u);
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola del vestuario. \n");
             
             paso.mirar();
             semVestuario.acquire();
+            
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el vestuario. \n");
             vestuario.add(u);
             fg.imprimir(areaVestuario, vestuario.toString());
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el vestuario. \n");
-            
-            paso.mirar();
-            if( u.getEsAcompañante() || u.getEdad() < 18 ) {
-                semVestuarioNiño.acquire();
-            } else {
-                semVestuarioAdulto.acquire();
-            }
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }
@@ -71,9 +65,10 @@ public class Vestuario {
 
     public void salirVestuarios(Usuario u) {
         paso.mirar();
+        
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del vestuario. \n");
         vestuario.remove(u);
         fg.imprimir(areaVestuario, vestuario.toString());
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del vestuario. \n");
         
         paso.mirar();
         if( u.getEsAcompañante() || u.getEdad() < 18 ) {
@@ -87,10 +82,10 @@ public class Vestuario {
         paso.mirar();
         try {
             Usuario u = (Usuario) colaEntrarVestuario.take();
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del vestuario. \n");
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
             monitorVestuario.setText(u.toString());
             monitorVestuarioUsuario = u;
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del vestuario. \n");
 
             return u;
         } catch (InterruptedException ex) {
@@ -101,34 +96,25 @@ public class Vestuario {
     public void controlarVestuario(Usuario u) {
         paso.mirar();
         try {
-            monitorVestuario.setText("");
-            monitorVestuarioUsuario = null;
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del vestuario. \n");
-            
             if( u.getEdad() > 17 && !u.getEsAcompañante() ) {
                 semVestuarioAdulto.acquire();
-                paso.mirar();
-                semVestuarioAdulto.release();
-                paso.mirar();
-                semVestuario.release();
             } else if( u.getEdad() <= 10 ) {
                 semVestuarioNiño.acquire(2);
                 paso.mirar();
-                semVestuarioNiño.release(2);
-                paso.mirar();
-                semVestuario.release();
-            } else if( u.getEsAcompañante() ) {
-                semVestuario.release();
+                semVestuarioNiño.release();
             } else { 
                 semVestuarioNiño.acquire();
-                paso.mirar();
-                semVestuarioNiño.release();
-                paso.mirar();
-                semVestuario.release();
             }       
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }
+        
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del vestuario. \n");
+        monitorVestuario.setText("");
+        monitorVestuarioUsuario = null;
+        
+        paso.mirar();
+        semVestuario.release();
     } // Cierre del método
     
     public CopyOnWriteArrayList<Usuario> getVestuarios() {

@@ -43,10 +43,6 @@ public class Toboganes {
     private final Semaphore semToboganB0 = new Semaphore(0, true);
     private final Semaphore semToboganC0 = new Semaphore(0, true);
     
-    private String toboganA;
-    private String toboganB;
-    private String toboganC;
-    
     private Usuario toboganAUsuario;
     private Usuario toboganBUsuario;
     private Usuario toboganCUsuario;
@@ -64,15 +60,12 @@ public class Toboganes {
         this.colaToboganes = colaToboganes;
         this.piscinaGrande = piscinaGrande;
         
-        this.toboganA = "";
-        this.toboganB = "";
-        this.toboganC = "";
         this.toboganAUsuario = null;
         this.toboganBUsuario = null;
         this.toboganCUsuario = null;
                         
-        this.monitorToboganCUsuario = null;
-        this.monitorToboganCUsuario = null;
+        this.monitorToboganAUsuario = null;
+        this.monitorToboganBUsuario = null;
         this.monitorToboganCUsuario = null;
         this.fg = fg;
         this.paso = paso;
@@ -80,47 +73,38 @@ public class Toboganes {
 
     public boolean entrarToboganes(Usuario u) {
         try {
-            if (u.getEdad() < 11 || u.getEsAcompañante()) {
-                return false;
-            }
             paso.mirar();
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de los toboganes.\n");
             colaEntrarToboganes.add(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de los toboganes.\n");
             
             paso.mirar();
             if (u.getEdad() < 15) {
-                semToboganA.acquire();
                 colaToboganA.put(u);
                 semToboganA0.acquire();
             } else if (u.getEdad() < 18) {
-                semToboganB.acquire();
                 colaToboganB.put(u);
                 semToboganB0.acquire();
             } else {
-                semToboganC.acquire();
                 colaToboganC.put(u);
                 semToboganC0.acquire();
             }
             
-            paso.mirar();
-            colaEntrarToboganes.remove(u);
-            fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
-
+            if( !u.getAccesoPermitido() ) {
+                return false;
+            }
+            
             if (u.getEdad() < 15) {
-                toboganA = u.toString();
                 toboganAUsuario = u;
-                areaToboganA.setText(toboganA);
+                areaToboganA.setText(toboganAUsuario.toString());
                 fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan A.\n");
             } else if (u.getEdad() < 18) {
-                toboganB = u.toString();
                 toboganBUsuario = u;
-                areaToboganB.setText(toboganB);
+                areaToboganB.setText(toboganBUsuario.toString());
                 fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan B.\n");
             } else {
-                toboganC = u.toString();
                 toboganCUsuario = u;
-                areaToboganC.setText(toboganC);
+                areaToboganC.setText(toboganCUsuario.toString());
                 fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan C.\n");
             }
         } catch (InterruptedException ex) {
@@ -140,17 +124,14 @@ public class Toboganes {
         
         paso.mirar();
         if (u.getEdad() < 15) {
-            toboganA = "";
             toboganAUsuario = null;
             areaToboganA.setText("");
             semToboganA.release();
         } else if (u.getEdad() < 18) {
-            toboganB = "";
             toboganBUsuario = null;
             areaToboganB.setText("");
             semToboganB.release();
         } else {
-            toboganC = "";
             toboganCUsuario = null;
             areaToboganC.setText("");
             semToboganC.release();
@@ -170,9 +151,13 @@ public class Toboganes {
         paso.mirar();
         try {
             Usuario u = (Usuario) colaToboganA.take();
+            colaEntrarToboganes.remove(u);
+            fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
+            
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan A. \n");
             monitorToboganA.setText(u.toString());
             monitorToboganAUsuario = u;
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan A. \n");
+            
             return u;
         } catch (InterruptedException ex) {
             return null;
@@ -180,15 +165,23 @@ public class Toboganes {
     } // Cierre del método
 
     public void monitorToboganA(Usuario u) {
-        paso.mirar();
+        if( u.getEdad() < 11 ) {
+            u.setAccesoPermitido(false);
+        } else {
+            paso.mirar();
+            try {
+            semToboganA.acquire();
+            } catch(InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
+            }
+        }
+            
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan A. \n");
         monitorToboganA.setText("");
         monitorToboganAUsuario = null;
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan A. \n");
-        int edad = u.getEdad();
-
-        if (edad < 15) {
-            semToboganA0.release();
-        }
+        
+        paso.mirar();
+        semToboganA0.release();
 
     } // Cierre del método
 
@@ -196,9 +189,13 @@ public class Toboganes {
         paso.mirar();
         try {
             Usuario u = (Usuario) colaToboganB.take();
+            colaEntrarToboganes.remove(u);
+            fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
+            
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan B. \n");
             monitorToboganB.setText(u.toString());
             monitorToboganBUsuario = u;
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan B. \n");
+            
             return u;
         } catch (InterruptedException ex) {
             return null;
@@ -208,23 +205,31 @@ public class Toboganes {
 
     public void monitorToboganB(Usuario u) {
         paso.mirar();
+        try {
+            semToboganB.acquire();
+        } catch(InterruptedException ex) {
+            System.out.println("ERROR: " + ex);
+        }
+        
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan B. \n");
         monitorToboganB.setText("");
         monitorToboganBUsuario = null;
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan B. \n");
-        int edad = u.getEdad();
-
-        if (edad < 18) {
-            semToboganB0.release();
-        }
+        
+        paso.mirar();
+        semToboganB0.release();
     } // Cierre del método
 
     public Usuario monitorToboganC() {
         paso.mirar();
         try {
             Usuario u = (Usuario) colaToboganC.take();
+            colaEntrarToboganes.remove(u);
+            fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
+            
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan C. \n");
             monitorToboganC.setText(u.toString());
             monitorToboganCUsuario = u;
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan C. \n");
+            
             return u;
         } catch (InterruptedException ex) {
             return null;
@@ -232,39 +237,23 @@ public class Toboganes {
     } // Cierre del método
 
     public void monitorToboganC(Usuario u) {
-        paso.mirar();
+        if( u.getEsAcompañante() ) {
+            u.setAccesoPermitido(false);
+        } else {
+            paso.mirar();
+            try {
+                semToboganC.acquire();
+            } catch(InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
+            }
+        }
+        
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan C. \n");
         monitorToboganC.setText("");
         monitorToboganCUsuario = null;
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan C. \n");
-        int edad = u.getEdad();
-
-        if (edad >= 18) {
-            semToboganC0.release();
-        }
-    } // Cierre del método
-
-    public String getToboganA() {
-        return toboganA;
-    } // Cierre del método
-
-    public void setToboganA(String toboganA) {
-        this.toboganA = toboganA;
-    } // Cierre del método
-
-    public String getToboganB() {
-        return toboganB;
-    } // Cierre del método
-
-    public void setToboganB(String toboganB) {
-        this.toboganB = toboganB;
-    } // Cierre del método
-
-    public String getToboganC() {
-        return toboganC;
-    } // Cierre del método
-
-    public void setToboganC(String toboganC) {
-        this.toboganC = toboganC;
+        
+        paso.mirar();
+        semToboganC0.release();
     } // Cierre del método
 
     public CopyOnWriteArrayList<Usuario> getColaEntrarToboganes() {

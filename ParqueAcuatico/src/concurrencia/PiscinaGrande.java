@@ -54,20 +54,10 @@ public class PiscinaGrande {
             paso.mirar();
             semPiscinaGrande0.acquire();
             
-            if( u.getEdad() < 11 ) {
-                paso.mirar();
-                semPiscinaGrande.acquire(2);
-                paso.mirar();
-                semPiscinaGrande.release(1);
-            } else {
-                paso.mirar();
-                semPiscinaGrande.acquire();
-            }
-            
             paso.mirar();
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entro a la piscina grande.\n");
             piscinaGrande.add(u);
             fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entro a la piscina grande.\n");
         } catch( InterruptedException ex ) {
             System.out.println("ERROR:" + ex);
         }
@@ -75,9 +65,10 @@ public class PiscinaGrande {
 
     public void salirPiscinaGrande(Usuario u) {
         paso.mirar();
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale de la piscina grande.\n");
         piscinaGrande.remove(u);
         fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale de la piscina grande.\n");
+        
         paso.mirar();
         semPiscinaGrande.release();
     } // Cierre del método
@@ -88,6 +79,7 @@ public class PiscinaGrande {
             Usuario u = (Usuario) colaEntrarPiscinaGrande.take();
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina grande.\n");
             fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
+            
             monitorPiscinaGrande.setText(u.toString());
             monitorPiscinaGrandeUsuario = u;
 
@@ -98,34 +90,51 @@ public class PiscinaGrande {
     } // Cierre del método
     
     public void controlarPiscinaGrande( Usuario usuario ) {
+        paso.mirar();
         try {
-            monitorPiscinaGrande.setText("");
-            monitorPiscinaGrandeUsuario = null;
-            fg.writeDebugFile("Usuario: " + usuario.getCodigo() + " sale del monitor de la piscina grande.\n");
-            paso.mirar();
-            semPiscinaGrande.acquire();
-            paso.mirar();
-            semPiscinaGrande.release();
-            paso.mirar();
-            semPiscinaGrande0.release();
+            if( usuario.getEdad() < 11 ) {
+                semPiscinaGrande.acquire(2);
+                paso.mirar();
+                semPiscinaGrande.release();
+            } else {
+                semPiscinaGrande.acquire();
+            }
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
-        }
+        }  
+        
+        fg.writeDebugFile("Usuario: " + usuario.getCodigo() + " sale del monitor de la piscina grande.\n");
+        monitorPiscinaGrande.setText("");
+        monitorPiscinaGrandeUsuario = null;
+        
+        paso.mirar();
+        semPiscinaGrande0.release();
     } // Cierre del método
     
     public Usuario monitorExpulsa(){
-        int pos = (int) ( piscinaGrande.size() * Math.random() );
+        int pos = (int) ( ( piscinaGrande.size() * Math.random() ) - 1 );
         paso.mirar();
         Usuario u = piscinaGrande.get(pos);
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " es expulsado para dar espacio al usuario del tobogan.\n");
+        
+        try {
+            semPiscinaGrande0.acquire();
+        } catch( InterruptedException ex ) {
+            System.out.println("ERROR: " + ex);
+        }
+        
         if(u.getEsAcompañante()){
             Usuario ua = u.getAcompañante();
+            
+            fg.writeDebugFile("Usuario: " + ua.getCodigo() + " es expulsado para dar espacio al usuario del tobogan.\n");
             piscinaGrande.remove(ua);
             monitorPiscinaGrande.setText(ua.toString());
             monitorPiscinaGrandeUsuario = ua;
             
             return ua;
         }
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " es expulsado para dar espacio al usuario del tobogan.\n");
+        
+        piscinaGrande.remove(u);
         monitorPiscinaGrande.setText(u.toString());
         monitorPiscinaGrandeUsuario = u;
         
@@ -133,7 +142,7 @@ public class PiscinaGrande {
     } // Cierre del método
     
     public void monitorExpulsa(Usuario u){
-        if( u.getEsAcompañante() ) {
+        if( u.getEdad() < 11 ) {
             monitorPiscinaGrande.setText("");
             monitorPiscinaGrandeUsuario = null;
             paso.mirar();
@@ -143,33 +152,37 @@ public class PiscinaGrande {
             monitorPiscinaGrande.setText(u.getAcompañante().toString());
             monitorPiscinaGrandeUsuario = u.getAcompañante();
             fg.writeDebugFile("Usuario: " +  u.getCodigo() + " su acompañante es: " + u.getAcompañante().getCodigo() + " es expulsado tambien.\n");
+            
             paso.mirar();
             fg.dormir(500, 1000);
             monitorPiscinaGrande.setText("");
             monitorPiscinaGrandeUsuario = null;
+            
             paso.mirar();
             u.getAcompañante().interrupt();
             semPiscinaGrande.release();
+            semPiscinaGrande0.release();
         } else {
             monitorPiscinaGrande.setText("");
             monitorPiscinaGrandeUsuario = null;
+            
             paso.mirar();
             u.interrupt();  
+            semPiscinaGrande.release();
         }
-    } // Cierre del método
-    
-    public boolean excesoAforo(){
-        int numPersonas = piscinaGrande.size();
-        return numPersonas == 50;
     } // Cierre del método
     
     public void cogerSitioPiscina() {
         try {
-            paso.mirar();
             semPiscinaGrande.acquire();
-        } catch( InterruptedException ex ) {
+        } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
+    }
+    
+    public boolean excesoAforo(){
+        int numPersonas = piscinaGrande.size();
+        return numPersonas == 50;
     } // Cierre del método
         
     public void accesoDesdeTobogan(Usuario u){

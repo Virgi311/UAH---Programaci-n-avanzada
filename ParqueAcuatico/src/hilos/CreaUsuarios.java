@@ -15,7 +15,7 @@ import util.FuncionesGenerales;
  * Javier González López 09067677L
  */
 public class CreaUsuarios extends Thread {
-    private final int capacidad = 5000;
+    private final int capacidad = /*5000*/300;
     private final int mayoria_edad = 18;
     private final Parque parque;
     private final Paso paso;

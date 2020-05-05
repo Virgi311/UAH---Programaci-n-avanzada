@@ -30,7 +30,7 @@ public class Main extends javax.swing.JFrame {
         paso = new Paso();
         fg = new FuncionesGenerales(debug);
         
-        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas, areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, jTextArea20, fg, paso, esperaCompañero);
+        Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas, areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, colaToboganes, fg, paso, esperaCompañero);
         
         servidor = new Servidor(paso, parque);
         servidor.start();
@@ -156,7 +156,7 @@ public class Main extends javax.swing.JFrame {
         monitorToboganC = new javax.swing.JTextField();
         areaToboganC = new javax.swing.JTextField();
         jScrollPane20 = new javax.swing.JScrollPane();
-        jTextArea20 = new javax.swing.JTextArea();
+        colaToboganes = new javax.swing.JTextArea();
 
         jTextField7.setText("jTextField7");
 
@@ -750,9 +750,9 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTextArea20.setColumns(20);
-        jTextArea20.setRows(5);
-        jScrollPane20.setViewportView(jTextArea20);
+        colaToboganes.setColumns(20);
+        colaToboganes.setRows(5);
+        jScrollPane20.setViewportView(colaToboganes);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -884,6 +884,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextArea colaPiscinaGrande;
     private javax.swing.JTextArea colaPiscinaNiños;
     private javax.swing.JTextArea colaPiscinaOlas;
+    private javax.swing.JTextArea colaToboganes;
     private javax.swing.JTextArea colaTumbonas;
     private javax.swing.JTextArea colaVestuario;
     private javax.swing.JTextField esperaCompañero;
@@ -948,7 +949,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTextArea jTextArea20;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField monitorPiscinaGrande;
     private javax.swing.JTextField monitorPiscinaNiños;

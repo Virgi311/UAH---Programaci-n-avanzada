@@ -32,6 +32,7 @@ public class Usuario extends Thread {
     private boolean tryPiscinaOlas;
     private boolean trytumbonas;
     private boolean trytoboganes;
+    private boolean accesoPermitido;
     
     private final FuncionesGenerales fg;
     
@@ -45,6 +46,8 @@ public class Usuario extends Thread {
         this.tryPiscinaOlas = false;
         this.trytumbonas = false;
         this.trytoboganes = false;
+        
+        this.accesoPermitido = true;
 
         this.esAcompañante = false;
         this.codigo = "ID" + identificador + "-" + edad;
@@ -85,31 +88,25 @@ public class Usuario extends Thread {
         if( !esAcompañante && edad > 10 ) {
             while( numAtracciones > controlNumAtracciones ) {
                 atraccionAleatoria(1);
-            }
-        } else if( edad <= 10 ) {
-            while( numAtracciones > controlNumAtracciones ) {
-                atraccionAleatoria(2);
+                accesoPermitido = true;
             }
         } else {
             while( numAtracciones > controlNumAtracciones ) {
-                atraccionAleatoria(3);
+                atraccionAleatoria(2);
+                accesoPermitido = true;
             }
         }
         
         paso.mirar();
         
-        if( edad <= 10 ) {
-            try {
-                barrera.await();
-            } catch( BrokenBarrierException | InterruptedException ex ) {
-                System.out.println("ERROR: " + ex);
-            }
+        if( esAcompañante ) {
+            fg.dormir(50, 50);
         }
         
         parque.getVestuario().entrarVestuarios(this);
         fg.dormir(3000, 3000);
-            
-        if( esAcompañante ) {
+        
+        if( edad <= 10 || esAcompañante ) {
             try {
                 barrera.await();
             } catch( BrokenBarrierException | InterruptedException ex ) {
@@ -120,16 +117,9 @@ public class Usuario extends Thread {
         paso.mirar();
         parque.getVestuario().salirVestuarios(this);
 
-        if( edad <= 10 ) {
-            try {
-                barrera.await();
-            } catch( BrokenBarrierException | InterruptedException ex ) {
-                System.out.println("ERROR: " + ex);
-            }
-        }
-        
         paso.mirar();
         parque.salirParque(this);
+        
         if( edad < 18 ) {
             parque.setMenoresSale();
         }
@@ -158,28 +148,37 @@ public class Usuario extends Thread {
                     break;
             }
         } else {
-            if( tipo == 2 ) {
+            if( tipo == 2 && !esAcompañante ) {
                 actividadNiño = num;
                 try {
                     barrera.await();
                 } catch( BrokenBarrierException | InterruptedException ex ) {
                     System.out.println("ERROR: " + ex);
                 }
-            } else if ( tipo == 3 ) {
+            } else if ( tipo == 2 ) {
+                if( acompañante.getState() == Thread.State.WAITING ){
+                    num = acompañante.getActividadNiño();
+                } else {
+                    num = -1;
+                }
+                
                 try {
                     barrera.await();
                 } catch( BrokenBarrierException | InterruptedException ex ) {
                     System.out.println("ERROR: " + ex);
                 }
-                num = acompañante.getActividadNiño();
+                
+                if( num == -1 ) {
+                    num = acompañante.getActividadNiño();
+                }
             }
 
             switch( num ) {
                 case 0:
                     fg.writeDebugFile("Usuario: " + codigo + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es la Piscina niños.\n");
                     paso.mirar();
-                    if( parque.getPiscinaNiños().entrarPiscinaNiños(this) ) {   
-                        if( tipo == 3 ) {
+                    if( parque.getPiscinaNiños().entrarPiscinaNiños(this) ) {
+                        if( esAcompañante ) {
                             try {
                                 barrera.await();
                             } catch( BrokenBarrierException | InterruptedException ex ) {
@@ -187,6 +186,13 @@ public class Usuario extends Thread {
                             }
                         } else {
                             fg.dormir(1000, 3000);
+                        }
+                        if( tipo == 2 && !esAcompañante ) {
+                            try {
+                                barrera.await();
+                            } catch( BrokenBarrierException | InterruptedException ex ) {
+                                System.out.println("ERROR: " + ex);
+                            }
                         }
 
                         paso.mirar();
@@ -210,8 +216,8 @@ public class Usuario extends Thread {
                 case 1:
                     fg.writeDebugFile("Usuario: " + codigo + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es la Piscina de olas.\n");
                     paso.mirar();
-                    if( parque.getPiscinaOlas().entrarPiscinaOlas(this) ) {  
-                        if( tipo == 3 ) {
+                    if( parque.getPiscinaOlas().entrarPiscinaOlas(this) ) {
+                        if( esAcompañante ) {
                             try {
                                 barrera.await();
                             } catch( BrokenBarrierException | InterruptedException ex ) {
@@ -219,6 +225,13 @@ public class Usuario extends Thread {
                             }
                         } else {
                             fg.dormir(2000, 5000);
+                        }
+                        if( tipo == 2 && !esAcompañante ) {
+                            try {
+                                barrera.await();
+                            } catch( BrokenBarrierException | InterruptedException ex ) {
+                                System.out.println("ERROR: " + ex);
+                            }
                         }
 
                         paso.mirar();
@@ -243,16 +256,22 @@ public class Usuario extends Thread {
                     fg.writeDebugFile("Usuario: " + codigo + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es la Piscina grande.\n");
                     paso.mirar();
                     parque.getPiscinaGrande().entrarPiscinaGrande(this);
-
-                    if( tipo == 3 ) {
-                        try {
-                            barrera.await();
-                        } catch( BrokenBarrierException | InterruptedException ex ) {
-                            System.out.println("ERROR: " + ex);
+                    if( esAcompañante ) {
+                            try {
+                                barrera.await();
+                            } catch( BrokenBarrierException | InterruptedException ex ) {
+                                System.out.println("ERROR: " + ex);
+                            }
+                        } else {
+                            fg.dormir(3000, 5000);
                         }
-                    } else {
-                        fg.dormir(3000, 5000);
-                    }
+                        if( tipo == 2 && !esAcompañante ) {
+                            try {
+                                barrera.await();
+                            } catch( BrokenBarrierException | InterruptedException ex ) {
+                                System.out.println("ERROR: " + ex);
+                            }
+                        }
 
                     paso.mirar();
                     parque.getPiscinaGrande().salirPiscinaGrande(this);
@@ -271,25 +290,10 @@ public class Usuario extends Thread {
                     fg.writeDebugFile("Usuario: " + codigo + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es las tumbonas.\n");
                     paso.mirar();
                     if( parque.getTumbonas().entrarTumbonas(this) ) {
-                        if( tipo == 3 ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        } else {
-                            fg.dormir(2000, 4000);
-                        }
+                        fg.dormir(2000, 4000);
 
                         paso.mirar();
                         parque.getTumbonas().salirTumbonas(this);
-                        if( tipo == 2 ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        }
                         controlNumAtracciones++;
                     } else {
                         trytumbonas = true;
@@ -303,25 +307,10 @@ public class Usuario extends Thread {
                     fg.writeDebugFile("Usuario: " + getCodigo() + " inicia atraccion numero: " + controlNumAtracciones + " y la atraccion es los toboganes.\n");
                     paso.mirar();
                     if( parque.getToboganes().entrarToboganes(this) ) {
-                        if( tipo == 3 ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        } else {
-                            fg.dormir(2000, 3000);
-                        }
+                        fg.dormir(2000, 3000);
 
                         paso.mirar();
                         parque.getToboganes().AccesoPiscinaGrande(this);
-                        if( tipo == 2 ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        }
                         controlNumAtracciones++;
                     } else {
                         trytoboganes = true;
@@ -393,5 +382,13 @@ public class Usuario extends Thread {
 
     public void setTryPiscinaOlas(boolean tryPiscinaOlas) {
         this.tryPiscinaOlas = tryPiscinaOlas;
+    } // Cierre del método
+
+    public boolean getAccesoPermitido() {
+        return accesoPermitido;
+    } // Cierre del método
+
+    public void setAccesoPermitido(boolean accesoPermitido) {
+        this.accesoPermitido = accesoPermitido;
     } // Cierre del método
 } // Cierre de la clase
