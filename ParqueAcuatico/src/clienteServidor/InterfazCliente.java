@@ -18,6 +18,7 @@ public class InterfazCliente extends javax.swing.JFrame {
     public InterfazCliente() {
         initComponents();
         
+        //Contructor al que le pasamos los campos que van a ser usados para mostrar la informacion
         cliente = new Cliente( jTextFieldUbicacion, jTextField3, jTextField4, jTextField5, jTextField6, jTextField7, jTextField9, jTextField10, jTextField11, jTextField12, jTextField13, jTextField14 );
         cliente.start();
     } // Cierre del método
@@ -419,6 +420,7 @@ public class InterfazCliente extends javax.swing.JFrame {
     private void btnBuscarUbicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarUbicacionActionPerformed
         String codigo = jTextField1.getText();
         
+        //Control del campo del que obtiene el usuario al que hay que buscar
         if( codigo.isEmpty() || codigo.replace(" ", "").equals("") ) {
             JOptionPane.showMessageDialog(null, "Indique un usuario para buscar su ubicacion.");
         } else {

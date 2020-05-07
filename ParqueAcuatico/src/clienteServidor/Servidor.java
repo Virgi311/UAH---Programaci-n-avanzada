@@ -33,8 +33,12 @@ public class Servidor extends Thread {
         this.paso = paso;
         this.parque = parque;
         try {
+            /* Creamos el servidor y espera las conexiones de los servidores
+             * Cuando un cliente se conecta crea la conexion y esta se encarga de todas las comunicaciones
+             */
             servidor = new ServerSocket( 5000 );
             ip = InetAddress.getLocalHost();
+            //Mostramos la IP donde se aloja el servidor
             System.out.println( "La direccion IP del servidor es: " + ip.getHostAddress() );
             conexiones = new ArrayList<>();
         } catch( IOException ex ) {
@@ -52,6 +56,7 @@ public class Servidor extends Thread {
             try {
                 Socket socket = servidor.accept();
                 if( socket != null ) {
+                    //Creamos la conexion
                     Conexion conexion = new Conexion( conexiones.size() + 1, socket, this );
                     conexiones.add( conexion );
                     conexion.start();
@@ -62,20 +67,24 @@ public class Servidor extends Thread {
         }
     } // Cierre del método
     
+    //Metodo para eliminar una conexion
     public void eliminar( Conexion conexion ) {
         conexiones.remove( conexion );
     } // Cierre del método
     
+    //Pausa la ejecucion de los hilos
     public void detener() {
         System.out.println("Ejecutando metodo Detener()");
         paso.detener();
     } // Cierre del método
     
+    //Reanuda la ejecucion de los hilos
     public void reanudar() {
         System.out.println("Ejecutando metodo Reanudar()");
         paso.reanudar();
     } // Cierre del método
     
+    //Metodo para buscar al usuario solicitado por el cliente
     public String buscarUbicacion( String usuario ) {
         for( Object usuArray : parque.getColaEntrarParque().toArray() ) {
             Usuario usu = (Usuario) usuArray;
@@ -203,7 +212,7 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getTumbonas().getMonitorTumbonasUsuario()!= null ) && ( parque.getTumbonas().getMonitorTumbonasUsuario().toString().equals(usuario) ) ) {
+        if( ( parque.getTumbonas().getMonitorTumbonasUsuario() != null ) && ( parque.getTumbonas().getMonitorTumbonasUsuario().toString().equals(usuario) ) ) {
             return "UBICACION!" + parque.getTumbonas().getMonitorTumbonasUsuario().getControlNumAtracciones() + "!Monitor de las Tumbonas.";
         }
         
@@ -227,36 +236,6 @@ public class Servidor extends Thread {
             }
         }
         
-        for( Object usuArray : parque.getToboganes().getColaToboganA().toArray() ) {
-            Usuario usu = (Usuario) usuArray;
-            if( usu.toString().equals(usuario) ) {
-                int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola tobogan A.";
-                
-                return "UBICACION!" + num + "!" + ubicacion;
-            }
-        }
-        
-        for( Object usuArray : parque.getToboganes().getColaToboganB().toArray() ) {
-            Usuario usu = (Usuario) usuArray;
-            if( usu.toString().equals(usuario) ) {
-                int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola tobogan B.";
-                
-                return "UBICACION!" + num + "!" + ubicacion;
-            }
-        }
-        
-        for( Object usuArray : parque.getToboganes().getColaToboganC().toArray() ) {
-            Usuario usu = (Usuario) usuArray;
-            if( usu.toString().equals(usuario) ) {
-                int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola tobogan C.";
-                
-                return "UBICACION!" + num + "!" + ubicacion;
-            }
-        }
-        
         if( ( parque.getToboganes().getMonitorToboganAUsuario() != null ) && ( parque.getToboganes().getMonitorToboganAUsuario().toString().equals(usuario) ) ) {
             return "UBICACION!" + parque.getToboganes().getMonitorToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A.";
         }
@@ -269,31 +248,34 @@ public class Servidor extends Thread {
             return "UBICACION!" + parque.getToboganes().getMonitorToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C.";
         }
         
-        if( parque.getToboganes().getToboganAUsuario().toString().equals(usuario) ) {
+        if( ( parque.getToboganes().getToboganAUsuario() != null ) && ( parque.getToboganes().getToboganAUsuario().toString().equals(usuario) ) ) {
             return "UBICACION!" + parque.getToboganes().getToboganAUsuario().getControlNumAtracciones() + "!Tobogan A.";
         }
         
-        if( parque.getToboganes().getToboganBUsuario().toString().equals(usuario) ) {
+        if( ( parque.getToboganes().getToboganBUsuario() != null ) && ( parque.getToboganes().getToboganBUsuario().toString().equals(usuario) ) ) {
             return "UBICACION!" + parque.getToboganes().getToboganBUsuario().getControlNumAtracciones() + "!Tobogan B.";
         }
         
-        if( parque.getToboganes().getToboganCUsuario().toString().equals(usuario) ) {
+        if( ( parque.getToboganes().getToboganCUsuario() != null ) && ( parque.getToboganes().getToboganCUsuario().toString().equals(usuario) ) ) {
             return "UBICACION!" + parque.getToboganes().getToboganCUsuario().getControlNumAtracciones() + "!Tobogan C.";
         }
         
         return null;
     } // Cierre del método
     
+    //Metodo para devolver el numero de menores en el parque
     public int buscarMenores() {
         return parque.getMenores();
     } // Cierre del método
     
+    //Metodo para devolver lus usuarios que estan usando los toboganes
     public String buscarToboganes() {
         return ( ( parque.getToboganes().getToboganAUsuario() != null ) ? parque.getToboganes().getToboganAUsuario().toString() : " " )
                 + "!" + ( ( parque.getToboganes().getToboganBUsuario() != null ) ? parque.getToboganes().getToboganBUsuario().toString() : " " ) 
                 + "!" + ( ( parque.getToboganes().getToboganCUsuario() != null ) ? parque.getToboganes().getToboganCUsuario().toString() : " " );
     } // Cierre del método
     
+    //Metodo para mostrar el numero de usuarios en cada localizacion
     public String buscarAforo() {
         int numVestuario = ( parque.getVestuario().getColaVestuarios().size() )
                             + ( ( !parque.getMonitorVestuario().getText().equals("") ) ? 1 : 0 )
@@ -328,6 +310,7 @@ public class Servidor extends Thread {
         return "AFORO!" + numVestuario + "!" + numPiscinaOlas + "!" + numPiscinaNiños + "!" + numPiscinaGrande + "!" + numTumbonas + "!" + numToboganes;
     } // Cierre del método
     
+    //Metodo que cierra toda la aplicacion, incluyendo todos los usuarios conectados
     public void cerrar( boolean finalizar ) {
         System.out.println("Ejecutando el cierre de toda la aplicacion");
         

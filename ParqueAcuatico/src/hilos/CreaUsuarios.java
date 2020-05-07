@@ -4,7 +4,6 @@ import concurrencia.*;
 import java.util.concurrent.CyclicBarrier;
 import util.FuncionesGenerales;
         
-
 /**
  * Clase CreaUsuarios
  *
@@ -32,7 +31,9 @@ public class CreaUsuarios extends Thread {
     @Override
     public void run() {
         for( int id = 1; id <= capacidad; id++ ) {
+            //Barrera ciclica para que la compartan los usuarios niños de 10 o menos años y sus acompañantess
             CyclicBarrier barrera = new CyclicBarrier(2);
+            //Creamos la edad y el numero de atracciones que van a realizar de forma aleatoria
             int edadUsuario = getAleatorio(1, 50);
             Usuario usuarioPrincipal = new Usuario(parque, barrera, id, edadUsuario, getAleatorio(5, 15), paso, fg);
             Usuario usuarioAcompañante = null;
@@ -41,7 +42,7 @@ public class CreaUsuarios extends Thread {
             
             if( edadUsuario < 11 ){
                 id++;
-                
+                //Si tiene 10 años o menos se crea el usuario acompañante con una edad aleatoria de mas de 18 años, y el numero de atracciones del niño
                 usuarioAcompañante = new Usuario(parque, barrera, id, getAleatorio(mayoria_edad, 50), usuarioPrincipal.getNumAtracciones(), paso, fg);
                 usuarioPrincipal.setCodigo(usuarioPrincipal.getCodigo() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);
@@ -53,6 +54,7 @@ public class CreaUsuarios extends Thread {
             }
             
             usuarioPrincipal.start();
+            //Hacemos que el usuario acompañante empiece despues del niño 
             if (usuarioAcompañante != null) {
                 usuarioAcompañante.start();
             }
@@ -62,6 +64,7 @@ public class CreaUsuarios extends Thread {
         }
     } // Cierre del método
 
+    //Metodo para crear la edad y el numero de atracciones de forma aleatoria
     private int getAleatorio(int min, int max) {
         return (int)( min + ( ( max - min ) * Math.random() ) );
     } // Cierre del método

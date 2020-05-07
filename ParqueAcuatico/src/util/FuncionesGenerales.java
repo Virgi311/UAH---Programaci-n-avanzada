@@ -22,22 +22,24 @@ public final class FuncionesGenerales {
     private final File file;
     private final boolean debug;
     
-    //Campos de la clase
+    /* Creamos esta clase para las funciones comunes que se usan en todas las clases
+     * Y para implementar un sistema de logs de ejecucion
+     */
     public FuncionesGenerales(boolean debug) {
+        //Variable que determina si va a dejar log o no
         this.debug = debug;
         
-        if (System.getProperty("os.name").startsWith("Windows")) {
-            ruta = "C://Users/User/Desktop/debug.log";
-        } else {
-            ruta = "/tmp/debug.log";
-        } 
+        //Declaramos la ruta del log o el nombre unicamente y se creara en la carpeta del proyecto
+        ruta = "debug.log";
         this.file = new File(ruta);
         
         if(debug) {
+            //Funcion para crear el log
             createDebugFile();
         }
     }
     
+    //Metodo para realizar un sleep segun los tiempos que se le pasen
     public void dormir(int min, int max) {
         try {
             sleep( min + (int)( ( max - min ) * Math.random() ) );
@@ -46,22 +48,26 @@ public final class FuncionesGenerales {
         }
     } // Cierre del metodo
     
+    //Metodo para imprimir cada uno de los campos de la vista del programa principal
     public synchronized void imprimir(JTextArea campo, String contenido) {
         campo.setText( contenido );
     } // Cierre del metodo
     
+    //Metodo para crear el archivo de debug donde se van a ir escribiendo los logs
     public void createDebugFile() {
         try {
             String contenido = "DEBUG PARCTICA DE LABORATORIO 3 - PARQUE ACUATICO\n\n";
                 
             if( file.exists() ) {
+                //Si existe lo borramos y creamos uno nuevo al inicio de la ejecucion del programa
                 if( file.delete() ){
                     file.createNewFile();
                 }
             } else {
                 file.createNewFile();
             }
-            
+            //Mostramos la ruta absoluta del fichero
+            System.out.println("Fichero creado en la ruta: " + file.getAbsolutePath());
             
             FileWriter fw = new FileWriter(file);
             try (BufferedWriter bw = new BufferedWriter(fw)) {
@@ -70,8 +76,9 @@ public final class FuncionesGenerales {
         } catch(IOException ex) {
             System.out.println("ERROR: " + ex);
         }
-    }
+    } // Cierre del método
     
+    //Metodo para escribir en el log en caso de que la variable debug este activada
     public synchronized void writeDebugFile(String contenido) {
         if(debug) {
             Date date = new Date();
@@ -85,5 +92,5 @@ public final class FuncionesGenerales {
                 System.out.println("ERROR: " + ex);
             }
         }
-    }
+    } // Cierre del método
 } // Cierre de la clase

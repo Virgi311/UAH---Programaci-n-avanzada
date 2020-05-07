@@ -27,38 +27,51 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         
+        //Objeto para el control de detener los hilos
         paso = new Paso();
+        //Objeto para las funciones descritas en la clase
         fg = new FuncionesGenerales(debug);
         
+        //Objeto paarque
         Parque parque = new Parque(monitorVestuario, areaVestuario, colaVestuario, colaEntrada, colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, areaEsperaAdultos, colaPiscinaOlas, monitorPiscinaOlas, areaPiscinaOlas, monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, colaTumbonas, areaTumbonas, monitorTumbonas, areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, colaToboganes, fg, paso, esperaCompañero);
         
+        //Hilo servidor
         servidor = new Servidor(paso, parque);
         servidor.start();
         
+        //Hilo monitor del vestuario
         Monitor m1 = new Monitor( parque, 1000, 1000, 1, fg, null, paso);
         m1.start();
         
+        //Hilo monitor de la piscina de niños
         Monitor m2 = new Monitor( parque, 1000, 1500, 2, fg, null, paso);
         m2.start();
         
+        //Hilo monitor de la piscina de olas
         Monitor m3 = new Monitor( parque, 1000, 1000, 3, fg, null, paso);
         m3.start();
 
+        //Hilo monitor de la piscina grande
         Monitor m4 = new Monitor( parque, 500, 500, 4, fg, null, paso);
         m4.start();
         
+        //Hilo monitor de las tumbonas
         Monitor m5 = new Monitor( parque, 500, 900, 5, fg, null, paso);
         m5.start();
    
+        //Hilo monitor del tobogan A
         Monitor m6 = new Monitor( parque, 400, 500, 6, fg, "A", paso);
         m6.start();
         
+        //Hilo monitor del tobogan B
         Monitor m7 = new Monitor( parque, 400, 500, 6, fg, "B", paso);
         m7.start();
         
+        //Hilo monitor del tobogan C
         Monitor m8 = new Monitor( parque, 400, 500, 6, fg, "C", paso);
         m8.start();
         
+        //Hilo constructor de los hilos usuarios
         CreaUsuarios nuevo = new CreaUsuarios(parque, paso, fg);
         nuevo.start();
                 
@@ -840,6 +853,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void PausarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PausarActionPerformed
+        //Activa o desactiva el bloque de los hilos para que se esperen o continuen la ejecucion
         if(botonPausa == 0){
             botonPausa = 1;
             Pausar.setText("REANUDAR");
@@ -852,10 +866,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_PausarActionPerformed
 
     private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
+        //Ejecuta el cierre de toda la aplicacion incluyendo clientes y servidor desde el boton
         servidor.cerrar( true );
     }//GEN-LAST:event_FinalizarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        //Ejecuta el cierre de toda la aplicacion incluyendo clientes y servidor desde el aspa de cierre de la ventana
         servidor.cerrar( false );
     }//GEN-LAST:event_formWindowClosing
 

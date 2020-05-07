@@ -28,9 +28,6 @@ public class Toboganes {
     private final JTextField monitorToboganB;
     private final JTextField monitorToboganC;
     private final JTextArea colaToboganes;
-    private final PiscinaGrande piscinaGrande;
-    private final FuncionesGenerales fg;
-    private final Paso paso;
     
     //Concurrencia
     private final CopyOnWriteArrayList<Usuario> colaEntrarToboganes = new CopyOnWriteArrayList<>();
@@ -43,13 +40,17 @@ public class Toboganes {
     private final Semaphore semToboganA0 = new Semaphore(0, true);
     private final Semaphore semToboganB0 = new Semaphore(0, true);
     private final Semaphore semToboganC0 = new Semaphore(0, true);
-    
     private Usuario toboganAUsuario;
     private Usuario toboganBUsuario;
     private Usuario toboganCUsuario;
     private Usuario monitorToboganAUsuario;
     private Usuario monitorToboganBUsuario;
     private Usuario monitorToboganCUsuario;
+    
+    //Atributos extra
+    private final PiscinaGrande piscinaGrande;
+    private final FuncionesGenerales fg;
+    private final Paso paso;
     
     public Toboganes(JTextField areaToboganA, JTextField areaToboganB, JTextField areaToboganC, JTextField monitorToboganA, JTextField monitorToboganB, JTextField monitorToboganC, JTextArea colaToboganes, PiscinaGrande piscinaGrande, FuncionesGenerales fg, Paso paso ) {
         this.areaToboganA = areaToboganA;
@@ -72,10 +73,12 @@ public class Toboganes {
         this.paso = paso;
     } // Cierre del método
 
+    //Metodo para entrar a los toboganes
     public boolean entrarToboganes(Usuario u) {
         try {
             paso.mirar();
             
+            //Barrera ciclica para que el niño y el acompañante entren juntos
             if( u.getEdad() < 11 || u.getEsAcompañante() ) {
                 try {
                     u.getBarrera().await();
@@ -88,30 +91,39 @@ public class Toboganes {
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
             
             paso.mirar();
+            //Situamos a los usuarios en las colas ficticias de cada tobogan
             if( u.getEdad() < 15 || u.getEsAcompañante() ) {
+                //Si tiene menos de 15 años o es un acompañante
                 colaToboganA.put(u);
                 semToboganA0.acquire();
             } else if( u.getEdad() < 18 ) {
+                //Si tiene menos de 18 años
                 colaToboganB.put(u);
                 semToboganB0.acquire();
             } else {
+                //Mayores de 18 años
                 colaToboganC.put(u);
                 semToboganC0.acquire();
             }
             
+            //Si es rechazado por el monitor aqui se le expulsa de la piscina
             if( !u.getAccesoPermitido() ) {
                 return false;
             }
             
+            //Logica para situar a los usuarios en sus toboganes
             if( u.getEdad() < 15 || u.getEsAcompañante() ) {
+                //Si tiene menos de 15 años o es acompañante (Aunque es innecesario el acompañante debido a que el monitor lo expulsa lo dejamos completo para posibles modificaciones)
                 toboganAUsuario = u;
                 areaToboganA.setText(toboganAUsuario.toString());
                 fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan A.\n");
             } else if( u.getEdad() < 18 ) {
+                //Si tiene menos de 18 años
                 toboganBUsuario = u;
                 areaToboganB.setText(toboganBUsuario.toString());
                 fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan B.\n");
             } else {
+                //Mayores de 18 años
                 toboganCUsuario = u;
                 areaToboganC.setText(toboganCUsuario.toString());
                 fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan C.\n");
@@ -122,40 +134,52 @@ public class Toboganes {
         return true;
     } // Cierre del método
 
-    public void AccesoPiscinaGrande(Usuario u) {
+    //Metodo para acceder a la piscina grande a traves del tobogan
+    public void accesoPiscinaGrande(Usuario u) {
+        //Comprueba si el aforo esta completo
         if( piscinaGrande.excesoAforo() ){
+            //Si esta lleno expulsa a un usuario
             Usuario usuario = piscinaGrande.monitorExpulsa();
             fg.dormir(500, 1000);
             piscinaGrande.monitorExpulsa(usuario);
         } else {
+            //Si no simplemente adquiere un permiso
             piscinaGrande.cogerSitioPiscina();
         }
         
         paso.mirar();
         if( u.getEdad() < 15 || u.getEsAcompañante() ) {
+            //Si es menor de 15 años o un acompañante
             toboganAUsuario = null;
             areaToboganA.setText("");
             semToboganA.release();
         } else if( u.getEdad() < 18 ) {
+            //Si es menos de 18 años
             toboganBUsuario = null;
             areaToboganB.setText("");
             semToboganB.release();
         } else {
+            //Si es mayor de 18 años
             toboganCUsuario = null;
             areaToboganC.setText("");
             semToboganC.release();
         }
 
         paso.mirar();
+        //Accedemos a la piscina grande
         piscinaGrande.accesoDesdeTobogan(u);
 
         fg.dormir(3000, 5000);
 
         paso.mirar();
+        //Salimos de la piscina grande
         piscinaGrande.salirPiscinaGrande(u);
 
     } // Cierre del método
 
+    /* Metodos por los que cama monitor recoge a un usuario de la acola
+     * Hay uno por cada tobogan y retorna un usuario
+     */
     public Usuario monitorToboganA() {
         paso.mirar();
         try {
@@ -173,8 +197,12 @@ public class Toboganes {
         }
     } // Cierre del método
 
+    /* Metodos para que cada monitor decida por donde a de ir cada usuario
+     * Hay uno por cada tobogan y recibe el usuario como parametro
+     */
     public void monitorToboganA(Usuario u) {
         if( u.getEdad() < 11 || u.getEsAcompañante() ) {
+            //Si tiene menos de 10 años o es un acompañante
             u.setAccesoPermitido(false);
         } else {
             paso.mirar();
@@ -279,25 +307,25 @@ public class Toboganes {
 
     public Usuario getMonitorToboganAUsuario() {
         return monitorToboganAUsuario;
-    }
+    } // Cierre del método
 
     public Usuario getMonitorToboganBUsuario() {
         return monitorToboganBUsuario;
-    }
+    } // Cierre del método
 
     public Usuario getMonitorToboganCUsuario() {
         return monitorToboganCUsuario;
-    }
+    } // Cierre del método
 
     public Usuario getToboganAUsuario() {
         return toboganAUsuario;
-    }
+    } // Cierre del método
 
     public Usuario getToboganBUsuario() {
         return toboganBUsuario;
-    }
+    } // Cierre del método
 
     public Usuario getToboganCUsuario() {
         return toboganCUsuario;
-    }
+    } // Cierre del método
 } // Cierre de la clase

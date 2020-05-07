@@ -31,6 +31,7 @@ public class Tumbonas {
     private final BlockingQueue colaEntrarTumbonas = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> tumbonas = new CopyOnWriteArrayList<>();
     
+    //Atributos extra
     private Usuario monitorTumbonasUsuario;
     private final FuncionesGenerales fg;
     private final Paso paso;
@@ -45,9 +46,11 @@ public class Tumbonas {
         this.paso = paso;
     } // Cierre del método
        
+    //Metodo para entrar en las tumbonas
     public boolean entrarTumbonas(Usuario u){
         paso.mirar();
         
+        //Barrera ciclica para que el niño y el acompañante entren juntos
         if( u.getEdad() < 11 || u.getEsAcompañante() ) {
             try {
                 u.getBarrera().await();
@@ -63,6 +66,7 @@ public class Tumbonas {
         try {
             semTumbonas0.acquire();
             
+            //Si es rechazado por el monitor aqui se le expulsa de la piscina
             if( !u.getAccesoPermitido() ) {
                 return false;
             }
@@ -78,6 +82,7 @@ public class Tumbonas {
         return true;
     } // Cierre del método
     
+    //Metodo para salir de la tumbonas
     public void salirTumbonas(Usuario u){
         paso.mirar();
         tumbonas.remove(u);
@@ -86,6 +91,7 @@ public class Tumbonas {
         semTumbonas.release();
     } // Cierre del método
     
+    //Metodo por el cual el monitor recoge a un usuario de la cola de entrada
     public Usuario controlarTumbonas(){
         paso.mirar();
         try {
@@ -101,9 +107,11 @@ public class Tumbonas {
         } 
     } // Cierre del método
     
+    //Metodo por el cual el monitor decide por donde debe ir cada usuario
     public void controlarTumbonas(Usuario u) {
         paso.mirar();
         if( u.getEdad() < 15 || u.getEsAcompañante() ) {
+            //Si tiene menos de 15 años o es acompañante
             u.setAccesoPermitido(false);
         } else {
             try {
@@ -113,6 +121,7 @@ public class Tumbonas {
             } 
         }
         
+        //Metodo que reordena la cola de entrada para simular laa lucha de todos los usuarios por conseguir entrar
         competicion();
         
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de las tumbonas. \n");
@@ -123,6 +132,7 @@ public class Tumbonas {
         semTumbonas0.release();
     } // Cierre del método
 
+    //Metodo que reordena la cola de entrada para simular laa lucha de todos los usuarios por conseguir entrar
     public void competicion() {
         try {
             int pelea = (int) ( ( colaEntrarTumbonas.size() - 1 ) * Math.random() );

@@ -34,6 +34,7 @@ public class PiscinaOlas {
     private final CopyOnWriteArrayList<Usuario> piscinaOlas = new CopyOnWriteArrayList<>();
     private final CyclicBarrier barreraPiscinaOlas = new CyclicBarrier(2);
     
+    //Atributos extra
     private Usuario monitorPiscinaOlasUsuario;
     private Usuario esperaCompañeroUsuario;
     private boolean accesoCerrado;
@@ -55,12 +56,14 @@ public class PiscinaOlas {
 
     public boolean entrarPiscinaOlas(Usuario u) {
         try {
+            //Comprobacion de que no este cerrada la atraccion por no haber suficientes usuarios en el parque
             if( accesoCerrado ) {
                 return false;
             }
             
             paso.mirar();
             
+            //Barrera ciclica para que el niño y el acompañante vayan juntos
             if( u.getEdad() < 11 || u.getEsAcompañante() ) {
                 try {
                     u.getBarrera().await();
@@ -75,12 +78,14 @@ public class PiscinaOlas {
             paso.mirar();
             semPiscinaOlas0.acquire();
             
+            //Si es rechazado por el monitor aqui se le expulsa de la piscina
             if( !u.getAccesoPermitido() ) {
                 return false;
             }
             
             paso.mirar();
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
+                //Si no es un niño con acompañante o un acompañante entra para esperar a una pareja con la que entrar a la piscina 
                 esperaCompañero.setText(u.toString());
                 esperaCompañeroUsuario = u;
                 barreraPiscinaOlas.await();
@@ -98,6 +103,7 @@ public class PiscinaOlas {
         return true;
     } // Cierre del método
 
+    //Metodo para salir de la piscina de olas
     public void salirPiscinaOlas(Usuario u) {
         paso.mirar();
         piscinaOlas.remove(u);
@@ -106,11 +112,13 @@ public class PiscinaOlas {
         semPiscinaOlas.release();
     } // Cierre del método
 
+    //Metodo por el que el monitor recoge un usuario de la cola de entrada
     public Usuario controlarPiscinaOlas() {
         try {
             paso.mirar();
             Usuario u = (Usuario) colaEntrarPiscinaOlas.take();
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina de olas.\n");
+            
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
             
             monitorPiscinaOlas.setText(u.toString());
@@ -123,11 +131,14 @@ public class PiscinaOlas {
 
     } // Cierre del método
 
+    //Metodo por el que el monitor decide a donde tiene que  ir cada usuario
     public void controlarPiscinaOlas(Usuario u) {
         paso.mirar();
         if( u.getEdad() < 6 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 6 ) ) {
+            //Si es un niño de 5 años o menos o de un acompañante de un niño de 5 años o menos
             u.setAccesoPermitido(false);
         } else if( u.getEdad() < 11 ) {
+            //Si es un niño de mas de 5 años y menos de 10 adquiere dos permisos y libera uno para el acompañante
             try {
                 semPiscinaOlas.acquire(2);
                 semPiscinaOlas.release();
@@ -135,6 +146,7 @@ public class PiscinaOlas {
                 System.out.println("ERROR: " + ex);
             }
         } else {
+            //Si es un acompañante de un niño de mas de 5 años o un usuario 11 o mas años
             try {
                 semPiscinaOlas.acquire();
             } catch( InterruptedException ex ) {
@@ -176,5 +188,9 @@ public class PiscinaOlas {
 
     public void setAccesoCerrado(boolean accesoCerrado) {
         this.accesoCerrado = accesoCerrado;
+    } // Cierre del método
+
+    public Semaphore getSemPiscinaOlas() {
+        return semPiscinaOlas;
     } // Cierre del método
 } // Cierre de la clase

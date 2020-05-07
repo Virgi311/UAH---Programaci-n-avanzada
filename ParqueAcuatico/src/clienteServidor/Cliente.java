@@ -45,6 +45,9 @@ public class Cliente extends Thread {
             System.out.print( "Introducir IP del servidor: " );
             Scanner sc = new Scanner( System.in );
             String ip = sc.next();
+            /* Creamos la conexion con el srevidor y declaramos las lineas de comunicaciones
+             * Input y Output con la ip introducida por consola
+             */
             cliente = new Socket( ip, 5000 );
             
             entrada = new DataInputStream( cliente.getInputStream() );
@@ -123,6 +126,7 @@ public class Cliente extends Thread {
         }
     }// Cierre del método
 
+    //Metodo para comunicar al servidor que busque el usuario que le envias
     public void buscarUbicacion( String codigo ) {
         System.out.println("\tBuscando ubicacion...");
         try {
@@ -131,7 +135,8 @@ public class Cliente extends Thread {
             System.out.println("ERROR: " + ex);
         }
     }// Cierre del método
-    
+ 
+    //Metodo para obtener los menores que hay dentro del parque 
     public void buscarMenores() {
         System.out.println("\tBuscando menores...");
         try {
@@ -141,6 +146,7 @@ public class Cliente extends Thread {
         }
     }// Cierre del método
     
+    //Metodo para obtener los usuarios que estan usando los toboganes
     public void buscarTobogan() {
         System.out.println("\tBuscando en los toboganes...");
         try {
@@ -150,6 +156,7 @@ public class Cliente extends Thread {
         }
     }// Cierre del método
     
+    //Metodo para obtener el numero de usuarios que hay en cada ubicacion
     public void buscarAforo() {
         System.out.println("\tBuscando el aforo...");
         try {
@@ -159,6 +166,7 @@ public class Cliente extends Thread {
         }
     }// Cierre del método
     
+    //Metodo para cerrar la conexion y el cliente con el servidor
     public void cerrar( boolean servidorBool ) {
         if( servidorBool ) {
             System.out.println( "Cliente ejecuta: Cerrar() por orden del servidor" );
@@ -184,6 +192,7 @@ public class Cliente extends Thread {
         }
     } // Cierre del método
     
+    //Metodo para emitir la señal del cierre de la aplicacion
     public void emitirSeñalCerrar() {
         try {
             salida.writeUTF( "CERRAR" );

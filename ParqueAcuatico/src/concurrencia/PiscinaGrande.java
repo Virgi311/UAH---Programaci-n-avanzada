@@ -31,6 +31,7 @@ public class PiscinaGrande {
     private final BlockingQueue colaEntrarPiscinaGrande = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaGrande = new CopyOnWriteArrayList<>();
     
+    //Atributos extra
     private Usuario monitorPiscinaGrandeUsuario;
     private final Paso paso;
     private final FuncionesGenerales fg;
@@ -45,10 +46,12 @@ public class PiscinaGrande {
         this.paso = paso;
     } // Cierre del método
 
+    //Metodo para entrar en la piscina grande
     public void entrarPiscinaGrande(Usuario u) {
         try {
             paso.mirar();
             
+            //Barrera ciclica para que el niño y el acompañante entren juntos
             if( u.getEdad() < 11 || u.getEsAcompañante() ) {
                 try {
                     u.getBarrera().await();
@@ -72,6 +75,7 @@ public class PiscinaGrande {
         }
     } // Cierre del método
 
+    //Metodo para salir de la piscina grande
     public void salirPiscinaGrande(Usuario u) {
         paso.mirar();
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale de la piscina grande.\n");
@@ -82,6 +86,7 @@ public class PiscinaGrande {
         semPiscinaGrande.release();
     } // Cierre del método
     
+    //Metodo para que el monitor recoja a un usuario de la cola de entrada
     public Usuario controlarPiscinaGrande() {
         try {
             paso.mirar();
@@ -98,10 +103,12 @@ public class PiscinaGrande {
         }
     } // Cierre del método
     
+    //Metodo que evalua los permisos que va a coger el usuario
     public void controlarPiscinaGrande( Usuario usuario ) {
         paso.mirar();
         try {
             if( usuario.getEdad() < 11 ) {
+                //Si es un niño coge dos y libera uno para que el acompañante lo coja
                 semPiscinaGrande.acquire(2);
                 paso.mirar();
                 semPiscinaGrande.release();
@@ -120,6 +127,7 @@ public class PiscinaGrande {
         semPiscinaGrande0.release();
     } // Cierre del método
     
+    //Metodo para expulsar a un usuario de la piscina grande si esta completamente llena
     public Usuario monitorExpulsa(){
         int pos = (int) ( ( piscinaGrande.size() * Math.random() ) - 1 );
         paso.mirar();
@@ -150,6 +158,7 @@ public class PiscinaGrande {
         return u;
     } // Cierre del método
     
+    //Metodo que expulsa al usuario aleatorio
     public void monitorExpulsa(Usuario u){
         if( u.getEdad() < 11 ) {
             monitorPiscinaGrande.setText("");
@@ -169,8 +178,7 @@ public class PiscinaGrande {
             
             paso.mirar();
             u.getAcompañante().interrupt();
-            semPiscinaGrande.release();
-            semPiscinaGrande0.release();
+            semPiscinaGrande.release(2);
         } else {
             monitorPiscinaGrande.setText("");
             monitorPiscinaGrandeUsuario = null;
@@ -179,8 +187,10 @@ public class PiscinaGrande {
             u.interrupt();  
             semPiscinaGrande.release();
         }
+        semPiscinaGrande0.release();
     } // Cierre del método
     
+    //Metodo para que el usuario del tobogan adquiera un permiso
     public void cogerSitioPiscina() {
         try {
             semPiscinaGrande.acquire();
@@ -189,11 +199,12 @@ public class PiscinaGrande {
         }
     }
     
+    //Metodo para comprobar si no hay sitio en la piscina grande para un usuario del tobogan
     public boolean excesoAforo(){
-        int numPersonas = piscinaGrande.size();
-        return numPersonas == 50;
+        return semPiscinaGrande.availablePermits() == 0; //Devuelve true si no hay permisos para conceder
     } // Cierre del método
         
+    //Metodo para que el usuario del tobogan entre en la piscina y salga del tobogan
     public void accesoDesdeTobogan(Usuario u){
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " accede desde el tobogan a la piscina grande.\n");
         piscinaGrande.add(u);

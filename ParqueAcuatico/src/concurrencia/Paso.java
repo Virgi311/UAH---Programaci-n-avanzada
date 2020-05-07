@@ -25,6 +25,7 @@ public class Paso {
         parar = cerrojo.newCondition();
     } // Cierre del método
 
+    //Metodo para comprobar si los hilos pueden continuar a las siguientes instrucciones
     public synchronized void mirar() {
         try {
             cerrojo.lock();
@@ -40,6 +41,7 @@ public class Paso {
         }
     } // Cierre del método
 
+    //Metodo que habilita el bloqueo de los hilos
     public void detener() {
         try {
             cerrojo.lock();
@@ -50,6 +52,7 @@ public class Paso {
         }
     } // Cierre del método
 
+    //Metodo que deshabilita el bloqueo de los hilos
     public void reanudar() {
         try {
             cerrojo.lock();

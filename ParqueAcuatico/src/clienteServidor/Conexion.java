@@ -29,6 +29,9 @@ public class Conexion extends Thread {
             this.conexion = conexion;
             this.servidor = servidor;
             
+            /* La clase conexion es una linea de comunicaciones entre el cliente y el servidor
+             * De esta manera se pueden tener varios clientes con varias conexiones independientes
+             */
             entrada = new DataInputStream(conexion.getInputStream());
             salida = new DataOutputStream(conexion.getOutputStream());
             
@@ -79,6 +82,7 @@ public class Conexion extends Thread {
         }
     } // Cierre del método
     
+    //Metodo para ejecutar el metodo del servidor de buscar a un usuario
     public void buscarUbicacion(String codigo) {
         String ubicacion = servidor.buscarUbicacion(codigo);
         try {
@@ -91,6 +95,7 @@ public class Conexion extends Thread {
         }
     } // Cierre del método
     
+    //Metodo que ejecuta el metodo del servidor para obtener los menores que hay en el parque
     public void buscarMenores() {
         int menores = servidor.buscarMenores();
         try {
@@ -100,6 +105,7 @@ public class Conexion extends Thread {
         }
     } // Cierre del método
     
+    //Metodod que ejecuta el metodo del servidor para obtener el numero de personas que hay en cada localizacion
     public void buscarAforo() {
         String aforo = servidor.buscarAforo();
         try {
@@ -109,6 +115,7 @@ public class Conexion extends Thread {
         }
     } // Cierre del método
     
+    //Metodod que ejecuta el metodo del servidor para obtener los usuarios que estan usando los toboganes
     public void buscarToboganes() {
         String toboganes = servidor.buscarToboganes();
         try {
@@ -122,6 +129,7 @@ public class Conexion extends Thread {
         return id;
     } // Cierre del método
     
+    //Metodo para eliminar el cliente y la conexion
     public void cerrar(boolean servidorBool) {
         if(!servidorBool) {
             System.out.println("\tCerrando cliente...");

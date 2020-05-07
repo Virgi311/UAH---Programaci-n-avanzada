@@ -40,6 +40,7 @@ public class Parque {
     private final Tumbonas tumbonas;
     private final Toboganes toboganes;
     
+    //Atributos extra
     private final FuncionesGenerales fg;
     private final Paso paso;
     private int menores;
@@ -59,6 +60,7 @@ public class Parque {
         this.paso = paso;
         this.menores = 0;
         
+        //Cuando creamos el parque creamos todas las atracciones
         this.piscinaNiños = new PiscinaNiños(colaPiscinaNiños, monitorPiscinaNiños, areaPiscinaNiños, colaEsperaAdultos, fg, paso);
         this.piscinaOlas = new PiscinaOlas(monitorPiscinaOlas, areaPiscinaOlas, colaPiscinaOlas, fg, paso, esperaCompañero);
         this.piscinaGrande = new PiscinaGrande(monitorPiscinaGrande, areaPiscinaGrande, colaPiscinaGrande, fg, paso);
@@ -67,6 +69,7 @@ public class Parque {
         this.toboganes = new Toboganes(areaToboganA, areaToboganB, areaToboganC, monitorToboganA, monitorToboganB, monitorToboganC, colaToboganes, piscinaGrande, fg, paso);
     } // Cierre del método
 
+    //Metodo por el que un usuario entraa en el parque
     public void entrarParque(Usuario u) {
         try {
             paso.mirar();
@@ -83,16 +86,20 @@ public class Parque {
         }
     } // Cierre del método
 
+    //Metodo por el que un usuario sale del parque
     public void salirParque(Usuario u) {
         paso.mirar();
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del parque.\n");
         semEntrarparque.release();
         
+        /* Metodo para controlar que en el caso de que haya una sola persona en el parque no se pueda acceder a la Piscina Olas
+         * En el caso de haber alguien esperando a un compañero para entrar se le expulsa
+         */
         if( ( 100 - semEntrarparque.availablePermits() ) < 2 && piscinaOlas.getEsperaCompañeroUsuario() != null ) {
             piscinaOlas.setAccesoCerrado(true);
             fg.writeDebugFile("Usuario: " + piscinaOlas.getEsperaCompañeroUsuario().getCodigo() + " se quedo solo esperando en la piscina de olas a alguien para entrar, le echamos.\n");
-            piscinaOlas.getEsperaCompañeroUsuario().setTryPiscinaOlas(true);
             piscinaOlas.getEsperaCompañeroUsuario().interrupt();
+            piscinaOlas.getSemPiscinaOlas().release();
             
             piscinaOlas.getEsperaCompañero().setText("");
             piscinaOlas.setEsperaCompañeroUsuario(null);
@@ -149,10 +156,12 @@ public class Parque {
         return toboganes;
     } // Cierre del método
     
+    //Metodo para el control de menores que entran en el Parque
     public void setMenoresEntra() {
         this.menores++;
     } // Cierre del método
     
+    //Metodos para el control de menosre que salen del parque
     public void setMenoresSale() {
         this.menores--;
     } // Cierre del método

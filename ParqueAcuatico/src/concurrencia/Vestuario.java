@@ -32,6 +32,7 @@ public class Vestuario {
     private final BlockingQueue colaEntrarVestuario = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
     
+    //Atributos extra
     private Usuario monitorVestuarioUsuario;
     private final FuncionesGenerales fg;
     private final Paso paso;
@@ -46,9 +47,11 @@ public class Vestuario {
         this.paso = paso;
     } // Cierre del método
     
+    //Metodo para entrar en el vestuario
     public void entrarVestuarios(Usuario u) {
         paso.mirar();
         try {
+            //Barrera ciclica para que el niño y el acompañante entren juntos
             if( u.getEdad() < 11 || u.getEsAcompañante() ) {
                 try {
                     u.getBarrera().await();
@@ -56,9 +59,7 @@ public class Vestuario {
                     System.out.println("ERROR: " + ex);
                 }
             }
-            if( u.getEsAcompañante() ) {
-                fg.dormir(20, 20);
-            }
+            
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola del vestuario. \n");
             colaEntrarVestuario.put(u);
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
@@ -74,6 +75,7 @@ public class Vestuario {
         }
     } // Cierre del método
 
+    //Metodo para salir del vestuario
     public void salirVestuarios(Usuario u) {
         paso.mirar();
         
@@ -83,12 +85,15 @@ public class Vestuario {
         
         paso.mirar();
         if( u.getEsAcompañante() || u.getEdad() < 18 ) {
+            //Si es acompañante o tiene menos de 18 años
             semVestuarioNiño.release();
         } else {
+            //Mayores de 18 años
             semVestuarioAdulto.release();
         }
     } // Cierre del método
 
+    //Metodo por el que el monitor recoge un usuario de la cola de entrada
     public Usuario controlarVestuario() {
         paso.mirar();
         try {
@@ -104,16 +109,20 @@ public class Vestuario {
         }
     } // Cierre del método
 
+    //Metodo por el cual el monitor decide por donde deben ir cada usuario
     public void controlarVestuario(Usuario u) {
         paso.mirar();
         try {
             if( u.getEdad() > 17 && !u.getEsAcompañante() ) {
+                //Si es mayor de 18 años y no es acompañante
                 semVestuarioAdulto.acquire();
-            } else if( u.getEdad() <= 10 ) {
+            } else if( u.getEdad() < 11 ) {
+                //Si tiene 10 años o menos adquiere dos y libera uno para el acompañante
                 semVestuarioNiño.acquire(2);
                 paso.mirar();
                 semVestuarioNiño.release();
             } else { 
+                //Si es acompañante o tiene menos de 18 años y mas de 10
                 semVestuarioNiño.acquire();
             }       
         } catch( InterruptedException ex ) {
