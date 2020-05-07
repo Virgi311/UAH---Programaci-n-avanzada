@@ -70,7 +70,7 @@ public class Parque {
     public void entrarParque(Usuario u) {
         try {
             paso.mirar();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la entrada al parque.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la entrada del parque.\n");
             colaEntrarParque.put(u);
             fg.imprimir(colaEntrada, colaEntrarParque.toString());
             
@@ -88,7 +88,7 @@ public class Parque {
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del parque.\n");
         semEntrarparque.release();
         
-        if( getAforo() < 2 && piscinaOlas.getEsperaCompañeroUsuario() != null ) {
+        if( ( 100 - semEntrarparque.availablePermits() ) < 2 && piscinaOlas.getEsperaCompañeroUsuario() != null ) {
             piscinaOlas.setAccesoCerrado(true);
             fg.writeDebugFile("Usuario: " + piscinaOlas.getEsperaCompañeroUsuario().getCodigo() + " se quedo solo esperando en la piscina de olas a alguien para entrar, le echamos.\n");
             piscinaOlas.getEsperaCompañeroUsuario().setTryPiscinaOlas(true);
@@ -96,7 +96,7 @@ public class Parque {
             
             piscinaOlas.getEsperaCompañero().setText("");
             piscinaOlas.setEsperaCompañeroUsuario(null);
-        } else if ( getAforo() < 2 ) {
+        } else if( ( 100 - semEntrarparque.availablePermits() ) < 2 ) {
             piscinaOlas.setAccesoCerrado(true);
         }
     } // Cierre del método
@@ -177,36 +177,4 @@ public class Parque {
         return esperaCompañero;
     } // Cierre del método
     
-    public int getAforo() {
-        int numVestuario = ( vestuario.getColaVestuarios().size() )
-                            + ( ( !monitorVestuario.getText().equals("") ) ? 1 : 0 )
-                            + ( vestuario.getVestuarios().size() );
-        
-        int numPiscinaOlas = ( piscinaOlas.getColaEntrarPiscinaOlas().size() )
-                                + ( ( !monitorPiscinaOlas.getText().equals("") ) ? 1 :0 )
-                                + ( ( !esperaCompañero.getText().equals("") ) ? 1 : 0 )
-                                + ( piscinaOlas.getPiscinaOlas().size() );
-       
-        int numPiscinaNiños = ( piscinaNiños.getColaEntrarPiscinaNiños().size() )
-                                + ( ( !monitorPiscinaNiños.getText().equals("") ) ? 1 : 0 )
-                                + ( piscinaNiños.getPiscinaNiños().size() )
-                                + ( piscinaNiños.getEsperaAdultos().size() );
-        
-        int numPiscinaGrande = ( piscinaGrande.getColaEntrarPiscinaGrande().size() )
-                                + ( ( !monitorPiscinaGrande.getText().equals("") ) ? 1 : 0 )
-                                + ( piscinaGrande.getPiscinaGrande().size() );
-        
-        int numTumbonas = ( tumbonas.getColaEntrarTumbonas().size() )
-                            + ( ( !monitorTumbonas.getText().equals("") ? 1 : 0 ) )
-                            + ( tumbonas.getTumbonas().size() );
-        
-        int numToboganes = ( toboganes.getColaEntrarToboganes().size() ) 
-                            + ( ( !monitorToboganA.getText().equals("") ? 1 : 0 ) )
-                            + ( ( !monitorToboganB.getText().equals("") ? 1 : 0 ) )
-                            + ( ( !monitorToboganC.getText().equals("") ? 1 : 0 ) )
-                            + ( ( toboganes.getToboganAUsuario() != null ) ? 1 : 0 )
-                            + ( ( toboganes.getToboganBUsuario() != null ) ? 1 : 0 )
-                            + ( ( toboganes.getToboganCUsuario() != null ) ? 1 : 0 );
-        return numVestuario + numPiscinaGrande + numPiscinaNiños + numPiscinaOlas + numToboganes + numTumbonas;
-    } // Cierre del método
 } // Cierre de la clase

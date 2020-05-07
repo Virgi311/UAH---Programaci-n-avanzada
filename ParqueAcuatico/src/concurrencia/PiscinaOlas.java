@@ -60,6 +60,14 @@ public class PiscinaOlas {
             }
             
             paso.mirar();
+            
+            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
+                try {
+                    u.getBarrera().await();
+                } catch( BrokenBarrierException | InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+            }
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la piscina de olas.\n");
             colaEntrarPiscinaOlas.put(u);
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());

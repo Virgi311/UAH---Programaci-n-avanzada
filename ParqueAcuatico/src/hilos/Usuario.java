@@ -63,23 +63,27 @@ public class Usuario extends Thread {
             parque.setMenoresEntra();
         }
         
-        if( esAcompañante ) {
-            fg.dormir(50, 50);
-        }
-        
         paso.mirar();
         parque.entrarParque(this);
             
         paso.mirar();
         parque.getVestuario().entrarVestuarios(this);
-        fg.dormir(3000, 3000);
-            
-        if( edad <= 10 || esAcompañante ) {
+        
+        if( esAcompañante ) {
             try {
                 barrera.await();
             } catch( BrokenBarrierException | InterruptedException ex ) {
                 System.out.println("ERROR: " + ex);
             }
+        } else if( edad < 11 ) {
+            fg.dormir(3000, 3000);
+            try {
+                barrera.await();
+            } catch( BrokenBarrierException | InterruptedException ex ) {
+                System.out.println("ERROR: " + ex);
+            }
+        } else {
+            fg.dormir(3000, 3000);
         }
         
         paso.mirar();
@@ -92,6 +96,12 @@ public class Usuario extends Thread {
             }
         } else {
             while( numAtracciones > controlNumAtracciones ) {
+                try {
+                    barrera.await();
+                } catch( BrokenBarrierException | InterruptedException ex ) {
+                    System.out.println("ERROR: " + ex);
+                }
+                
                 atraccionAleatoria(2);
                 accesoPermitido = true;
             }
@@ -99,14 +109,29 @@ public class Usuario extends Thread {
         
         paso.mirar();
         
+        parque.getVestuario().entrarVestuarios(this);
+        
         if( esAcompañante ) {
-            fg.dormir(50, 50);
+            try {
+                barrera.await();
+            } catch( BrokenBarrierException | InterruptedException ex ) {
+                System.out.println("ERROR: " + ex);
+            }
+        } else if( edad < 11 ) {
+            fg.dormir(3000, 3000);
+            try {
+                barrera.await();
+            } catch( BrokenBarrierException | InterruptedException ex ) {
+                System.out.println("ERROR: " + ex);
+            }
+        } else {
+            fg.dormir(3000, 3000);
         }
         
-        parque.getVestuario().entrarVestuarios(this);
-        fg.dormir(3000, 3000);
-        
-        if( edad <= 10 || esAcompañante ) {
+        paso.mirar();
+        parque.getVestuario().salirVestuarios(this);
+
+        if( edad < 11 || esAcompañante ) {
             try {
                 barrera.await();
             } catch( BrokenBarrierException | InterruptedException ex ) {
@@ -114,9 +139,6 @@ public class Usuario extends Thread {
             }
         }
         
-        paso.mirar();
-        parque.getVestuario().salirVestuarios(this);
-
         paso.mirar();
         parque.salirParque(this);
         
@@ -155,22 +177,14 @@ public class Usuario extends Thread {
                 } catch( BrokenBarrierException | InterruptedException ex ) {
                     System.out.println("ERROR: " + ex);
                 }
-            } else if ( tipo == 2 ) {
-                if( acompañante.getState() == Thread.State.WAITING ){
-                    num = acompañante.getActividadNiño();
-                } else {
-                    num = -1;
-                }
-                
+            } else if ( esAcompañante ) {
                 try {
                     barrera.await();
                 } catch( BrokenBarrierException | InterruptedException ex ) {
                     System.out.println("ERROR: " + ex);
                 }
-                
-                if( num == -1 ) {
-                    num = acompañante.getActividadNiño();
-                }
+                    
+                num = acompañante.getActividadNiño();
             }
 
             switch( num ) {
@@ -184,26 +198,20 @@ public class Usuario extends Thread {
                             } catch( BrokenBarrierException | InterruptedException ex ) {
                                 System.out.println("ERROR: " + ex);
                             }
-                        } else {
+                        } else if( edad < 11 ){
                             fg.dormir(1000, 3000);
-                        }
-                        if( tipo == 2 && !esAcompañante ) {
                             try {
                                 barrera.await();
                             } catch( BrokenBarrierException | InterruptedException ex ) {
                                 System.out.println("ERROR: " + ex);
                             }
+                        } else {
+                            fg.dormir(1000, 3000);
                         }
 
                         paso.mirar();
                         parque.getPiscinaNiños().salirPiscinaNiños(this);
-                        if( tipo == 2 ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        }
+                        
                         controlNumAtracciones++;
                     } else {
                         tryPiscinaNiños = true;
@@ -223,26 +231,20 @@ public class Usuario extends Thread {
                             } catch( BrokenBarrierException | InterruptedException ex ) {
                                 System.out.println("ERROR: " + ex);
                             }
-                        } else {
+                        } else if( edad < 11 ) {
                             fg.dormir(2000, 5000);
-                        }
-                        if( tipo == 2 && !esAcompañante ) {
                             try {
                                 barrera.await();
                             } catch( BrokenBarrierException | InterruptedException ex ) {
                                 System.out.println("ERROR: " + ex);
                             }
+                        } else {
+                            fg.dormir(2000, 5000);
                         }
 
                         paso.mirar();
                         parque.getPiscinaOlas().salirPiscinaOlas(this);
-                        if( tipo == 2 ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        }
+                        
                         controlNumAtracciones++;
                     } else {
                         tryPiscinaOlas = true;
@@ -257,31 +259,25 @@ public class Usuario extends Thread {
                     paso.mirar();
                     parque.getPiscinaGrande().entrarPiscinaGrande(this);
                     if( esAcompañante ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        } else {
-                            fg.dormir(3000, 5000);
-                        }
-                        if( tipo == 2 && !esAcompañante ) {
-                            try {
-                                barrera.await();
-                            } catch( BrokenBarrierException | InterruptedException ex ) {
-                                System.out.println("ERROR: " + ex);
-                            }
-                        }
-
-                    paso.mirar();
-                    parque.getPiscinaGrande().salirPiscinaGrande(this);
-                    if( tipo == 2 ) {
                         try {
                             barrera.await();
                         } catch( BrokenBarrierException | InterruptedException ex ) {
                             System.out.println("ERROR: " + ex);
                         }
+                    } else if( edad < 11 ) {
+                        fg.dormir(3000, 5000);
+                        try {
+                            barrera.await();
+                        } catch( BrokenBarrierException | InterruptedException ex ) {
+                            System.out.println("ERROR: " + ex);
+                        }
+                    } else {
+                        fg.dormir(3000, 5000);
                     }
+
+                    paso.mirar();
+                    parque.getPiscinaGrande().salirPiscinaGrande(this);
+                    
                     controlNumAtracciones++;
 
                     break;
@@ -390,5 +386,9 @@ public class Usuario extends Thread {
 
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
+    } // Cierre del método
+
+    public CyclicBarrier getBarrera() {
+        return barrera;
     } // Cierre del método
 } // Cierre de la clase

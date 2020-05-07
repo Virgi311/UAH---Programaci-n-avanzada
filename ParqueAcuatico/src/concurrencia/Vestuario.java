@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
+import java.util.concurrent.BrokenBarrierException;
 import util.FuncionesGenerales;
 
 /**
@@ -48,6 +49,16 @@ public class Vestuario {
     public void entrarVestuarios(Usuario u) {
         paso.mirar();
         try {
+            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
+                try {
+                    u.getBarrera().await();
+                } catch( BrokenBarrierException | InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+            }
+            if( u.getEsAcompañante() ) {
+                fg.dormir(20, 20);
+            }
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola del vestuario. \n");
             colaEntrarVestuario.put(u);
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());

@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
+import java.util.concurrent.BrokenBarrierException;
 import util.FuncionesGenerales;
 
 /**
@@ -46,6 +47,14 @@ public class Tumbonas {
        
     public boolean entrarTumbonas(Usuario u){
         paso.mirar();
+        
+        if( u.getEdad() < 11 || u.getEsAcompañante() ) {
+            try {
+                u.getBarrera().await();
+            } catch( BrokenBarrierException | InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
+            }
+        }
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de las tumbonas.\n");
         colaEntrarTumbonas.add(u);
         fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());

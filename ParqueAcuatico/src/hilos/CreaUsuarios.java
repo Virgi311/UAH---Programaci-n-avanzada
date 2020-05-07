@@ -15,7 +15,7 @@ import util.FuncionesGenerales;
  * Javier González López 09067677L
  */
 public class CreaUsuarios extends Thread {
-    private final int capacidad = /*5000*/300;
+    private final int capacidad = 5000;
     private final int mayoria_edad = 18;
     private final Parque parque;
     private final Paso paso;
@@ -41,7 +41,7 @@ public class CreaUsuarios extends Thread {
             
             if( edadUsuario < 11 ){
                 id++;
- 
+                
                 usuarioAcompañante = new Usuario(parque, barrera, id, getAleatorio(mayoria_edad, 50), usuarioPrincipal.getNumAtracciones(), paso, fg);
                 usuarioPrincipal.setCodigo(usuarioPrincipal.getCodigo() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);

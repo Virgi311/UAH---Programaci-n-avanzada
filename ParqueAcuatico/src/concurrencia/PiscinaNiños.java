@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
+import java.util.concurrent.BrokenBarrierException;
 import util.FuncionesGenerales;
 
 /**
@@ -50,12 +51,21 @@ public class PiscinaNiños {
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
             paso.mirar();
+            
+            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
+                try {
+                    u.getBarrera().await();
+                } catch( BrokenBarrierException | InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+            }
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de la piscina niños.\n");
             colaEntrarPiscinaNiños.put(u);
             fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             
             paso.mirar();
             semPiscinaNiños0.acquire();
+            
             
             if( !u.getAccesoPermitido() ) {
                 return false;
@@ -119,10 +129,12 @@ public class PiscinaNiños {
             paso.mirar();
             if( u.getEdad() > 10 && !u.getEsAcompañante() ) {
                 u.setAccesoPermitido(false);
-            } else if( u.getEdad() > 5 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 5 ) ) {      
+            } else if( ( u.getEdad() > 5 && !u.getEsAcompañante() ) || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 5 ) ) {      
                 semPiscinaNiños.acquire();
+                buscarAcompañante(u.getAcompañante().toString());
             } else if( u.getEdad() < 5 ){
                 semPiscinaNiños.acquire(2);
+                buscarAcompañante(u.getAcompañante().toString());
                 paso.mirar();
                 semPiscinaNiños.release();
             }
@@ -134,6 +146,36 @@ public class PiscinaNiños {
             semPiscinaNiños0.release();
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
+        }
+    } // Cierre del método
+    
+    public void buscarAcompañante(String u) {
+        if( colaEntrarPiscinaNiños.peek() != null && !colaEntrarPiscinaNiños.peek().toString().equals(u) ) {
+            try {
+                BlockingQueue cAux = new LinkedBlockingQueue();
+                Usuario uAux = (Usuario) colaEntrarPiscinaNiños.take();
+                Usuario uAuxEnc = null;
+                cAux.put(uAux);
+                while( colaEntrarPiscinaNiños.size() > 0 ) {
+                    uAux = (Usuario) colaEntrarPiscinaNiños.take();
+                    if( uAux.toString().equals(u) ) {
+                        uAuxEnc = uAux;
+                    } else {
+                        cAux.put(uAux);
+                    }
+                }
+                
+                if( uAuxEnc != null ) {
+                    colaEntrarPiscinaNiños.put(uAuxEnc);
+                }
+                
+                while( cAux.size() > 0 ) {
+                    uAux = (Usuario) cAux.take();
+                    colaEntrarPiscinaNiños.put(uAux);
+                }
+            } catch(InterruptedException ex) {
+                System.out.println("ERROR: " + ex);
+            }
         }
     } // Cierre del método
     
