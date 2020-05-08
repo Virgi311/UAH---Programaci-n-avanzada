@@ -81,6 +81,11 @@ public class Parque {
             semEntrarparque.acquire();
             colaEntrarParque.take();
             fg.imprimir(colaEntrada, colaEntrarParque.toString());
+            
+            //Si entra un menor aumentamos el numero del control de menores en el parque en uno mas
+            if( u.getEdad() < 18 ) {
+                menores++;
+            }
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }
@@ -91,6 +96,11 @@ public class Parque {
         paso.mirar();
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del parque.\n");
         semEntrarparque.release();
+        
+        //Si sale un menor disminuimos el control de menores en el parque en uno menos
+        if( u.getEdad() < 18 ) {
+            menores++;
+        }
         
         /* Metodo para controlar que en el caso de que haya una sola persona en el parque no se pueda acceder a la Piscina Olas
          * En el caso de haber alguien esperando a un compañero para entrar se le expulsa
@@ -154,16 +164,6 @@ public class Parque {
 
     public Toboganes getToboganes() {
         return toboganes;
-    } // Cierre del método
-    
-    //Metodo para el control de menores que entran en el Parque
-    public void setMenoresEntra() {
-        this.menores++;
-    } // Cierre del método
-    
-    //Metodos para el control de menosre que salen del parque
-    public void setMenoresSale() {
-        this.menores--;
     } // Cierre del método
     
     public int getMenores() {

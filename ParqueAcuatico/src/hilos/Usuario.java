@@ -59,11 +59,6 @@ public class Usuario extends Thread {
 
     @Override
     public void run() {
-        //Si es menos de 18 aumentamos el contador de menores
-        if( edad < 18 ) {
-            parque.setMenoresEntra();
-        }
-        
         paso.mirar();
         parque.entrarParque(this);
             
@@ -132,11 +127,6 @@ public class Usuario extends Thread {
         
         paso.mirar();
         parque.salirParque(this);
-        
-        //Si es menos de 18 años disminuimos el contador de menores
-        if( edad < 18 ) {
-            parque.setMenoresSale();
-        }
     } // Cierre del método
     
     //Metodo para escoger una atraccion de forma aleatoria
