@@ -56,13 +56,6 @@ public class PiscinaOlas {
 
     public boolean entrarPiscinaOlas(Usuario u) {
         try {
-            //Comprobacion de que no este cerrada la atraccion por no haber suficientes usuarios en el parque
-            if( accesoCerrado ) {
-                return false;
-            }
-            
-            paso.mirar();
-            
             //Barrera ciclica para que el niño y el acompañante vayan juntos
             if( u.getEdad() < 11 || u.getEsAcompañante() ) {
                 try {
@@ -71,6 +64,14 @@ public class PiscinaOlas {
                     System.out.println("ERROR: " + ex);
                 }
             }
+            
+            //Comprobacion de que no este cerrada la atraccion por no haber suficientes usuarios en el parque
+            if( accesoCerrado ) {
+                return false;
+            }
+            
+            paso.mirar();
+            
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la piscina de olas.\n");
             colaEntrarPiscinaOlas.put(u);
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());

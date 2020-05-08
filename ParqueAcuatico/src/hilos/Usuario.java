@@ -87,18 +87,9 @@ public class Usuario extends Thread {
         paso.mirar();
         parque.getVestuario().salirVestuarios(this);
         
-        if( !esAcompañante && edad > 10 ) {
-            //Si no es acompañante y tiene mas de 10 años
-            while( numAtracciones > controlNumAtracciones ) {
-                atraccionAleatoria(1);
-                accesoPermitido = true;
-            }
-        } else {
-            //Es acompañante o un niño de 10 o menos años
-            while( numAtracciones > controlNumAtracciones ) {
-                atraccionAleatoria(2);
-                accesoPermitido = true;
-            }
+        while( numAtracciones > controlNumAtracciones ) {
+            atraccionAleatoria(1);
+            accesoPermitido = true;
         }
         
         paso.mirar();
@@ -134,7 +125,7 @@ public class Usuario extends Thread {
         //Generamos un numero de forma aleatoria
         int num = (int)(5 * Math.random());
         
-        if( tipo == 2 && !esAcompañante ) {
+        if( edad < 11 ) {
             //Si es un niño de 10 o menos años le asignamos la atraccion que va a realizar y lo metemos en laa barrera ciclica
             actividadNiño = num;
             try {

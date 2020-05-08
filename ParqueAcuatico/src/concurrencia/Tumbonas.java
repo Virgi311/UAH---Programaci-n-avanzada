@@ -48,22 +48,22 @@ public class Tumbonas {
        
     //Metodo para entrar en las tumbonas
     public boolean entrarTumbonas(Usuario u){
-        paso.mirar();
-        
-        //Barrera ciclica para que el niño y el acompañante entren juntos
-        if( u.getEdad() < 11 || u.getEsAcompañante() ) {
-            try {
-                u.getBarrera().await();
-            } catch( BrokenBarrierException | InterruptedException ex) {
-                System.out.println("ERROR: " + ex);
-            }
-        }
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de las tumbonas.\n");
-        colaEntrarTumbonas.add(u);
-        fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
-        
-        paso.mirar();
         try {
+            paso.mirar();
+        
+            //Barrera ciclica para que el niño y el acompañante entren juntos
+            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
+                try {
+                    u.getBarrera().await();
+                } catch( BrokenBarrierException | InterruptedException ex) {
+                    System.out.println("ERROR: " + ex);
+                }
+            }
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de las tumbonas.\n");
+            colaEntrarTumbonas.put(u);
+            fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
+        
+            paso.mirar();
             semTumbonas0.acquire();
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
@@ -122,7 +122,7 @@ public class Tumbonas {
         }
         
         //Metodo que reordena la cola de entrada para simular laa lucha de todos los usuarios por conseguir entrar
-        competicion();
+        //competicion();
         
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de las tumbonas. \n");
         monitorTumbonas.setText("");
@@ -133,7 +133,7 @@ public class Tumbonas {
     } // Cierre del método
 
     //Metodo que reordena la cola de entrada para simular laa lucha de todos los usuarios por conseguir entrar
-    public void competicion() {
+    /*public void competicion() {
         try {
             int pelea = (int) ( ( colaEntrarTumbonas.size() - 1 ) * Math.random() );
             
@@ -147,7 +147,7 @@ public class Tumbonas {
             System.out.println("ERROR: " + ex);
         } 
     } // Cierre del método
-    
+    */
     public CopyOnWriteArrayList<Usuario> getTumbonas() {
         return tumbonas;
     } // Cierre del método

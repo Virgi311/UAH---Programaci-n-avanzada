@@ -25,20 +25,20 @@ public class Cliente extends Thread {
     private DataOutputStream salida;
     private boolean conexion = false;
     
-    private final JTextField jTextField2;
-    private final JTextField jTextField3;
-    private final JTextField jTextField4;
-    private final JTextField jTextField5;
-    private final JTextField jTextField6;
-    private final JTextField jTextField7;
-    private final JTextField jTextField9;
-    private final JTextField jTextField10;
-    private final JTextField jTextField11;
-    private final JTextField jTextField12;
-    private final JTextField jTextField13;
-    private final JTextField jTextField14;
+    private final JTextField ubicacionBuscar;
+    private final JTextField actividadBuscar;
+    private final JTextField menoresBuscar;
+    private final JTextField toboganABuscar;
+    private final JTextField toboganBBuscar;
+    private final JTextField toboganCBuscar;
+    private final JTextField vestuariosBuscar;
+    private final JTextField piscinaOlasBuscar;
+    private final JTextField piscinaNiñosBuscar;
+    private final JTextField piscinaGrandeBuscar;
+    private final JTextField tumbonasBuscar;
+    private final JTextField toboganesBuscar;
     
-    public Cliente( JTextField jTextField2, JTextField jTextField3, JTextField jTextField4, JTextField jTextField5, JTextField jTextField6, JTextField jTextField7, JTextField jTextField9, JTextField jTextField10, JTextField jTextField11, JTextField jTextField12, JTextField jTextField13, JTextField jTextField14 ) {
+    public Cliente( JTextField ubicacionBuscar, JTextField actividadBuscar, JTextField menoresBuscar, JTextField toboganABuscar, JTextField toboganBBuscar, JTextField toboganCBuscar, JTextField vestuariosBuscar, JTextField piscinaOlasBuscar, JTextField piscinaNiñosBuscar, JTextField piscinaGrandeBuscar, JTextField tumbonasBuscar, JTextField toboganesBuscar ) {
         try {
             System.out.println( "Creando cliente..." );
             
@@ -60,18 +60,18 @@ public class Cliente extends Thread {
         } catch( IOException ex ) {
             System.out.println("ERROR: " + ex);
         }
-        this.jTextField2 = jTextField2;
-        this.jTextField3 = jTextField3;
-        this.jTextField4 = jTextField4;
-        this.jTextField5 = jTextField5;
-        this.jTextField6 = jTextField6;
-        this.jTextField7 = jTextField7;
-        this.jTextField9 = jTextField9;
-        this.jTextField10 = jTextField10;
-        this.jTextField11 = jTextField11;
-        this.jTextField12 = jTextField12;
-        this.jTextField13 = jTextField13;
-        this.jTextField14 = jTextField14;
+        this.ubicacionBuscar = ubicacionBuscar;
+        this.actividadBuscar = actividadBuscar;
+        this.menoresBuscar = menoresBuscar;
+        this.toboganABuscar = toboganABuscar;
+        this.toboganBBuscar = toboganBBuscar;
+        this.toboganCBuscar = toboganCBuscar;
+        this.vestuariosBuscar = vestuariosBuscar;
+        this.piscinaOlasBuscar = piscinaOlasBuscar;
+        this.piscinaNiñosBuscar = piscinaNiñosBuscar;
+        this.piscinaGrandeBuscar = piscinaGrandeBuscar;
+        this.tumbonasBuscar = tumbonasBuscar;
+        this.toboganesBuscar = toboganesBuscar;
     } // Cierre del método
     
     @Override 
@@ -90,32 +90,32 @@ public class Cliente extends Thread {
                         switch( control ) {
                             case "UBICACION":
                                 if( comunicado.split("!").length == 2 ) {
-                                    jTextField2.setText(comunicado.split("!")[1]);
-                                    jTextField3.setText("");
+                                    ubicacionBuscar.setText(comunicado.split("!")[1]);
+                                    actividadBuscar.setText("");
                                 } else {
-                                    jTextField2.setText(comunicado.split("!")[2]);
-                                    jTextField3.setText(comunicado.split("!")[1]);
+                                    ubicacionBuscar.setText(comunicado.split("!")[2]);
+                                    actividadBuscar.setText(comunicado.split("!")[1]);
                                 }
                                     
                                 break;
                             
                             case "MENORES":
-                                jTextField4.setText(comunicado.split("!")[1]);
+                                menoresBuscar.setText(comunicado.split("!")[1]);
                                 break;
                                 
                             case "TOBOGANES":
-                                jTextField5.setText(comunicado.split("!")[1]);
-                                jTextField6.setText(comunicado.split("!")[2]);
-                                jTextField7.setText(comunicado.split("!")[3]);
+                                toboganABuscar.setText(comunicado.split("!")[1]);
+                                toboganBBuscar.setText(comunicado.split("!")[2]);
+                                toboganCBuscar.setText(comunicado.split("!")[3]);
                                 break;
                                
                             case "AFORO":
-                                jTextField9.setText(comunicado.split("!")[1]);
-                                jTextField10.setText(comunicado.split("!")[2]);
-                                jTextField11.setText(comunicado.split("!")[3]);
-                                jTextField12.setText(comunicado.split("!")[4]);
-                                jTextField13.setText(comunicado.split("!")[5]);
-                                jTextField14.setText(comunicado.split("!")[6]);
+                                vestuariosBuscar.setText(comunicado.split("!")[1]);
+                                piscinaOlasBuscar.setText(comunicado.split("!")[2]);
+                                piscinaNiñosBuscar.setText(comunicado.split("!")[3]);
+                                piscinaGrandeBuscar.setText(comunicado.split("!")[4]);
+                                tumbonasBuscar.setText(comunicado.split("!")[5]);
+                                toboganesBuscar.setText(comunicado.split("!")[6]);
                                 break;
                         }
                     }

@@ -81,6 +81,7 @@ public class Parque {
             semEntrarparque.acquire();
             colaEntrarParque.take();
             fg.imprimir(colaEntrada, colaEntrarParque.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en el parque.\n");
             
             //Si entra un menor aumentamos el numero del control de menores en el parque en uno mas
             if( u.getEdad() < 18 ) {
