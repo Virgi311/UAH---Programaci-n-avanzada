@@ -7,7 +7,6 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
-import java.util.concurrent.BrokenBarrierException;
 import util.FuncionesGenerales;
 
 /**
@@ -53,15 +52,6 @@ public class PiscinaNiños {
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
             paso.mirar();
-            
-            //Barrera ciclica para que el niño y el acompañante vayan juntos
-            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
-                try {
-                    u.getBarrera().await();
-                } catch( BrokenBarrierException | InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
-            }
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de la piscina niños.\n");
             colaEntrarPiscinaNiños.put(u);
             fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
@@ -87,7 +77,7 @@ public class PiscinaNiños {
                 fg.imprimir(areaEsperaAdultos, esperaAdultos.toString());
             }
         } catch(InterruptedException ex) {
-            System.out.println("ERROR: " + ex);
+            return false;
         }
 
         return true;
@@ -147,6 +137,7 @@ public class PiscinaNiños {
             monitorPiscinaNiñosUsuario = null;
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de niños.\n");
             
+            paso.mirar();
             semPiscinaNiños0.release();
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);

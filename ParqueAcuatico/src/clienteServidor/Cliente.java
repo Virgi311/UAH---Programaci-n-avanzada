@@ -37,8 +37,9 @@ public class Cliente extends Thread {
     private final JTextField piscinaGrandeBuscar;
     private final JTextField tumbonasBuscar;
     private final JTextField toboganesBuscar;
+    private final JTextField totalBuscar;
     
-    public Cliente( JTextField ubicacionBuscar, JTextField actividadBuscar, JTextField menoresBuscar, JTextField toboganABuscar, JTextField toboganBBuscar, JTextField toboganCBuscar, JTextField vestuariosBuscar, JTextField piscinaOlasBuscar, JTextField piscinaNiñosBuscar, JTextField piscinaGrandeBuscar, JTextField tumbonasBuscar, JTextField toboganesBuscar ) {
+    public Cliente( JTextField ubicacionBuscar, JTextField actividadBuscar, JTextField menoresBuscar, JTextField toboganABuscar, JTextField toboganBBuscar, JTextField toboganCBuscar, JTextField vestuariosBuscar, JTextField piscinaOlasBuscar, JTextField piscinaNiñosBuscar, JTextField piscinaGrandeBuscar, JTextField tumbonasBuscar, JTextField toboganesBuscar, JTextField totalBuscar ) {
         try {
             System.out.println( "Creando cliente..." );
             
@@ -72,6 +73,7 @@ public class Cliente extends Thread {
         this.piscinaGrandeBuscar = piscinaGrandeBuscar;
         this.tumbonasBuscar = tumbonasBuscar;
         this.toboganesBuscar = toboganesBuscar;
+        this.totalBuscar = totalBuscar;
     } // Cierre del método
     
     @Override 
@@ -116,6 +118,7 @@ public class Cliente extends Thread {
                                 piscinaGrandeBuscar.setText(comunicado.split("!")[4]);
                                 tumbonasBuscar.setText(comunicado.split("!")[5]);
                                 toboganesBuscar.setText(comunicado.split("!")[6]);
+                                totalBuscar.setText(comunicado.split("!")[7]);
                                 break;
                         }
                     }

@@ -56,15 +56,6 @@ public class PiscinaOlas {
 
     public boolean entrarPiscinaOlas(Usuario u) {
         try {
-            //Barrera ciclica para que el niño y el acompañante vayan juntos
-            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
-                try {
-                    u.getBarrera().await();
-                } catch( BrokenBarrierException | InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
-            }
-            
             //Comprobacion de que no este cerrada la atraccion por no haber suficientes usuarios en el parque
             if( accesoCerrado ) {
                 return false;
@@ -80,7 +71,7 @@ public class PiscinaOlas {
             semPiscinaOlas0.acquire();
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
-            if( !u.getAccesoPermitido() ) {
+            if( !u.getAccesoPermitido() || u.getEdad() < 6 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 6 ) ) {
                 return false;
             }
             
@@ -98,7 +89,7 @@ public class PiscinaOlas {
             piscinaOlas.add(u);
             fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
         } catch( InterruptedException | BrokenBarrierException ex ) {
-            System.out.println("ERROR: " + ex);
+            return false;
         }
 
         return true;

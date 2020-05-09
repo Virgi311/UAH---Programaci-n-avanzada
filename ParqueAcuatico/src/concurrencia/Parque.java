@@ -100,7 +100,7 @@ public class Parque {
         
         //Si sale un menor disminuimos el control de menores en el parque en uno menos
         if( u.getEdad() < 18 ) {
-            menores++;
+            menores--;
         }
         
         /* Metodo para controlar que en el caso de que haya una sola persona en el parque no se pueda acceder a la Piscina Olas

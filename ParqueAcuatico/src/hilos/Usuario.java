@@ -383,15 +383,11 @@ public class Usuario extends Thread {
         this.tryPiscinaOlas = tryPiscinaOlas;
     } // Cierre del método
 
-    public boolean getAccesoPermitido() {
+    public synchronized boolean getAccesoPermitido() {
         return accesoPermitido;
     } // Cierre del método
 
     public void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
-    } // Cierre del método
-
-    public CyclicBarrier getBarrera() {
-        return barrera;
     } // Cierre del método
 } // Cierre de la clase

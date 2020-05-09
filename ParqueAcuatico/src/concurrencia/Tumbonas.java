@@ -7,7 +7,6 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import hilos.Usuario;
-import java.util.concurrent.BrokenBarrierException;
 import util.FuncionesGenerales;
 
 /**
@@ -28,9 +27,11 @@ public class Tumbonas {
     //Concurrencia
     private final Semaphore semTumbonas = new Semaphore(20, true);
     private final Semaphore semTumbonas0 = new Semaphore(0, true);
-    private final BlockingQueue colaEntrarTumbonas = new LinkedBlockingQueue();
+    private final BlockingQueue colaEntrarTumbonas0 = new LinkedBlockingQueue();
+    private final BlockingQueue colaEntrarTumbonas1 = new LinkedBlockingQueue();
+    private final BlockingQueue colaEntrarTumbonas2 = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> tumbonas = new CopyOnWriteArrayList<>();
-    
+
     //Atributos extra
     private Usuario monitorTumbonasUsuario;
     private final FuncionesGenerales fg;
@@ -48,26 +49,32 @@ public class Tumbonas {
        
     //Metodo para entrar en las tumbonas
     public boolean entrarTumbonas(Usuario u){
+        if( u.getEsAcompañante() || u.getEdad() < 15 ) {
+            return false;
+        }
         try {
             paso.mirar();
-        
-            //Barrera ciclica para que el niño y el acompañante entren juntos
-            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
-                try {
-                    u.getBarrera().await();
-                } catch( BrokenBarrierException | InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
-            }
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de las tumbonas.\n");
-            colaEntrarTumbonas.put(u);
-            fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
-        
+            switch( (int) ( 1 * Math.random() ) ) {
+                case 0:
+                    colaEntrarTumbonas0.put(u);
+                    break;
+                  
+                case 1:
+                    colaEntrarTumbonas1.put(u);
+                    break;
+                    
+                case 2:
+                    colaEntrarTumbonas2.put(u);
+                    break;
+            }
+            fg.imprimir(colaTumbonas, colaEntrarTumbonas1.toString() + colaEntrarTumbonas2.toString() + colaEntrarTumbonas2.toString());
+            
             paso.mirar();
             semTumbonas0.acquire();
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
-            if( !u.getAccesoPermitido() ) {
+            if( !u.getAccesoPermitido() /*|| u.getEdad() < 15 || u.getEsAcompañante() */) {
                 return false;
             }
             
@@ -76,7 +83,7 @@ public class Tumbonas {
             tumbonas.add(u);
             fg.imprimir(areaTumbonas, tumbonas.toString());
         } catch( InterruptedException ex ) {
-            System.out.println("ERROR: " + ex);
+            return false;
         }
     
         return true;
@@ -95,9 +102,22 @@ public class Tumbonas {
     public Usuario controlarTumbonas(){
         paso.mirar();
         try {
-            Usuario u = (Usuario) colaEntrarTumbonas.take();
+            Usuario u = null;
+            switch( (int) ( 1 * Math.random() ) ) {
+                case 0:
+                    u = (Usuario) colaEntrarTumbonas0.take();
+                    break;
+                  
+                case 1:
+                    u = (Usuario) colaEntrarTumbonas1.take();
+                    break;
+                    
+                case 2:
+                    u = (Usuario) colaEntrarTumbonas2.take();
+                    break;
+            }
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de las tumbonas. \n");
-            fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
+            fg.imprimir(colaTumbonas, colaEntrarTumbonas1.toString() + colaEntrarTumbonas2.toString() + colaEntrarTumbonas2.toString());
             monitorTumbonas.setText(u.toString());
             monitorTumbonasUsuario = u;
             
@@ -121,9 +141,6 @@ public class Tumbonas {
             } 
         }
         
-        //Metodo que reordena la cola de entrada para simular laa lucha de todos los usuarios por conseguir entrar
-        //competicion();
-        
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de las tumbonas. \n");
         monitorTumbonas.setText("");
         monitorTumbonasUsuario = null;
@@ -131,23 +148,7 @@ public class Tumbonas {
         paso.mirar();
         semTumbonas0.release();
     } // Cierre del método
-
-    //Metodo que reordena la cola de entrada para simular laa lucha de todos los usuarios por conseguir entrar
-    /*public void competicion() {
-        try {
-            int pelea = (int) ( ( colaEntrarTumbonas.size() - 1 ) * Math.random() );
-            
-            while( pelea > 0 ) {
-                Usuario u = (Usuario) colaEntrarTumbonas.take();
-                colaEntrarTumbonas.add(u);
-                fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
-                pelea--;
-            }
-        } catch( InterruptedException ex ) {
-            System.out.println("ERROR: " + ex);
-        } 
-    } // Cierre del método
-    */
+    
     public CopyOnWriteArrayList<Usuario> getTumbonas() {
         return tumbonas;
     } // Cierre del método
@@ -156,7 +157,15 @@ public class Tumbonas {
         return monitorTumbonasUsuario;
     } // Cierre del método
 
-    public BlockingQueue getColaEntrarTumbonas() {
-        return colaEntrarTumbonas;
+    public BlockingQueue getColaEntrarTumbonas0() {
+        return colaEntrarTumbonas0;
+    } // Cierre del método
+
+    public BlockingQueue getColaEntrarTumbonas1() {
+        return colaEntrarTumbonas1;
+    } // Cierre del método
+
+    public BlockingQueue getColaEntrarTumbonas2() {
+        return colaEntrarTumbonas2;
     } // Cierre del método
 } // Cierre de la clase

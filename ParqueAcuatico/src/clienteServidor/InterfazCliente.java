@@ -19,7 +19,7 @@ public class InterfazCliente extends javax.swing.JFrame {
         initComponents();
         
         //Contructor al que le pasamos los campos que van a ser usados para mostrar la informacion
-        cliente = new Cliente( ubicacionBuscar, actividadBuscar, menoresBuscar, toboganABuscar, toboganBBuscar, toboganCBuscar, vestuariosBuscar, piscinaOlasBuscar, piscinaNiñosBuscar, piscinaGrandeBuscar, tumbonasBuscar, toboganesBuscar );
+        cliente = new Cliente( ubicacionBuscar, actividadBuscar, menoresBuscar, toboganABuscar, toboganBBuscar, toboganCBuscar, vestuariosBuscar, piscinaOlasBuscar, piscinaNiñosBuscar, piscinaGrandeBuscar, tumbonasBuscar, toboganesBuscar, totalBuscar );
         cliente.start();
     } // Cierre del método
     
@@ -66,6 +66,8 @@ public class InterfazCliente extends javax.swing.JFrame {
         piscinaGrandeBuscar = new javax.swing.JTextField();
         tumbonasBuscar = new javax.swing.JTextField();
         toboganesBuscar = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        totalBuscar = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -298,6 +300,8 @@ public class InterfazCliente extends javax.swing.JFrame {
             }
         });
 
+        jLabel20.setText("Total");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -324,9 +328,16 @@ public class InterfazCliente extends javax.swing.JFrame {
                     .addComponent(btnBuscarAforo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(11, 11, 11))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(totalBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,7 +368,11 @@ public class InterfazCliente extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(toboganesBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBuscarAforo)
                 .addContainerGap())
         );
@@ -472,6 +487,7 @@ public class InterfazCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -491,6 +507,7 @@ public class InterfazCliente extends javax.swing.JFrame {
     private javax.swing.JTextField toboganBBuscar;
     private javax.swing.JTextField toboganCBuscar;
     private javax.swing.JTextField toboganesBuscar;
+    private javax.swing.JTextField totalBuscar;
     private javax.swing.JTextField tumbonasBuscar;
     private javax.swing.JTextField ubicacionBuscar;
     private javax.swing.JTextField vestuariosBuscar;

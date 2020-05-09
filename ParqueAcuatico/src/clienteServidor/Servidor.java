@@ -202,7 +202,27 @@ public class Servidor extends Thread {
             }
         }
         
-        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas().toArray() ) {
+        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas0().toArray() ) {
+            Usuario usu = (Usuario) usuArray;
+            if( usu.toString().equals(usuario) ) {
+                int num = usu.getControlNumAtracciones();
+                String ubicacion = "Cola de las tumbonas.";
+                
+                return "UBICACION!" + num + "!" + ubicacion;
+            }
+        }
+        
+        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas1().toArray() ) {
+            Usuario usu = (Usuario) usuArray;
+            if( usu.toString().equals(usuario) ) {
+                int num = usu.getControlNumAtracciones();
+                String ubicacion = "Cola de las tumbonas.";
+                
+                return "UBICACION!" + num + "!" + ubicacion;
+            }
+        }
+        
+        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas2().toArray() ) {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
@@ -295,7 +315,9 @@ public class Servidor extends Thread {
                                 + ( ( !parque.getMonitorPiscinaGrande().getText().equals("") ) ? 1 : 0 )
                                 + ( parque.getPiscinaGrande().getPiscinaGrande().size() );
         
-        int numTumbonas = ( parque.getTumbonas().getColaEntrarTumbonas().size() )
+        int numTumbonas = ( parque.getTumbonas().getColaEntrarTumbonas0().size() )
+                            + ( parque.getTumbonas().getColaEntrarTumbonas1().size() )
+                            + ( parque.getTumbonas().getColaEntrarTumbonas2().size() )
                             + ( ( !parque.getMonitorTumbonas().getText().equals("") ? 1 : 0 ) )
                             + ( parque.getTumbonas().getTumbonas().size() );
         
@@ -307,7 +329,9 @@ public class Servidor extends Thread {
                             + ( ( parque.getToboganes().getToboganBUsuario() != null ) ? 1 : 0 )
                             + ( ( parque.getToboganes().getToboganCUsuario() != null ) ? 1 : 0 );
         
-        return "AFORO!" + numVestuario + "!" + numPiscinaOlas + "!" + numPiscinaNiños + "!" + numPiscinaGrande + "!" + numTumbonas + "!" + numToboganes;
+        int total = numVestuario + numPiscinaOlas + numPiscinaNiños + numPiscinaGrande + numTumbonas + numToboganes;
+        
+        return "AFORO!" + numVestuario + "!" + numPiscinaOlas + "!" + numPiscinaNiños + "!" + numPiscinaGrande + "!" + numTumbonas + "!" + numToboganes + "!" + total;
     } // Cierre del método
     
     //Metodo que cierra toda la aplicacion, incluyendo todos los usuarios conectados

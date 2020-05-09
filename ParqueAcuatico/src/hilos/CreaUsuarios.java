@@ -14,8 +14,8 @@ import util.FuncionesGenerales;
  * Javier González López 09067677L
  */
 public class CreaUsuarios extends Thread {
-    private final int capacidad = 5000;
-    private final int mayoria_edad = 18;
+    private final int CAPACIDAD = 5000;
+    private final int MAYORIA_EDAD = 18;
     private final Parque parque;
     private final Paso paso;
 
@@ -30,7 +30,7 @@ public class CreaUsuarios extends Thread {
 
     @Override
     public void run() {
-        for( int id = 1; id <= capacidad; id++ ) {
+        for( int id = 1; id <= CAPACIDAD; id++ ) {
             //Barrera ciclica para que la compartan los usuarios niños de 10 o menos años y sus acompañantess
             CyclicBarrier barrera = new CyclicBarrier(2);
             //Creamos la edad y el numero de atracciones que van a realizar de forma aleatoria
@@ -43,7 +43,7 @@ public class CreaUsuarios extends Thread {
             if( edadUsuario < 11 ){
                 id++;
                 //Si tiene 10 años o menos se crea el usuario acompañante con una edad aleatoria de mas de 18 años, y el numero de atracciones del niño
-                usuarioAcompañante = new Usuario(parque, barrera, id, getAleatorio(mayoria_edad, 50), usuarioPrincipal.getNumAtracciones(), paso, fg);
+                usuarioAcompañante = new Usuario(parque, barrera, id, getAleatorio(MAYORIA_EDAD, 50), usuarioPrincipal.getNumAtracciones(), paso, fg);
                 usuarioPrincipal.setCodigo(usuarioPrincipal.getCodigo() + "-" + usuarioAcompañante.getIdentificador());
                 usuarioAcompañante.setAcompañante(usuarioPrincipal);
                 usuarioAcompañante.setCodigo(usuarioAcompañante.getCodigo() + "-" + usuarioPrincipal.getIdentificador());

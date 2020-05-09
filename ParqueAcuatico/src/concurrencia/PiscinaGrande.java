@@ -2,7 +2,6 @@ package concurrencia;
 
 import hilos.Usuario;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
@@ -50,15 +49,6 @@ public class PiscinaGrande {
     public void entrarPiscinaGrande(Usuario u) {
         try {
             paso.mirar();
-            
-            //Barrera ciclica para que el niño y el acompañante entren juntos
-            if( u.getEdad() < 11 || u.getEsAcompañante() ) {
-                try {
-                    u.getBarrera().await();
-                } catch( BrokenBarrierException | InterruptedException ex) {
-                    System.out.println("ERROR: " + ex);
-                }
-            }
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la entrada a la piscina grande.\n");
             colaEntrarPiscinaGrande.put(u);
             fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
