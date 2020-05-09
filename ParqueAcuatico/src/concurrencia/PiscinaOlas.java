@@ -63,7 +63,7 @@ public class PiscinaOlas {
             
             paso.mirar();
             
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la piscina de olas.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " esta en la cola de la piscina de olas.\n");
             colaEntrarPiscinaOlas.put(u);
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
             
@@ -71,7 +71,7 @@ public class PiscinaOlas {
             semPiscinaOlas0.acquire();
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
-            if( !u.getAccesoPermitido() || u.getEdad() < 6 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 6 ) ) {
+            if( !u.getAccesoPermitido() /*|| u.getEdad() < 6 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 6 )*/ ) {
                 return false;
             }
             
@@ -85,7 +85,7 @@ public class PiscinaOlas {
                 esperaCompañeroUsuario = null;
             }
             
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de olas.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en la piscina de olas.\n");
             piscinaOlas.add(u);
             fg.imprimir(areaPiscinaOlas, piscinaOlas.toString());
         } catch( InterruptedException | BrokenBarrierException ex ) {
@@ -109,7 +109,7 @@ public class PiscinaOlas {
         try {
             paso.mirar();
             Usuario u = (Usuario) colaEntrarPiscinaOlas.take();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina de olas.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido por en el monitor de la piscina de olas.\n");
             
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
             
@@ -146,7 +146,7 @@ public class PiscinaOlas {
             }
         }
         
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de olas.\n");
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor de la piscina de olas.\n");
         monitorPiscinaOlas.setText("");
         monitorPiscinaOlasUsuario = null;
         

@@ -49,7 +49,7 @@ public class PiscinaGrande {
     public void entrarPiscinaGrande(Usuario u) {
         try {
             paso.mirar();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de la entrada a la piscina grande.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " esta en la entrada a la piscina grande.\n");
             colaEntrarPiscinaGrande.put(u);
             fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
             
@@ -57,7 +57,7 @@ public class PiscinaGrande {
             semPiscinaGrande0.acquire();
             
             paso.mirar();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entro a la piscina grande.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra a la piscina grande.\n");
             piscinaGrande.add(u);
             fg.imprimir(areaPiscinaGrande, piscinaGrande.toString());
         } catch( InterruptedException ex ) {
@@ -81,7 +81,7 @@ public class PiscinaGrande {
         try {
             paso.mirar();
             Usuario u = (Usuario) colaEntrarPiscinaGrande.take();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina grande.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido el monitor de la piscina grande.\n");
             fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
             
             monitorPiscinaGrande.setText(u.toString());
@@ -109,7 +109,7 @@ public class PiscinaGrande {
             System.out.println("ERROR: " + ex);
         }  
         
-        fg.writeDebugFile("Usuario: " + usuario.getCodigo() + " sale del monitor de la piscina grande.\n");
+        fg.writeDebugFile("Usuario: " + usuario.getCodigo() + " finaliza la atencion del monitor de la piscina grande.\n");
         monitorPiscinaGrande.setText("");
         monitorPiscinaGrandeUsuario = null;
         
