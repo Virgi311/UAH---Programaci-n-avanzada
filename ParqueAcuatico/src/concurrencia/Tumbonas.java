@@ -27,9 +27,11 @@ public class Tumbonas {
     //Concurrencia
     private final Semaphore semTumbonas = new Semaphore(20, true);
     private final Semaphore semTumbonas0 = new Semaphore(0, true);
+    private final CopyOnWriteArrayList<Usuario> colaEntrarTumbonas = new CopyOnWriteArrayList<>();
     private final BlockingQueue colaEntrarTumbonas0 = new LinkedBlockingQueue();
     private final BlockingQueue colaEntrarTumbonas1 = new LinkedBlockingQueue();
     private final BlockingQueue colaEntrarTumbonas2 = new LinkedBlockingQueue();
+    private final BlockingQueue colaEntrarTumbonasNiñoAcompañante = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> tumbonas = new CopyOnWriteArrayList<>();
 
     //Atributos extra
@@ -49,26 +51,28 @@ public class Tumbonas {
        
     //Metodo para entrar en las tumbonas
     public boolean entrarTumbonas(Usuario u){
-        if( u.getEsAcompañante() || u.getEdad() < 15 ) {
-            return false;
-        }
         try {
             paso.mirar();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de las tumbonas.\n");
-            switch( (int) ( 1 * Math.random() ) ) {
-                case 0:
-                    colaEntrarTumbonas0.put(u);
-                    break;
-                  
-                case 1:
-                    colaEntrarTumbonas1.put(u);
-                    break;
-                    
-                case 2:
-                    colaEntrarTumbonas2.put(u);
-                    break;
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en la cola de entrada de las tumbonas.\n");
+            colaEntrarTumbonas.add(u);
+            if( u.getEsAcompañante() || u.getEdad() < 11 ) {
+                colaEntrarTumbonasNiñoAcompañante.put(u);
+            } else {
+                switch( (int) ( 1 * Math.random() ) ) {
+                    case 0:
+                        colaEntrarTumbonas0.put(u);
+                        break;
+
+                    case 1:
+                        colaEntrarTumbonas1.put(u);
+                        break;
+
+                    case 2:
+                        colaEntrarTumbonas2.put(u);
+                        break;
+                }
             }
-            fg.imprimir(colaTumbonas, colaEntrarTumbonas1.toString() + colaEntrarTumbonas2.toString() + colaEntrarTumbonas2.toString());
+            fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
             
             paso.mirar();
             semTumbonas0.acquire();
@@ -79,7 +83,7 @@ public class Tumbonas {
             }
             
             paso.mirar();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en las tumbonas. \n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en las tumbonas. \n");
             tumbonas.add(u);
             fg.imprimir(areaTumbonas, tumbonas.toString());
         } catch( InterruptedException ex ) {
@@ -103,21 +107,26 @@ public class Tumbonas {
         paso.mirar();
         try {
             Usuario u = null;
-            switch( (int) ( 1 * Math.random() ) ) {
-                case 0:
-                    u = (Usuario) colaEntrarTumbonas0.take();
-                    break;
-                  
-                case 1:
-                    u = (Usuario) colaEntrarTumbonas1.take();
-                    break;
-                    
-                case 2:
-                    u = (Usuario) colaEntrarTumbonas2.take();
-                    break;
+            if( colaEntrarTumbonasNiñoAcompañante.size() > 0 ) {
+                u = (Usuario) colaEntrarTumbonasNiñoAcompañante.take();
+            } else {
+                switch( (int) ( 1 * Math.random() ) ) {
+                    case 0:
+                        u = (Usuario) colaEntrarTumbonas0.take();
+                        break;
+
+                    case 1:
+                        u = (Usuario) colaEntrarTumbonas1.take();
+                        break;
+
+                    case 2:
+                        u = (Usuario) colaEntrarTumbonas2.take();
+                        break;
+                }
             }
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de las tumbonas. \n");
-            fg.imprimir(colaTumbonas, colaEntrarTumbonas1.toString() + colaEntrarTumbonas2.toString() + colaEntrarTumbonas2.toString());
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido por el monitor de las tumbonas. \n");
+            colaEntrarTumbonas.remove(u);
+            fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
             monitorTumbonas.setText(u.toString());
             monitorTumbonasUsuario = u;
             
@@ -141,7 +150,7 @@ public class Tumbonas {
             } 
         }
         
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de las tumbonas. \n");
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor de las tumbonas. \n");
         monitorTumbonas.setText("");
         monitorTumbonasUsuario = null;
         
@@ -157,15 +166,7 @@ public class Tumbonas {
         return monitorTumbonasUsuario;
     } // Cierre del método
 
-    public BlockingQueue getColaEntrarTumbonas0() {
-        return colaEntrarTumbonas0;
-    } // Cierre del método
-
-    public BlockingQueue getColaEntrarTumbonas1() {
-        return colaEntrarTumbonas1;
-    } // Cierre del método
-
-    public BlockingQueue getColaEntrarTumbonas2() {
-        return colaEntrarTumbonas2;
+    public CopyOnWriteArrayList<Usuario> getColaEntrarTumbonas() {
+        return colaEntrarTumbonas;
     } // Cierre del método
 } // Cierre de la clase

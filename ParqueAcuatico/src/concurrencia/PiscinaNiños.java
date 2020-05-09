@@ -52,7 +52,7 @@ public class PiscinaNiños {
     public boolean entrarPiscinaNiños(Usuario u) {
         try {
             paso.mirar();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de entrada de la piscina niños.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " esta en la entrada de la piscina niños.\n");
             colaEntrarPiscinaNiños.put(u);
             fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             
@@ -67,12 +67,12 @@ public class PiscinaNiños {
             paso.mirar();
             if( u.getEdad() < 11 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 6 ) ) { 
                 //Se trata de un niño o un acompañante de un niño de 5 o menos años
-                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la piscina de niños.\n");
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en la piscina de niños.\n");
                 piscinaNiños.add(u);
                 fg.imprimir(areaPiscinaNiños, piscinaNiños.toString());
             } else {  
                 //Se trata de un acompañante de un niño mayor de 5 años
-                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la espera de adultos de la piscina de niños.\n");
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en la espera de adultos de la piscina de niños.\n");
                 esperaAdultos.add(u);
                 fg.imprimir(areaEsperaAdultos, esperaAdultos.toString());
             }
@@ -105,7 +105,7 @@ public class PiscinaNiños {
         try {
             paso.mirar();
             Usuario u = (Usuario) colaEntrarPiscinaNiños.take();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor de la piscina de niños.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido por el monitor de la piscina de niños.\n");
             fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             monitorPiscinaNiños.setText(u.toString());
             monitorPiscinaNiñosUsuario = u;
@@ -135,7 +135,7 @@ public class PiscinaNiños {
                 
             monitorPiscinaNiños.setText("");
             monitorPiscinaNiñosUsuario = null;
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor de la piscina de niños.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor de la piscina de niños.\n");
             
             paso.mirar();
             semPiscinaNiños0.release();

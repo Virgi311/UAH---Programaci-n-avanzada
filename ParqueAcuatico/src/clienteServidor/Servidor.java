@@ -202,27 +202,7 @@ public class Servidor extends Thread {
             }
         }
         
-        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas0().toArray() ) {
-            Usuario usu = (Usuario) usuArray;
-            if( usu.toString().equals(usuario) ) {
-                int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de las tumbonas.";
-                
-                return "UBICACION!" + num + "!" + ubicacion;
-            }
-        }
-        
-        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas1().toArray() ) {
-            Usuario usu = (Usuario) usuArray;
-            if( usu.toString().equals(usuario) ) {
-                int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de las tumbonas.";
-                
-                return "UBICACION!" + num + "!" + ubicacion;
-            }
-        }
-        
-        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas2().toArray() ) {
+        for( Object usuArray : parque.getTumbonas().getColaEntrarTumbonas().toArray() ) {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
@@ -315,9 +295,7 @@ public class Servidor extends Thread {
                                 + ( ( !parque.getMonitorPiscinaGrande().getText().equals("") ) ? 1 : 0 )
                                 + ( parque.getPiscinaGrande().getPiscinaGrande().size() );
         
-        int numTumbonas = ( parque.getTumbonas().getColaEntrarTumbonas0().size() )
-                            + ( parque.getTumbonas().getColaEntrarTumbonas1().size() )
-                            + ( parque.getTumbonas().getColaEntrarTumbonas2().size() )
+        int numTumbonas = ( parque.getTumbonas().getColaEntrarTumbonas().size() )
                             + ( ( !parque.getMonitorTumbonas().getText().equals("") ? 1 : 0 ) )
                             + ( parque.getTumbonas().getTumbonas().size() );
         

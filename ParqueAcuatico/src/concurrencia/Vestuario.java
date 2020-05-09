@@ -50,14 +50,14 @@ public class Vestuario {
     public void entrarVestuarios(Usuario u) {
         paso.mirar();
         try {
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola del vestuario. \n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en la cola del vestuario. \n");
             colaEntrarVestuario.put(u);
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
             
             paso.mirar();
             semVestuario.acquire();
             
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el vestuario. \n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en el vestuario. \n");
             vestuario.add(u);
             fg.imprimir(areaVestuario, vestuario.toString());
         } catch( InterruptedException ex ) {
@@ -88,7 +88,7 @@ public class Vestuario {
         paso.mirar();
         try {
             Usuario u = (Usuario) colaEntrarVestuario.take();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del vestuario. \n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido por el monitor del vestuario. \n");
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
             monitorVestuario.setText(u.toString());
             monitorVestuarioUsuario = u;
@@ -119,7 +119,7 @@ public class Vestuario {
             System.out.println("ERROR: " + ex);
         }
         
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del vestuario. \n");
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del vestuario. \n");
         monitorVestuario.setText("");
         monitorVestuarioUsuario = null;
         

@@ -76,7 +76,7 @@ public class Toboganes {
     public boolean entrarToboganes(Usuario u) {
         try {
             paso.mirar();
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en la cola de los toboganes.\n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en la cola de los toboganes.\n");
             colaEntrarToboganes.add(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
             
@@ -106,17 +106,17 @@ public class Toboganes {
                 //Si tiene menos de 15 años o es acompañante (Aunque es innecesario el acompañante debido a que el monitor lo expulsa lo dejamos completo para posibles modificaciones)
                 toboganAUsuario = u;
                 areaToboganA.setText(toboganAUsuario.toString());
-                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan A.\n");
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en el tobogan A.\n");
             } else if( u.getEdad() < 18 ) {
                 //Si tiene menos de 18 años
                 toboganBUsuario = u;
                 areaToboganB.setText(toboganBUsuario.toString());
-                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan B.\n");
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en el tobogan B.\n");
             } else {
                 //Mayores de 18 años
                 toboganCUsuario = u;
                 areaToboganC.setText(toboganCUsuario.toString());
-                fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el tobogan C.\n");
+                fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en el tobogan C.\n");
             }
         } catch (InterruptedException ex) {
             return false;
@@ -177,7 +177,7 @@ public class Toboganes {
             colaEntrarToboganes.remove(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
             
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan A. \n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido por el monitor del tobogan A. \n");
             monitorToboganA.setText(u.toString());
             monitorToboganAUsuario = u;
             
@@ -203,7 +203,7 @@ public class Toboganes {
             }
         }
             
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan A. \n");
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan A. \n");
         monitorToboganA.setText("");
         monitorToboganAUsuario = null;
         
@@ -219,7 +219,7 @@ public class Toboganes {
             colaEntrarToboganes.remove(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
             
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan B. \n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido por el monitor del tobogan B. \n");
             monitorToboganB.setText(u.toString());
             monitorToboganBUsuario = u;
             
@@ -238,7 +238,7 @@ public class Toboganes {
             System.out.println("ERROR: " + ex);
         }
         
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan B. \n");
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan B. \n");
         monitorToboganB.setText("");
         monitorToboganBUsuario = null;
         
@@ -253,7 +253,7 @@ public class Toboganes {
             colaEntrarToboganes.remove(u);
             fg.imprimir(colaToboganes, colaEntrarToboganes.toString());
             
-            fg.writeDebugFile("Usuario: " + u.getCodigo() + " se coloca en el monitor del tobogan C. \n");
+            fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido por el monitor del tobogan C. \n");
             monitorToboganC.setText(u.toString());
             monitorToboganCUsuario = u;
             
@@ -271,7 +271,7 @@ public class Toboganes {
             System.out.println("ERROR: " + ex);
         }
         
-        fg.writeDebugFile("Usuario: " + u.getCodigo() + " sale del monitor del tobogan C. \n");
+        fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan C. \n");
         monitorToboganC.setText("");
         monitorToboganCUsuario = null;
         
