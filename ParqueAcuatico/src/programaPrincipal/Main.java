@@ -27,7 +27,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         
-        //Objeto para el control de detener los hilos
+        //Objeto para el control de pausar los hilos
         paso = new Paso();
         //Objeto para las funciones descritas en la clase
         fg = new FuncionesGenerales(debug);

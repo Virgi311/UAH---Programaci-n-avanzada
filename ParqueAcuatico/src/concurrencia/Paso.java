@@ -42,7 +42,7 @@ public class Paso {
     } // Cierre del método
 
     //Metodo que habilita el bloqueo de los hilos
-    public void detener() {
+    public void pausar() {
         try {
             cerrojo.lock();
             bloqueoActivo = true;

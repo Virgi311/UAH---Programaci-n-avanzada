@@ -75,7 +75,7 @@ public class Servidor extends Thread {
     //Pausa la ejecucion de los hilos
     public void detener() {
         System.out.println("Ejecutando metodo Detener()");
-        paso.detener();
+        paso.pausar();
     } // Cierre del método
     
     //Reanuda la ejecucion de los hilos

@@ -29,7 +29,7 @@ public final class FuncionesGenerales {
         //Variable que determina si va a dejar log o no
         this.debug = debug;
         
-        //Declaramos la ruta del log o el nombre unicamente y se creara en la carpeta del proyecto
+        //Declaramos la ruta donde queremos que se generé el historial del log o el nombre del archivo para que se guarde en la carpeta del proyecto
         ruta = "debug.log";
         this.file = new File(ruta);
         
