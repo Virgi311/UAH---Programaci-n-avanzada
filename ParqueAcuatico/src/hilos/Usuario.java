@@ -3,6 +3,7 @@ package hilos;
 import concurrencia.*;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 import util.FuncionesGenerales;
 
 /**
@@ -22,7 +23,7 @@ public class Usuario extends Thread {
     private final Paso paso;
     
     private int identificador;
-    private int edad;
+    private final int edad;
     private String codigo;
     private boolean esAcompañante;
     private final int numAtracciones;
@@ -34,6 +35,7 @@ public class Usuario extends Thread {
     private boolean trytoboganes;
     private boolean accesoPermitido;
     
+    private final Semaphore semUsu;
     private final FuncionesGenerales fg;
     
     public Usuario(Parque parque, CyclicBarrier barrera, int identificador, int edad, int numAtracciones, Paso paso, FuncionesGenerales fg) {
@@ -53,6 +55,7 @@ public class Usuario extends Thread {
         this.codigo = "ID" + identificador + "-" + edad;
         this.paso = paso;
         
+        this.semUsu = new Semaphore(0, true);
         this.fg = fg;
         this.controlNumAtracciones = 0;
     } // Cierre del método
@@ -334,10 +337,6 @@ public class Usuario extends Thread {
         return edad;
     } // Cierre del método
 
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    } // Cierre del método
-
     public Usuario getAcompañante() {
         return acompañante;
     } // Cierre del método
@@ -372,7 +371,7 @@ public class Usuario extends Thread {
     
     public int getActividadNiño() {
         return actividadNiño;
-    }
+    } // Cierre del método
     
     @Override
     public String toString() {
@@ -387,7 +386,11 @@ public class Usuario extends Thread {
         return accesoPermitido;
     } // Cierre del método
 
-    public void setAccesoPermitido(boolean accesoPermitido) {
+    public synchronized void setAccesoPermitido(boolean accesoPermitido) {
         this.accesoPermitido = accesoPermitido;
+    } // Cierre del método
+
+    public Semaphore getSemUsu() {
+        return semUsu;
     } // Cierre del método
 } // Cierre de la clase

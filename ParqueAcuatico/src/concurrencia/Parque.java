@@ -85,8 +85,7 @@ public class Parque {
             
             //Si entra un menor aumentamos el numero del control de menores en el parque en uno mas
             if( u.getEdad() < 18 ) {
-                int menor = getMenores();
-                setMenores(menor++);
+                menores++;
             }
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
@@ -101,8 +100,7 @@ public class Parque {
         
         //Si sale un menor disminuimos el control de menores en el parque en uno menos
         if( u.getEdad() < 18 ) {
-            int menor = getMenores();
-            setMenores(menor--);
+            menores--;
         }
         
         /* Metodo para controlar que en el caso de que haya una sola persona en el parque no se pueda acceder a la Piscina Olas
@@ -168,14 +166,6 @@ public class Parque {
     public Toboganes getToboganes() {
         return toboganes;
     } // Cierre del método
-    
-    public synchronized int getMenores() {
-        return menores;
-    } // Cierre del método
-
-    public synchronized void setMenores(int menores) {
-        this.menores = menores;
-    } // Cierre del método
 
     public JTextField getMonitorToboganA() {
         return monitorToboganA;
@@ -191,6 +181,10 @@ public class Parque {
 
     public JTextField getEsperaCompañero() {
         return esperaCompañero;
+    } // Cierre del método
+
+    public int getMenores() {
+        return menores;
     } // Cierre del método
     
 } // Cierre de la clase

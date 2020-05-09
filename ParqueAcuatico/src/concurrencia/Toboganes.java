@@ -36,9 +36,6 @@ public class Toboganes {
     private final Semaphore semToboganA = new Semaphore(1, true);
     private final Semaphore semToboganB = new Semaphore(1, true);
     private final Semaphore semToboganC = new Semaphore(1, true);
-    private final Semaphore semToboganA0 = new Semaphore(0, true);
-    private final Semaphore semToboganB0 = new Semaphore(0, true);
-    private final Semaphore semToboganC0 = new Semaphore(0, true);
     private Usuario toboganAUsuario;
     private Usuario toboganBUsuario;
     private Usuario toboganCUsuario;
@@ -85,15 +82,15 @@ public class Toboganes {
             if( u.getEdad() < 15 || u.getEsAcompañante() ) {
                 //Si tiene menos de 15 años o es un acompañante
                 colaToboganA.put(u);
-                semToboganA0.acquire();
+                u.getSemUsu().acquire();
             } else if( u.getEdad() < 18 ) {
                 //Si tiene menos de 18 años
                 colaToboganB.put(u);
-                semToboganB0.acquire();
+                u.getSemUsu().acquire();
             } else {
                 //Mayores de 18 años
                 colaToboganC.put(u);
-                semToboganC0.acquire();
+                u.getSemUsu().acquire();
             }
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
@@ -208,7 +205,7 @@ public class Toboganes {
         monitorToboganAUsuario = null;
         
         paso.mirar();
-        semToboganA0.release();
+        u.getSemUsu().release();
 
     } // Cierre del método
 
@@ -243,7 +240,7 @@ public class Toboganes {
         monitorToboganBUsuario = null;
         
         paso.mirar();
-        semToboganB0.release();
+        u.getSemUsu().release();
     } // Cierre del método
 
     public Usuario monitorToboganC() {
@@ -276,7 +273,7 @@ public class Toboganes {
         monitorToboganCUsuario = null;
         
         paso.mirar();
-        semToboganC0.release();
+        u.getSemUsu().release();
     } // Cierre del método
 
     public CopyOnWriteArrayList<Usuario> getColaEntrarToboganes() {

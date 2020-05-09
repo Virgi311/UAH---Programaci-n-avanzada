@@ -27,7 +27,6 @@ public class Vestuario {
     //Concurrencia
     private final Semaphore semVestuarioAdulto = new Semaphore(20, true);
     private final Semaphore semVestuarioNiño = new Semaphore(10, true);
-    private final Semaphore semVestuario = new Semaphore(0, true);
     private final BlockingQueue colaEntrarVestuario = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> vestuario = new CopyOnWriteArrayList<>();
     
@@ -55,7 +54,7 @@ public class Vestuario {
             fg.imprimir(colaVestuario, colaEntrarVestuario.toString());
             
             paso.mirar();
-            semVestuario.acquire();
+            u.getSemUsu().acquire();
             
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en el vestuario. \n");
             vestuario.add(u);
@@ -124,7 +123,7 @@ public class Vestuario {
         monitorVestuarioUsuario = null;
         
         paso.mirar();
-        semVestuario.release();
+        u.getSemUsu().release();
     } // Cierre del método
     
     public CopyOnWriteArrayList<Usuario> getVestuarios() {

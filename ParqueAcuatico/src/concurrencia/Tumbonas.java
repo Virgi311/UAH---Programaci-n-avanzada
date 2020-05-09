@@ -26,7 +26,6 @@ public class Tumbonas {
     
     //Concurrencia
     private final Semaphore semTumbonas = new Semaphore(20, true);
-    private final Semaphore semTumbonas0 = new Semaphore(0, true);
     private final CopyOnWriteArrayList<Usuario> colaEntrarTumbonas = new CopyOnWriteArrayList<>();
     private final BlockingQueue colaEntrarTumbonas0 = new LinkedBlockingQueue();
     private final BlockingQueue colaEntrarTumbonas1 = new LinkedBlockingQueue();
@@ -56,29 +55,29 @@ public class Tumbonas {
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " entra en la cola de entrada de las tumbonas.\n");
             colaEntrarTumbonas.add(u);
             if( u.getEsAcompañante() || u.getEdad() < 11 ) {
-                colaEntrarTumbonasNiñoAcompañante.put(u);
+                getColaEntrarTumbonasNiñoAcompañante().put(u);
             } else {
                 switch( (int) ( 1 * Math.random() ) ) {
                     case 0:
-                        colaEntrarTumbonas0.put(u);
+                        getColaEntrarTumbonas0().put(u);
                         break;
 
                     case 1:
-                        colaEntrarTumbonas1.put(u);
+                        getColaEntrarTumbonas1().put(u);
                         break;
 
                     case 2:
-                        colaEntrarTumbonas2.put(u);
+                        getColaEntrarTumbonas2().put(u);
                         break;
                 }
             }
             fg.imprimir(colaTumbonas, colaEntrarTumbonas.toString());
             
             paso.mirar();
-            semTumbonas0.acquire();
+            u.getSemUsu().acquire();
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
-            if( !u.getAccesoPermitido() /*|| u.getEdad() < 15 || u.getEsAcompañante() */) {
+            if( !u.getAccesoPermitido() ) {
                 return false;
             }
             
@@ -107,20 +106,20 @@ public class Tumbonas {
         paso.mirar();
         try {
             Usuario u = null;
-            if( colaEntrarTumbonasNiñoAcompañante.size() > 0 ) {
-                u = (Usuario) colaEntrarTumbonasNiñoAcompañante.take();
+            if( getColaEntrarTumbonasNiñoAcompañante().size() > 0 ) {
+                u = (Usuario) getColaEntrarTumbonasNiñoAcompañante().take();
             } else {
                 switch( (int) ( 1 * Math.random() ) ) {
                     case 0:
-                        u = (Usuario) colaEntrarTumbonas0.take();
+                        u = (Usuario) getColaEntrarTumbonas0().take();
                         break;
 
                     case 1:
-                        u = (Usuario) colaEntrarTumbonas1.take();
+                        u = (Usuario) getColaEntrarTumbonas1().take();
                         break;
 
                     case 2:
-                        u = (Usuario) colaEntrarTumbonas2.take();
+                        u = (Usuario) getColaEntrarTumbonas2().take();
                         break;
                 }
             }
@@ -155,7 +154,7 @@ public class Tumbonas {
         monitorTumbonasUsuario = null;
         
         paso.mirar();
-        semTumbonas0.release();
+        u.getSemUsu().release();
     } // Cierre del método
     
     public CopyOnWriteArrayList<Usuario> getTumbonas() {
@@ -169,4 +168,20 @@ public class Tumbonas {
     public CopyOnWriteArrayList<Usuario> getColaEntrarTumbonas() {
         return colaEntrarTumbonas;
     } // Cierre del método
+
+    public synchronized BlockingQueue getColaEntrarTumbonas0() {
+        return colaEntrarTumbonas0;
+    }
+
+    public synchronized BlockingQueue getColaEntrarTumbonas1() {
+        return colaEntrarTumbonas1;
+    }
+
+    public synchronized BlockingQueue getColaEntrarTumbonas2() {
+        return colaEntrarTumbonas2;
+    }
+
+    public synchronized BlockingQueue getColaEntrarTumbonasNiñoAcompañante() {
+        return colaEntrarTumbonasNiñoAcompañante;
+    }
 } // Cierre de la clase

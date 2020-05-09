@@ -29,7 +29,6 @@ public class PiscinaOlas {
     
     //Concurrencia
     private final Semaphore semPiscinaOlas = new Semaphore(20, true);
-    private final Semaphore semPiscinaOlas0 = new Semaphore(0, true);
     private final BlockingQueue colaEntrarPiscinaOlas = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaOlas = new CopyOnWriteArrayList<>();
     private final CyclicBarrier barreraPiscinaOlas = new CyclicBarrier(2);
@@ -68,10 +67,10 @@ public class PiscinaOlas {
             fg.imprimir(colaPiscinaOlas, colaEntrarPiscinaOlas.toString());
             
             paso.mirar();
-            semPiscinaOlas0.acquire();
+            u.getSemUsu().acquire();
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
-            if( !u.getAccesoPermitido() /*|| u.getEdad() < 6 || ( u.getEsAcompañante() && u.getAcompañante().getEdad() < 6 )*/ ) {
+            if( !u.getAccesoPermitido() ) {
                 return false;
             }
             
@@ -151,7 +150,8 @@ public class PiscinaOlas {
         monitorPiscinaOlasUsuario = null;
         
         paso.mirar();
-        semPiscinaOlas0.release();
+        //semPiscinaOlas0.release();
+        u.getSemUsu().release();
     } // Cierre del método
 
     public BlockingQueue getColaEntrarPiscinaOlas() {

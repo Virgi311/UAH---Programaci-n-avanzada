@@ -27,7 +27,6 @@ public class PiscinaNiños {
     
     //Concurrencia
     private final Semaphore semPiscinaNiños = new Semaphore(15, true);
-    private final Semaphore semPiscinaNiños0 = new Semaphore(0, true);  
     private final BlockingQueue colaEntrarPiscinaNiños = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaNiños = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<Usuario> esperaAdultos = new CopyOnWriteArrayList<>();
@@ -57,7 +56,7 @@ public class PiscinaNiños {
             fg.imprimir(colaPiscinaNiños, colaEntrarPiscinaNiños.toString());
             
             paso.mirar();
-            semPiscinaNiños0.acquire();
+            u.getSemUsu().acquire();
             
             //Si es rechazado por el monitor aqui se le expulsa de la piscina
             if( !u.getAccesoPermitido() ) {
@@ -138,7 +137,7 @@ public class PiscinaNiños {
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor de la piscina de niños.\n");
             
             paso.mirar();
-            semPiscinaNiños0.release();
+            u.getSemUsu().release();
         } catch(InterruptedException ex) {
             System.out.println("ERROR: " + ex);
         }
