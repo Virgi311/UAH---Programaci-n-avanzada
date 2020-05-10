@@ -90,7 +90,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de entrada.";
+                String ubicacion = "Cola de entrada";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -100,7 +100,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola del vestuario.";
+                String ubicacion = "Cola del vestuario";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -112,7 +112,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getVestuario().getMonitorVestuarioUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor del Vestuario.";
+                return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor del Vestuario";
             }
         } catch(NullPointerException ex) {}
         
@@ -120,7 +120,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Vestuario.";
+                String ubicacion = "Vestuario";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -130,7 +130,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de la piscina de niños.";
+                String ubicacion = "Cola de la piscina de niños";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -142,7 +142,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario().getControlNumAtracciones() + "!Monitor de la piscina de niños.";
+                return "UBICACION!" + parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario().getControlNumAtracciones() + "!Monitor de la piscina de niños";
             }
         } catch(NullPointerException ex) {}
         
@@ -150,7 +150,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Piscina de niños.";
+                String ubicacion = "Piscina de niños";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -160,7 +160,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Espera de adultos en la piscina de los niños.";
+                String ubicacion = "Espera de adultos en la piscina de los niños";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -170,7 +170,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de la piscina grande.";
+                String ubicacion = "Cola de la piscina grande";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -182,7 +182,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getPiscinaGrande().getMonitorPiscinaGrandeUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor de la piscina grande.";
+                return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor de la piscina grande";
             }
         } catch(NullPointerException ex) {}
         
@@ -190,7 +190,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Piscina grande.";
+                String ubicacion = "Piscina grande";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -200,7 +200,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de la piscina de olas.";
+                String ubicacion = "Cola de la piscina de olas";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -212,7 +212,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario() != null ) && ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().getControlNumAtracciones() + "!Monitor de la piscina de olas.";
+                return "UBICACION!" + parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().getControlNumAtracciones() + "!Monitor de la piscina de olas";
             }
         } catch(NullPointerException ex) {}
         
@@ -220,7 +220,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Piscina de olas.";
+                String ubicacion = "Piscina de olas";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -230,7 +230,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de las tumbonas.";
+                String ubicacion = "Cola de las tumbonas";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -242,7 +242,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getTumbonas().getMonitorTumbonasUsuario() != null ) && ( parque.getTumbonas().getMonitorTumbonasUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getTumbonas().getMonitorTumbonasUsuario().getControlNumAtracciones() + "!Monitor de las Tumbonas.";
+                return "UBICACION!" + parque.getTumbonas().getMonitorTumbonasUsuario().getControlNumAtracciones() + "!Monitor de las Tumbonas";
             }
         } catch(NullPointerException ex) {}
         
@@ -250,7 +250,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Tumbonas.";
+                String ubicacion = "Tumbonas";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -260,7 +260,7 @@ public class Servidor extends Thread {
             Usuario usu = (Usuario) usuArray;
             if( usu.toString().equals(usuario) ) {
                 int num = usu.getControlNumAtracciones();
-                String ubicacion = "Cola de los toboganes.";
+                String ubicacion = "Cola de los toboganes";
                 
                 return "UBICACION!" + num + "!" + ubicacion;
             }
@@ -272,7 +272,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getToboganes().getMonitorToboganAUsuario() != null ) && ( parque.getToboganes().getMonitorToboganAUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getToboganes().getMonitorToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A.";
+                return "UBICACION!" + parque.getToboganes().getMonitorToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A";
             }
         } catch(NullPointerException ex){}
 
@@ -282,7 +282,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getToboganes().getMonitorToboganBUsuario() != null ) && ( parque.getToboganes().getMonitorToboganBUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getToboganes().getMonitorToboganBUsuario().getControlNumAtracciones() + "!Monitor del Tobogan B.";
+                return "UBICACION!" + parque.getToboganes().getMonitorToboganBUsuario().getControlNumAtracciones() + "!Monitor del Tobogan B";
             }
         } catch(NullPointerException ex) {}
         
@@ -292,7 +292,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getToboganes().getMonitorToboganCUsuario()!= null ) && ( parque.getToboganes().getMonitorToboganCUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getToboganes().getMonitorToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C.";
+                return "UBICACION!" + parque.getToboganes().getMonitorToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C";
             }
         } catch(NullPointerException ex) {}
 
@@ -302,7 +302,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getToboganes().getToboganAUsuario() != null ) && ( parque.getToboganes().getToboganAUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getToboganes().getToboganAUsuario().getControlNumAtracciones() + "!Tobogan A.";
+                return "UBICACION!" + parque.getToboganes().getToboganAUsuario().getControlNumAtracciones() + "!Tobogan A";
             }
         } catch(NullPointerException ex) {}
         
@@ -312,7 +312,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getToboganes().getToboganBUsuario() != null ) && ( parque.getToboganes().getToboganBUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getToboganes().getToboganBUsuario().getControlNumAtracciones() + "!Tobogan B.";
+                return "UBICACION!" + parque.getToboganes().getToboganBUsuario().getControlNumAtracciones() + "!Tobogan B";
             }
         } catch(NullPointerException ex) {}
 
@@ -322,7 +322,7 @@ public class Servidor extends Thread {
          */
         try {
             if( ( parque.getToboganes().getToboganCUsuario() != null ) && ( parque.getToboganes().getToboganCUsuario().toString().equals(usuario) ) ) {
-                return "UBICACION!" + parque.getToboganes().getToboganCUsuario().getControlNumAtracciones() + "!Tobogan C.";
+                return "UBICACION!" + parque.getToboganes().getToboganCUsuario().getControlNumAtracciones() + "!Tobogan C";
             }
         } catch(NullPointerException ex) {}
         
