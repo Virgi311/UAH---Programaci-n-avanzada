@@ -123,17 +123,6 @@ public class Toboganes {
 
     //Metodo para acceder a la piscina grande a traves del tobogan
     public void accesoPiscinaGrande(Usuario u) {
-        //Comprueba si el aforo esta completo
-        if( piscinaGrande.excesoAforo() ){
-            //Si esta lleno expulsa a un usuario
-            Usuario usuario = piscinaGrande.monitorExpulsa();
-            fg.dormir(500, 1000);
-            piscinaGrande.monitorExpulsa(usuario);
-        } else {
-            //Si no simplemente adquiere un permiso
-            piscinaGrande.cogerSitioPiscina();
-        }
-        
         paso.mirar();
         if( u.getEdad() < 15 || u.getEsAcompañante() ) {
             //Si es menor de 15 años o un acompañante
@@ -198,6 +187,17 @@ public class Toboganes {
             } catch(InterruptedException ex) {
                 System.out.println("ERROR: " + ex);
             }
+            
+            //Comprueba si el aforo de la piscina grande esta completo dado que va a acceder ahi
+            if( piscinaGrande.excesoAforo() ){
+                //Si esta lleno expulsa a un usuario
+                Usuario usuario = piscinaGrande.monitorExpulsa();
+                fg.dormir(500, 1000);
+                piscinaGrande.monitorExpulsa(usuario);
+            } else {
+                //Si no simplemente adquiere un permiso
+                piscinaGrande.cogerSitioPiscina();
+            }
         }
             
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan A. \n");
@@ -235,6 +235,17 @@ public class Toboganes {
             System.out.println("ERROR: " + ex);
         }
         
+        //Comprueba si el aforo de la piscina grande esta completo dado que va a acceder ahi
+        if( piscinaGrande.excesoAforo() ){
+            //Si esta lleno expulsa a un usuario
+            Usuario usuario = piscinaGrande.monitorExpulsa();
+            fg.dormir(500, 1000);
+            piscinaGrande.monitorExpulsa(usuario);
+        } else {
+            //Si no simplemente adquiere un permiso
+            piscinaGrande.cogerSitioPiscina();
+        }
+        
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan B. \n");
         monitorToboganB.setText("");
         monitorToboganBUsuario = null;
@@ -268,6 +279,17 @@ public class Toboganes {
             System.out.println("ERROR: " + ex);
         }
         
+        //Comprueba si el aforo de la piscina grande esta completo dado que va a acceder ahi
+        if( piscinaGrande.excesoAforo() ){
+            //Si esta lleno expulsa a un usuario
+            Usuario usuario = piscinaGrande.monitorExpulsa();
+            fg.dormir(500, 1000);
+            piscinaGrande.monitorExpulsa(usuario);
+        } else {
+            //Si no simplemente adquiere un permiso
+            piscinaGrande.cogerSitioPiscina();
+        }
+            
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan C. \n");
         monitorToboganC.setText("");
         monitorToboganCUsuario = null;
