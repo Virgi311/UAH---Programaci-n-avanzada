@@ -79,6 +79,7 @@ public class PiscinaGrande {
     //Metodo para que el monitor recoja a un usuario de la cola de entrada
     public Usuario controlarPiscinaGrande() {
         try {
+            //Si el aforo esta completo se expulsa aleatoriamente a alguna persona
             if( excesoAforo() ) {
                 Usuario usuario = monitorExpulsa();
                 fg.dormir(500, 1000);
