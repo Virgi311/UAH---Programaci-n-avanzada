@@ -194,10 +194,9 @@ public class Toboganes {
                 Usuario usuario = piscinaGrande.monitorExpulsa();
                 fg.dormir(500, 1000);
                 piscinaGrande.monitorExpulsa(usuario);
-            } else {
-                //Si no simplemente adquiere un permiso
-                piscinaGrande.cogerSitioPiscina();
             }
+            
+            piscinaGrande.cogerSitioPiscina();
         }
             
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan A. \n");
@@ -241,10 +240,9 @@ public class Toboganes {
             Usuario usuario = piscinaGrande.monitorExpulsa();
             fg.dormir(500, 1000);
             piscinaGrande.monitorExpulsa(usuario);
-        } else {
-            //Si no simplemente adquiere un permiso
-            piscinaGrande.cogerSitioPiscina();
         }
+        
+        piscinaGrande.cogerSitioPiscina();
         
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan B. \n");
         monitorToboganB.setText("");
@@ -285,10 +283,9 @@ public class Toboganes {
             Usuario usuario = piscinaGrande.monitorExpulsa();
             fg.dormir(500, 1000);
             piscinaGrande.monitorExpulsa(usuario);
-        } else {
-            //Si no simplemente adquiere un permiso
-            piscinaGrande.cogerSitioPiscina();
         }
+        
+        piscinaGrande.cogerSitioPiscina();
             
         fg.writeDebugFile("Usuario: " + u.getCodigo() + " finaliza la atencion del monitor del tobogan C. \n");
         monitorToboganC.setText("");
