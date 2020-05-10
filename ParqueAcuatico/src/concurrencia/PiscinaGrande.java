@@ -79,6 +79,12 @@ public class PiscinaGrande {
     //Metodo para que el monitor recoja a un usuario de la cola de entrada
     public Usuario controlarPiscinaGrande() {
         try {
+            if( excesoAforo() ) {
+                Usuario usuario = monitorExpulsa();
+                fg.dormir(500, 1000);
+                monitorExpulsa(usuario);
+            }
+            
             paso.mirar();
             semMonitorPiscinaGrande.acquire();
             paso.mirar();
