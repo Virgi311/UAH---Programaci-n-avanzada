@@ -106,14 +106,7 @@ public class PiscinaGrande {
     public void controlarPiscinaGrande( Usuario u ) {
         paso.mirar();
         try {
-            if( u.getEdad() < 11 ) {
-                //Si es un niño coge dos y libera uno para que el acompañante lo coja
-                semPiscinaGrande.acquire(2);
-                paso.mirar();
-                semPiscinaGrande.release();
-            } else {
-                semPiscinaGrande.acquire();
-            }
+            semPiscinaGrande.acquire();
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
         }  
