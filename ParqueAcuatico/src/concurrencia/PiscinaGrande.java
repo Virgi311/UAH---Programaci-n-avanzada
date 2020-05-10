@@ -123,12 +123,15 @@ public class PiscinaGrande {
     
     //Metodo para expulsar a un usuario de la piscina grande si esta completamente llena
     public Usuario monitorExpulsa(){
-        int pos = (int) ( ( piscinaGrande.size() * Math.random() ) - 1 );
-        paso.mirar();
-        Usuario u = piscinaGrande.get(pos);
-        
+        Usuario u = null;
         try {
+            paso.mirar();
             semMonitorPiscinaGrande.acquire();
+        
+            int pos = (int) ( ( piscinaGrande.size() * Math.random() ) - 1 );
+            paso.mirar();
+            u = piscinaGrande.get(pos);
+        
             u.getSemUsu().acquire();
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
