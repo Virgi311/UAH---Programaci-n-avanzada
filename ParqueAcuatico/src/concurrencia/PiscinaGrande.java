@@ -26,6 +26,7 @@ public class PiscinaGrande {
     
     //Concurrencia
     private final Semaphore semPiscinaGrande = new Semaphore(50, true);
+    private final Semaphore semMonitorPiscinaGrande = new Semaphore(1, true);
     private final BlockingQueue colaEntrarPiscinaGrande = new LinkedBlockingQueue();
     private final CopyOnWriteArrayList<Usuario> piscinaGrande = new CopyOnWriteArrayList<>();
     
@@ -79,6 +80,8 @@ public class PiscinaGrande {
     public Usuario controlarPiscinaGrande() {
         try {
             paso.mirar();
+            semMonitorPiscinaGrande.acquire();
+            paso.mirar();
             Usuario u = (Usuario) colaEntrarPiscinaGrande.take();
             fg.writeDebugFile("Usuario: " + u.getCodigo() + " es atendido el monitor de la piscina grande.\n");
             fg.imprimir(colaPiscinaGrande, colaEntrarPiscinaGrande.toString());
@@ -114,6 +117,8 @@ public class PiscinaGrande {
         
         paso.mirar();
         u.getSemUsu().release();
+        paso.mirar();
+        semMonitorPiscinaGrande.release();
     } // Cierre del método
     
     //Metodo para expulsar a un usuario de la piscina grande si esta completamente llena
@@ -123,6 +128,7 @@ public class PiscinaGrande {
         Usuario u = piscinaGrande.get(pos);
         
         try {
+            semMonitorPiscinaGrande.acquire();
             u.getSemUsu().acquire();
         } catch( InterruptedException ex ) {
             System.out.println("ERROR: " + ex);
@@ -176,7 +182,10 @@ public class PiscinaGrande {
             u.interrupt();  
             semPiscinaGrande.release();
         }
+        paso.mirar();
         u.getSemUsu().release();
+        paso.mirar();
+        semMonitorPiscinaGrande.release();
     } // Cierre del método
     
     //Metodo para que el usuario del tobogan adquiera un permiso

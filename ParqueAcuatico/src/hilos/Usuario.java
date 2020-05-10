@@ -393,4 +393,8 @@ public class Usuario extends Thread {
     public Semaphore getSemUsu() {
         return semUsu;
     } // Cierre del método
+
+    public CyclicBarrier getBarrera() {
+        return barrera;
+    } // Cierre del método
 } // Cierre de la clase

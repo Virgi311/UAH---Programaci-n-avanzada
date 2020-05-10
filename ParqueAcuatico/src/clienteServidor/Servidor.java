@@ -106,9 +106,15 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getVestuario().getMonitorVestuarioUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor del Vestuario.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getVestuario().getMonitorVestuarioUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor del Vestuario.";
+            }
+        } catch(NullPointerException ex) {}
         
         for( Object usuArray : parque.getVestuario().getVestuarios().toArray() ) {
             Usuario usu = (Usuario) usuArray;
@@ -130,9 +136,15 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario().getControlNumAtracciones() + "!Monitor de la piscina de niños.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getPiscinaNiños().getMonitorPiscinaNiñosUsuario().getControlNumAtracciones() + "!Monitor de la piscina de niños.";
+            }
+        } catch(NullPointerException ex) {}
         
         for( Object usuArray : parque.getPiscinaNiños().getPiscinaNiños().toArray() ) {
             Usuario usu = (Usuario) usuArray;
@@ -164,9 +176,15 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getPiscinaGrande().getMonitorPiscinaGrandeUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor de la piscina grande.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getPiscinaGrande().getMonitorPiscinaGrandeUsuario() != null ) && ( parque.getVestuario().getMonitorVestuarioUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getVestuario().getMonitorVestuarioUsuario().getControlNumAtracciones() + "!Monitor de la piscina grande.";
+            }
+        } catch(NullPointerException ex) {}
         
         for( Object usuArray : parque.getPiscinaGrande().getPiscinaGrande().toArray() ) {
             Usuario usu = (Usuario) usuArray;
@@ -188,9 +206,15 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario() != null ) && ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().getControlNumAtracciones() + "!Monitor de la piscina de olas.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario() != null ) && ( parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getPiscinaOlas().getMonitorPiscinaOlasUsuario().getControlNumAtracciones() + "!Monitor de la piscina de olas.";
+            }
+        } catch(NullPointerException ex) {}
         
         for( Object usuArray : parque.getPiscinaOlas().getPiscinaOlas().toArray() ) {
             Usuario usu = (Usuario) usuArray;
@@ -212,9 +236,15 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getTumbonas().getMonitorTumbonasUsuario() != null ) && ( parque.getTumbonas().getMonitorTumbonasUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getTumbonas().getMonitorTumbonasUsuario().getControlNumAtracciones() + "!Monitor de las Tumbonas.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getTumbonas().getMonitorTumbonasUsuario() != null ) && ( parque.getTumbonas().getMonitorTumbonasUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getTumbonas().getMonitorTumbonasUsuario().getControlNumAtracciones() + "!Monitor de las Tumbonas.";
+            }
+        } catch(NullPointerException ex) {}
         
         for( Object usuArray : parque.getTumbonas().getTumbonas().toArray() ) {
             Usuario usu = (Usuario) usuArray;
@@ -236,29 +266,65 @@ public class Servidor extends Thread {
             }
         }
         
-        if( ( parque.getToboganes().getMonitorToboganAUsuario() != null ) && ( parque.getToboganes().getMonitorToboganAUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getMonitorToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getToboganes().getMonitorToboganAUsuario() != null ) && ( parque.getToboganes().getMonitorToboganAUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getToboganes().getMonitorToboganAUsuario().getControlNumAtracciones() + "!Monitor del tobogan A.";
+            }
+        } catch(NullPointerException ex){}
+
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getToboganes().getMonitorToboganBUsuario() != null ) && ( parque.getToboganes().getMonitorToboganBUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getToboganes().getMonitorToboganBUsuario().getControlNumAtracciones() + "!Monitor del Tobogan B.";
+            }
+        } catch(NullPointerException ex) {}
         
-        if( ( parque.getToboganes().getMonitorToboganBUsuario() != null ) && ( parque.getToboganes().getMonitorToboganBUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getMonitorToboganBUsuario().getControlNumAtracciones() + "!Monitor del Tobogan B.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getToboganes().getMonitorToboganCUsuario()!= null ) && ( parque.getToboganes().getMonitorToboganCUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getToboganes().getMonitorToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C.";
+            }
+        } catch(NullPointerException ex) {}
+
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getToboganes().getToboganAUsuario() != null ) && ( parque.getToboganes().getToboganAUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getToboganes().getToboganAUsuario().getControlNumAtracciones() + "!Tobogan A.";
+            }
+        } catch(NullPointerException ex) {}
         
-        if( ( parque.getToboganes().getMonitorToboganCUsuario()!= null ) && ( parque.getToboganes().getMonitorToboganCUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getMonitorToboganCUsuario().getControlNumAtracciones() + "!Monitor del tobogan C.";
-        }
-        
-        if( ( parque.getToboganes().getToboganAUsuario() != null ) && ( parque.getToboganes().getToboganAUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getToboganAUsuario().getControlNumAtracciones() + "!Tobogan A.";
-        }
-        
-        if( ( parque.getToboganes().getToboganBUsuario() != null ) && ( parque.getToboganes().getToboganBUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getToboganBUsuario().getControlNumAtracciones() + "!Tobogan B.";
-        }
-        
-        if( ( parque.getToboganes().getToboganCUsuario() != null ) && ( parque.getToboganes().getToboganCUsuario().toString().equals(usuario) ) ) {
-            return "UBICACION!" + parque.getToboganes().getToboganCUsuario().getControlNumAtracciones() + "!Tobogan C.";
-        }
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getToboganes().getToboganBUsuario() != null ) && ( parque.getToboganes().getToboganBUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getToboganes().getToboganBUsuario().getControlNumAtracciones() + "!Tobogan B.";
+            }
+        } catch(NullPointerException ex) {}
+
+        /* Debido a la volatilidad referencial de la variable capturamos la excepcion NullPointer debido a que es posible que surja
+         * Si el usuario sale del monitor antes de comprobar todas las condiciones salta la excepcion y significa que esta en el siguiente punto
+         * Con el control de NullPointer hacemos que si cambia en el momento de la consulta continue para que nos informe de la ubicacion correctamente
+         */
+        try {
+            if( ( parque.getToboganes().getToboganCUsuario() != null ) && ( parque.getToboganes().getToboganCUsuario().toString().equals(usuario) ) ) {
+                return "UBICACION!" + parque.getToboganes().getToboganCUsuario().getControlNumAtracciones() + "!Tobogan C.";
+            }
+        } catch(NullPointerException ex) {}
         
         return null;
     } // Cierre del método
